@@ -27,10 +27,10 @@ module GenerateNoteSpace
 Any '1' bit can be a root.
 A normalized word has MSB to LSB, G F# F E Eb D C# C B Bb A Ab.
 The MSB is numbered 12, down to the LSB, which is numbered 1.
-Roots example: if the word is rotated circularly 4 bits to the right (then the word is no 
-longer normalized), B then becomes 12 and all notes' bit indices diminish by four. With this 
-rightward shift of four bits, G is the root of the new rooted chord, and I call it (rooted 
-chord) number 4.
+Root numbers example: if the word is rotated circularly 4 bits to the right (then the word 
+is no longer normalized), B then becomes 12 and all notes' bit indices diminish by four. With 
+this rightward shift of four bits, G is the root of the new rooted chord, and I call it 
+(rooted chord) number 4.
 =end
 # When I get Ruby 1.9, use Zip into Struc (if not in 1.8).
       @root_words = []
@@ -77,14 +77,20 @@ chord) number 4.
   end #class Necklace
 #-----------------------------
   class Necklaces
+    attr_reader :length
     include Enumerable
     def initialize( note_space)
       Necklace.set_fixed( note_space)
       @necklaces = NecklaceWords.new( note_space).collect {|word| Necklace.new( word)}
+      @length = @necklaces.length
     end
 
     def each
       @necklaces.each {|necklace| yield necklace}
+    end
+
+    def at( i)
+      @necklaces.at( i)
     end
 
     def word_to_necklace( word)
@@ -121,14 +127,14 @@ chord) number 4.
                 :necklaces,
                 :note_names,
                 :most_significant_bit_value,
-    :a_little, :a_little_and_a_little, :minor_third, :major_third, :third_octave_and_a_little, :half_octave, :fifth,
+    :a_little, :two_littles, :minor_third, :major_third, :third_octave_and_a_little, :half_octave, :fifth,
     :minor_sixth, :major_sixth, :minor_seventh, :major_seventh, :octave,
     :octave_and_a_little, :major_ninth, :minor_tenth, :major_tenth, :octave_and_a_half,
     :minor_sixteenth, :major_sixteenth, :minor_seventeenth, :two_and_a_third_octaves
 
     def initialize( length)
       if 12 == length 
-        @a_little, @a_little_and_a_little = 1, 2
+        @a_little, @two_littles = 1, 2
         @minor_third, @major_third = 3, 4
         @third_octave_and_a_little, @half_octave, @fifth = 5, 6, 7
         @minor_sixth, @major_sixth = 8, 9
@@ -140,7 +146,7 @@ chord) number 4.
         @minor_seventeenth, @two_and_a_third_octaves = 27, 28
 
         @note_names = %w{G Ab A Bb B C C# D Eb E F F#}
-        @octave = @width = @note_names.length
+        @width = @octave = @note_names.length
         @most_significant_bit_value = Bit::BIT_VALUE_1 << (@width - Bit::BIT_WIDTH)
 #print '@most_significant_bit_value.to_s( 2) '; p @most_significant_bit_value.to_s( 2)
         @necklaces = Necklaces.new( self)
