@@ -797,7 +797,7 @@ print 'Chord.detail_count '; p Chord.detail_count
   end #class
 end #module
 #=============================
-module Tree
+module Fill_chords
 #print ' '; p 
 
 =begin
@@ -922,42 +922,34 @@ MINIMUM_GAP_INTERVAL 9
   MAX_TRITONES = 2000; print 'MAX_TRITONES '; p MAX_TRITONES
   MAX_MINOR_NINTHS = 0; print 'MAX_MINOR_NINTHS '; p MAX_MINOR_NINTHS
   MAX_HIGHEST_NOTE = 24; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
+
 #-----------------------------
   class Node
-    def initialize( p, i)
+    private_class_method :new
+    public
+    def Node.make_new_node_with_branch_and_return_its_leaf( *args)
+      node = new( *args)
+      @@processing_node
+    end #def
+
+    def initialize( p, i) # Return the *first* object made (because of unwinding the stack).
         @parent = p
         @intervals = i
       @absolutes = @intervals.inject( nil) {|memo, e| memo.nil? ? [ e] : memo.push( memo.last + e)}
-      @have_notes = @intervals.inject( nil) {|memo, e| memo.nil? ? [ e % Harmony::OCTAVE] : memo.push( memo.last + e % Harmony::OCTAVE)}
+      @have_notes = set_up_have_notes( @absolutes)
 #print '@have_notes '; p @have_notes
-#     alert 'new called wrongly' if caller != Node.make_new_node
-      @candidate_intervals_index = 0
+#     alert 'new called wrongly' if caller != Node.make_new_node_with_branch_and_return_its_leaf
+      @candidate_intervals_index = 0 # A value of CANDIDATE_INTERVALS.length has a special meaning.
 #print 'self.dump '; p self.dump
       step_down_branch
     end
 
-    def Node.make_new_node( p, i)
-      node = Node.new( p, i)
-      @@processing_node
-    end #def
-
-    def create_sibling
-      return nil if @parent.nil?
-      @parent.create_next_child
+    private
+    def set_up_have_notes( absolutes)
+      have_notes = Array.new( Harmony::OCTAVE).fill( false)
+      absolutes.each {|e| have_notes[ e % Harmony::OCTAVE] = true}
+      have_notes
     end
-
-    def create_next_child # At parent level.
-#if [0, 4, 4, 3, 4, 4] == @intervals.slice( 0..5)
-#print '@intervals '; p @intervals
-#end
-      (@@processing_node = self; @candidate_intervals_index += 1; return @@processing_node) if CANDIDATE_INTERVALS.length == @candidate_intervals_index
-      return create_sibling if @candidate_intervals_index > CANDIDATE_INTERVALS.length
-      interval = CANDIDATE_INTERVALS.at( @candidate_intervals_index)
-      @candidate_intervals_index += 1
-      try_intervals = @intervals.clone.push( interval)
-      return create_next_child if anything_bad( try_intervals)
-      Node.make_new_node( parent = self, try_intervals)
-    end #def
 
     private
     def step_down_branch
@@ -973,24 +965,35 @@ MINIMUM_GAP_INTERVAL 9
 #end
         next if anything_bad( try_intervals)
 # Assume the first is insufficiently large to be a gap.
-        node = Node.make_new_node( parent = self, try_intervals)
+        node = Node.make_new_node_with_branch_and_return_its_leaf( parent = self, try_intervals)
         break
       end #until
       @@processing_node = self if @candidate_intervals_index >= CANDIDATE_INTERVALS.length
       @@processing_node
     end #def
 
-=begin
-    def step_down_branch_old
-      latest_interval = CANDIDATE_INTERVALS.first
-      try_intervals = @intervals.clone.push( CANDIDATE_INTERVALS.first)
-      (@@processing_node = self; return) if anything_bad( try_intervals)
-      intervals = @intervals.clone.push( latest_interval)
-# Assume the first is insufficiently large to be a gap.
-      Node.make_new_node( parent = self, try_intervals)
-    end #def
-=end
+    public
+    def create_sibling
+      return nil if @parent.nil?
+      @parent.create_next_child
+    end
 
+    protected
+    def create_next_child # At parent level.
+#if [0, 4, 4, 3, 4, 4] == @intervals.slice( 0..5)
+#print '@intervals '; p @intervals
+#end
+# The special meaning of 'CANDIDATE_INTERVALS.length == @candidate_intervals_index' shows in the following line:
+      (@candidate_intervals_index += 1; return @@processing_node = self) if CANDIDATE_INTERVALS.length == @candidate_intervals_index
+      return create_sibling if @candidate_intervals_index > CANDIDATE_INTERVALS.length
+      interval = CANDIDATE_INTERVALS.at( @candidate_intervals_index)
+      @candidate_intervals_index += 1
+      try_intervals = @intervals.clone.push( interval)
+      return create_next_child if anything_bad( try_intervals)
+      Node.make_new_node_with_branch_and_return_its_leaf( parent = self, try_intervals)
+    end #def
+
+    private
     def anything_bad( try_intervals)
         highest = highest_note + try_intervals.last
 # Why doesn't this get to even try try_intervals [0, 4, 4, 3, 4, 4, 3]?
@@ -999,12 +1002,73 @@ MINIMUM_GAP_INTERVAL 9
 #end
       highest > MAX_HIGHEST_NOTE ||
       (try_intervals.last >= MINIMUM_GAP_INTERVAL && number_of_gaps + 1 > MAX_GAPS) ||
-      @have_notes.include?( highest % Harmony::OCTAVE) ||
+      @have_notes.at( highest % Harmony::OCTAVE) ||
       count_an_interval( try_intervals, Harmony::MINOR_SECOND) > MAX_MINOR_SECONDS ||
       count_an_interval( try_intervals, Harmony::TRITONE) > MAX_TRITONES ||
       count_an_interval( try_intervals, Harmony::MINOR_NINTH) > MAX_MINOR_NINTHS ||
       false
     end #def
+
+=begin
+    private
+    def count_an_interval_old( intervals, interval_to_count)
+      count = 0
+      (0...intervals.length).each do |start_index|
+        sum = 0
+        (start_index + 1...intervals.length).each do |i|
+          sum += intervals.at( i)
+          count += 1 if sum == interval_to_count
+          break if sum >= interval_to_count
+        end #each i
+      end #each start_index
+print 'count '; p count
+      count
+    end #def
+=end
+
+    private
+    def count_an_interval( intervals, interval_to_count)
+      running_sum = 0
+      absolutes = intervals.collect {|e| running_sum += e}.sort!
+      count = 0
+      (0...absolutes.length).each do |left_index|
+        left = absolutes.at( left_index)
+        (left_index + 1...absolutes.length).each do |right_index|
+          difference = absolutes.at( right_index) - left
+          count += 1 if difference == interval_to_count
+          break if difference >= interval_to_count
+        end #each right_index
+      end #each left_index
+      count
+    end #def
+
+    private
+    def each_pair_combination_bad( array, inside_proc)
+      a = array
+      (0...a.length - 1).each {|k| inside_proc.call( self); (k + 1...a.length).each {|i| yield i}}
+    end #def
+
+    private
+    def count_an_interval_bad( intervals, interval_to_count)
+      count = 0
+      sum = nil; each_pair_combination_bad( intervals, Proc.new {sum = 0}) do |i|
+        sum += intervals.at( i)
+        count += 1 if sum == interval_to_count
+        break if sum >= interval_to_count
+      end #each_pair_combination
+print 'count '; p count
+      count
+    end #def
+
+    private
+    def highest_note
+      @absolutes.last
+    end
+
+    private
+    def number_of_gaps
+      @intervals.find_all {|e| e >= MINIMUM_GAP_INTERVAL}.length
+    end
 
     public
     def dump
@@ -1024,39 +1088,19 @@ MINIMUM_GAP_INTERVAL 9
       ''
     end
 
-    protected
-    def highest_note
-      @absolutes.last
-    end
-
-    def number_of_gaps
-      @intervals.find_all {|e| e >= MINIMUM_GAP_INTERVAL}.length
-    end
-
-    def count_an_interval( intervals, interval_to_count)
-      count = 0
-      (0...intervals.length).each do |start_index|
-        sum = 0
-        (start_index + 1...intervals.length).each do |i|
-          sum += intervals.at( i)
-          count += 1 if sum == interval_to_count
-          break if sum >= interval_to_count
-        end #each i
-      end #each start_index
-      count
-    end #def
-
+    private
     def Node.print_counts
 #print '@@count_have_minor_ninths '; p @@count_have_minor_ninths
     end
 
   end #class
 #-----------------------------
-  class Nodes
+  class Tree
 # A virtual tree, using depth-first traversal; only a single branch exists at any one time.
-    def initialize( beginning)
+    def initialize
+      beginning = [0]
       intervals = beginning.inject( nil) {|memo, e| memo.nil? ? [e] : memo.push( e - memo.last)}
-      @first_leaf = Node.make_new_node( parent = nil, intervals)
+      @first_leaf = Node.make_new_node_with_branch_and_return_its_leaf( parent = nil, intervals)
     end #def
 
     def each
@@ -1074,11 +1118,11 @@ end #module
 #=============================
 module Harmony2
 #-----------------------------
-  class Read_tree
+  class Granularity
 @@count = 0
-    def walk( beginnings)
-      beginnings.each {|beginning| Tree::Nodes.new( beginning).each {|node| handle( node)}}
-      Tree::Node.print_counts
+    def walk
+      Fill_chords::Tree.new.each {|node| handle( node)}
+      Fill_chords::Node.print_counts
 print '@@count '; p @@count
     end
 
@@ -1098,10 +1142,11 @@ module Main
 #     Harmony::Chord_beginning.chord_class = Harmony::Chord_accumulate
 #      Harmony::Chord_beginning.chord_class = Harmony::Chord_print
 #      Harmony::Chord_beginning_categories.new.handle
-#      Harmony2::Read_tree.new.walk( Harmony::Chord_beginning_categories.new)
-      Harmony2::Read_tree.new.walk( [[0]])
+#      Harmony2::Granularity.new.walk( Harmony::Chord_beginning_categories.new)
+      Harmony2::Granularity.new.walk
     end
   end #class
 end #module
 #=============================
 Main::Run.new
+
