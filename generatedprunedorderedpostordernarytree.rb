@@ -36,22 +36,23 @@ module GeneratedPrunedOrderedPostOrderNaryTree
 # TO-DO: Incorporate here the array of sibling choices, or the calls to methods for
 # determining same.
     attr_reader :node_decorator
-    private_class_method :new
+    class << Node
+      alias old_new new
+    end
 
+    public
+    def Node.new( *args)
+      Node.old_new( *args)
+      Node.leaf()
+    end
+
+    public
     def initialize( p, n)
 #p 'in GeneratedPrunedOrderedPostOrderNaryTree::Node#initialize'
           @parent = p
 # By unwinding the stack, the method, 'initialize' unhelpfully returns not the leaf but the 
 # *first* object made, so instead track the leaf by the class variable, processing_node.
       (@node_decorator = n).step_out_branch_leftward( self)
-    end
-
-    public
-# Maybe change to aliasing 'new'.
-    def Node.make_branch_and_return_leaf( *args)
-#p 'in GeneratedPrunedOrderedPostOrderNaryTree::Node.make_branch_and_return_leaf'
-      new( *args)
-      Node.leaf()
     end
 
     public
@@ -76,7 +77,7 @@ module GeneratedPrunedOrderedPostOrderNaryTree
 
     public
     def Node.get_first_leaf( initial_node_decorator)
-      Node.make_branch_and_return_leaf( parent = nil, initial_node_decorator)
+      Node.new( parent = nil, initial_node_decorator)
     end
 
     public
