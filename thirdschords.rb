@@ -115,11 +115,6 @@ module Bit
   BIT_VALUE_0 = 0
   BIT_VALUE_1 = 1
 end #module
-=begin
-#=============================
-module Math_format
-end #module
-=end
 #=============================
 module Necklace
 #-----------------------------
@@ -424,6 +419,34 @@ module Harmony
       @value.last
     end
 
+    def gaps_count
+      (1..3).inject( 0) {|memo, multiple| memo +
+      (1...@value.length).find_all {|i|
+           @value.at( i    ) -
+           @value.at( i - 1) >  multiple * MAJOR_THIRD}.length}
+    end
+
+    def length
+      @value.length
+    end
+
+    def missing
+      to_one_octave = @value.collect {|e| e % OCTAVE}
+      Chord.new(( 0...OCTAVE).reject {|e| to_one_octave.include?( e)})
+    end
+
+    def notes_per_octave
+      @value.length/(@value.last.to_f/OCTAVE)
+    end
+
+    def pairings_count( interval)
+      @value.inject( 0) {|memo, low| memo + @value.find_all {|high| low + interval == high}.length}
+    end
+
+    def to_s
+      @value.collect {|note| Note.new( note).to_s}.join( ' ')
+    end
+
     def format_it( cb)
       @chord_beginning = cb
       '[' + @chord_beginning.join(',') + ']' +
@@ -450,42 +473,7 @@ module Harmony
       "\n"
     end
 
-    def gaps_count
-      (1..3).inject( 0) {|memo, multiple| memo +
-      (1...@value.length).find_all {|i|
-           @value.at( i    ) -
-           @value.at( i - 1) >  multiple * MAJOR_THIRD}.length}
-    end
-
-    def handle( cb)
-        print format_it( cb)
-@@detail_count += 1
-#print '@@detail_count '; p @@detail_count
-    end
-
-    def length
-      @value.length
-    end
-
-    def missing
-      to_one_octave = @value.collect {|e| e % OCTAVE}
-      Chord.new(( 0...OCTAVE).reject {|e| to_one_octave.include?( e)})
-    end
-
-    def notes_per_octave
-      @value.length/(@value.last.to_f/OCTAVE)
-    end
-
-    def pairings_count( interval)
-      @value.inject( 0) {|memo, low| memo + @value.find_all {|high| low + interval == high}.length}
-    end
-
-    def to_s
-      @value.collect {|note| Note.new( note).to_s}.join( ' ')
-    end
-
     def Chord.heading
-      "\n" +
       '[' + 'beginning' + ']' +
       ' - ' +
       '(' +
@@ -537,47 +525,47 @@ end
 =end
   end #class
 #-----------------------------
+  class Chord2 < Chord
+    def handle( cb)
+        print format_it( cb)
+@@detail_count += 1
+#print '@@detail_count '; p @@detail_count
+    end
+  end #class
+#-----------------------------
+  class Chord3 < Chord
+    def handle( cb)
+@@detail_count += 1
+    end
+  end #class
+#-----------------------------
   class Chord_beginning
     def initialize( b)
       @beginning = b
+#print '@beginning '; p @beginning
+#print '@beginning.length '; p @beginning.length
+      @beginning_have = @beginning.inject( Array.new( OCTAVE, false # Start by assuming that @beginning has no notes.
+      )) {|memo, note| memo[ note % OCTAVE] = true; memo}
     end
 
     def handle( extensions)
-print '@beginning '; p @beginning
-print Chord.heading
-      @beginning_last = @beginning.last
+      beginning_last = @beginning.last
       extensions.each do |relative_extension|
 #print 'relative_extension '; p relative_extension
-#print '@beginning.length '; p @beginning.length
-        @beginning_have = @beginning.inject( Array.new( OCTAVE, false) # Start by assuming that @beginning has no notes.
-        ) {|memo, note| memo[ note % OCTAVE] = true; memo}
-        absolute_extension = relative_extension.collect {|relative_note| relative_note + @beginning_last}
-        handle_format_lengths( absolute_extension)
+        absolute_extension = relative_extension.collect {|relative_note| beginning_last + relative_note}
+        handle_all_lengths( absolute_extension)
       end #do relative_extension
     end
 
-    def handle_format_lengths( extension)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    private
+    def handle_all_lengths( extension)
       chord = @beginning.clone
-      (0...extension.length).each do |i|
-        break if @beginning_have.at( extension.at( i) % OCTAVE) # Have this note.
-        chord.push( extension.at( i))
+      extension.each do |note|
+        break if @beginning_have.at( note % OCTAVE)
+        chord.push( note)
 #print 'chord '; p chord
 #print 'chord.length '; p chord.length
-        Chord.new( chord).handle( @beginning)
+        Chord2.new( chord).handle( @beginning)
       end #do i
 #print 'Chord.detail_count '; p Chord.detail_count
     end #def
@@ -590,28 +578,27 @@ print Chord.heading
     end
 
     def each
-      @chord_beginnings.each {|e| yield e}
+      @chord_beginnings.each {|a| yield a}
     end
 
     private
     def part_is_generable?
       result = false
       thirds =[ MINOR_THIRD, MAJOR_THIRD]
-      BEGINNINGS.each do |cb|
-        (result = true; p 'Do not need this chord:', cb) if cb.length >= 2 and
-          thirds.include?( last_interval = cb.last - cb[    cb.length -  2])
-      end
+      BEGINNINGS.each {|a|
+      (result = true; p 'Do not need this chord:', a) if a.length >= 2 and
+         thirds.include?( last_interval = a.last - a[    a.length -  2])}
       result
     end
   end #class
 #-----------------------------
-  class Beginning_category
+  class Chord_beginning_category
     def initialize( b)
       @beginnings = b
     end
 
     def handle
-diff = Chord.detail_count
+detail_count_difference = Chord.detail_count
       max_thirds_length = OCTAVE - @beginnings.first.length
       extensions = make_internally_valid_no_note_repetitions( product(
       Third::All_chords.new(   max_thirds_length), 
@@ -621,8 +608,8 @@ diff = Chord.detail_count
 #      @beginnings.each do |beginning|
       [@beginnings.first].each {|beginning|
         Chord_beginning.new( beginning).handle( extensions)}
-diff = Chord.detail_count - diff
-print 'diff '; p diff
+detail_count_difference = Chord.detail_count - detail_count_difference
+print 'detail_count_difference '; p detail_count_difference
     end #def
 
     private
@@ -646,28 +633,23 @@ print 'diff '; p diff
       have = Array.new( OCTAVE, false)
       result = chord.length # Start by assuming the chord is all valid.
       chord.each_with_index do |note, i|
-        if have.at( note % OCTAVE)
-          result = i
-          break
-        end #if
+        (result = i; break) if have.at( note % OCTAVE)
         have[ note % OCTAVE] = true
       end #do
       result
     end #def
   end #class
 #-----------------------------
-  class Beginning_categories
+  class Chord_beginning_categories
     def initialize
-      length_categories = (beginnings = Chord_beginnings.new).
-      collect {|a| a.length}.sort!.uniq!
-#print 'categorized_by_length '; p categorized_by_length
+      length_categories = (beginnings = Chord_beginnings.new).collect {|a| a.length}.sort!.uniq!
       length_categories = [] if length_categories.nil?
-      categorized_beginnings = beginnings.inject( Array.new( length_categories.length
-      ) {[]}) {|memo, a| memo[ length_categories.index( a.length)].concat( [a]); memo}
+#print 'length_categories '; p length_categories
+      categorized_beginnings = beginnings.inject( Array.new( length_categories.length) {[]}
+      ) {|memo, a| memo[ length_categories.index( a.length)].push( a); memo}
 #print 'categorized_beginnings '; p categorized_beginnings
 print 'categorized_beginnings.collect {|a| a.length} '; p categorized_beginnings.collect {|a| a.length}
-      @beginning_categories = (0...length_categories.length).inject( []) {|memo, i|
-      memo.push( Beginning_category.new( categorized_beginnings.at( i)))}
+      @beginning_categories = categorized_beginnings.inject( []) {|memo, a| memo.push( Chord_beginning_category.new( a))}
 #@beginning_categories.each {|a| print 'a.beginnings.length '; p a.beginnings.length}
     end #def
 
@@ -676,18 +658,11 @@ print 'categorized_beginnings.collect {|a| a.length} '; p categorized_beginnings
     end
 
     def handle
+      print Chord.heading
       each {|beginning_category| beginning_category.handle}
 print 'Chord.detail_count '; p Chord.detail_count
     end
   end #class
-=begin
-#-----------------------------
-  class Detail_line
-    def initialize( ch)
-      @chord = ch
-    end
-  end #class
-=end
 #-----------------------------
   class Note
     def initialize( v)
@@ -704,7 +679,7 @@ module Main
 #-----------------------------
   class Run
     def initialize
-      Harmony::Beginning_categories.new.handle
+      Harmony::Chord_beginning_categories.new.handle
     end
   end #class
 end #module
