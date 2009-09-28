@@ -600,20 +600,21 @@ module Math_format
   end #class
 #-----------------------------
   class Top
-    def run
-#     print "Main::Top#run:\n"
-# Sort beginnings by length.
+    def sort_beginnings_by_length
       b = Harmony::Chord_beginnings.new
       lengths = [] if (lengths = b.collect {|e| e.length}.sort!.uniq!).nil?
-#     sorted_beginnings = lengths.collect {[]}
       sorted_beginnings = Array.new( lengths.length) {[]}
-#     print 'sorted_beginnings '; p sorted_beginnings
       b.each {|e| sorted_beginnings[ lengths.index( e.length)].concat( [e])}
+#     print 'sorted_beginnings '; p sorted_beginnings
       print 'sorted_beginnings.collect {|e| e.length} '
       p      sorted_beginnings.collect {|e| e.length}
       print Print_something::Print_line.heading
+      [sorted_beginnings, lengths]
+    end #def
 
+    def run
 #     print "Main::Top#run:\n"
+      sorted_beginnings, lengths = sort_beginnings_by_length
       diff = 0
       begin_length_index = 6
 #     (6...lengths.length).each do |begin_length_index|
