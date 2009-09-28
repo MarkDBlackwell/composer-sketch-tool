@@ -141,7 +141,7 @@ module Third
       (0...Bit::BIT_STATES ** @thirds_length).each {|i| yield i}
     end
 
-#   private
+    private
     def each
       (0...Bit::BIT_STATES ** @thirds_length).each do |word|
         thirds = (0...@thirds_length).collect {bit_value = word & Bit::SINGLE_BIT; word >>= Bit::SINGLE_BIT; bit_value}
@@ -162,19 +162,22 @@ end #module
 #=============================
 module Gap
 #-----------------------------
-  class Constellation_words
+  class All_constellation_words
     include Enumerable
     def initialize( n)
+#     raise NoMethodError.new( 'All_constellation_words is an abstract class and cannot be instantiated') if self.class == All_constellation_words
+#print 'All_constellation_words self.class '; p self.class
       @number_of_bits = n
     end
+
     def each
       (Bit::BIT_STATES ** @number_of_bits - 1).downto( 0) {|word| yield word}
     end
   end #class
 #-----------------------------
-  class Constellations
+  class All_constellations
     MAX_GAPS = 5
-    EXCESSIVE_TOGETHER = 0b1111
+    EXCESSIVE_TOGETHER = 0b1111 # Least significant several bits.
 
     def initialize( w)
       @width = w
@@ -195,22 +198,22 @@ module Gap
 
     private
     def pick
-      Constellation_words.new( @width).reject do |word|
+      All_constellation_words.new( @width).reject do |word|
         count_gaps = 0
         word_bad = false
         @width.times do
-          count_gaps += 1 if Bit::BIT_VALUE_0 == word & Bit::SINGLE_BIT # Least significant.
-          word_bad = true if count_gaps > MAX_GAPS ||
-                             0 == word & EXCESSIVE_TOGETHER # Least significant several bits.
+          count_gaps += 1 if Bit::BIT_VALUE_0 == word & Bit::SINGLE_BIT # Least significant bit.
+          word_bad = true if count_gaps > MAX_GAPS || 0 == word & EXCESSIVE_TOGETHER
           break if word_bad
           word >>= Bit::SINGLE_BIT
-        end #do times
+        end #do
         word_bad
       end #do word
     end #def
+
   end #class
 #-----------------------------
-  class Constellation_positions
+  class All_constellation_positions
     include Enumerable
     def initialize( g)
       @good_words = g
@@ -419,6 +422,10 @@ module Harmony
       @value.last
     end
 
+    def handle( beginning) # The argument is used in subclasses.
+@@detail_count += 1
+    end
+
     def gaps_count
       (1..3).inject( 0) {|memo, multiple| memo +
       (1...@value.length).find_all {|i|
@@ -525,19 +532,18 @@ end
 =end
   end #class
 #-----------------------------
-  class Chord2 < Chord
-    def handle( cb)
-        print format_it( cb)
-@@detail_count += 1
-#print '@@detail_count '; p @@detail_count
+  class Chord_print < Chord
+    def handle( beginning)
+      super
+      print format_it( beginning)
     end
   end #class
 #-----------------------------
-  class Chord3 < Chord
-    def handle( cb)
-@@detail_count += 1
-    end
-  end #class
+#  class Chord_accumulate < Chord
+#    def handle( beginning)
+#      super
+#    end
+#  end #class
 #-----------------------------
   class Chord_beginning
     def initialize( b)
@@ -565,10 +571,15 @@ end
         chord.push( note)
 #print 'chord '; p chord
 #print 'chord.length '; p chord.length
-        Chord2.new( chord).handle( @beginning)
+        @@chord_subclass.new( chord).handle( @beginning)
       end #do i
-#print 'Chord.detail_count '; p Chord.detail_count
+#print '@@chord_subclass.detail_count '; p @@chord_subclass.detail_count
     end #def
+
+    public
+    def Chord_beginning.chord_subclass=( cs)
+      @@chord_subclass = cs
+    end
   end #class
 #-----------------------------
   class Chord_beginnings
@@ -602,8 +613,8 @@ detail_count_difference = Chord.detail_count
       max_thirds_length = OCTAVE - @beginnings.first.length
       extensions = make_internally_valid_no_note_repetitions( product(
       Third::All_chords.new(   max_thirds_length), 
-      Gap::Constellation_positions.new( 
-      Gap::Constellations.new( max_thirds_length - 1)))) # The last place is not properly a gap.
+      Gap::All_constellation_positions.new( 
+      Gap::All_constellations.new( max_thirds_length - 1)))) # The last place is not properly a gap.
 #print 'extensions '; p extensions
 #      @beginnings.each do |beginning|
       [@beginnings.first].each {|beginning|
@@ -668,7 +679,6 @@ print 'Chord.detail_count '; p Chord.detail_count
     def initialize( v)
       @value = v
     end
-
     def to_s
       NOTE_NAMES.at( @value % OCTAVE)
     end
@@ -679,6 +689,8 @@ module Main
 #-----------------------------
   class Run
     def initialize
+#     Harmony::Chord_beginning.chord_subclass = Harmony::Chord
+      Harmony::Chord_beginning.chord_subclass = Harmony::Chord_print
       Harmony::Chord_beginning_categories.new.handle
     end
   end #class
