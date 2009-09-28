@@ -2,6 +2,7 @@ require 'chordutilities'
 #require 'generatedprunedorderedpostordernarytree'
 require 'generatechords'
 require 'generatenotespace'
+require 'midi'
 module Main
 #-----------------------------
   class Program
@@ -130,29 +131,33 @@ print 'count_roots '; p count_roots
 
     def play
 #p 'in Main::Program#play'
-# TO-DO: Print in (necklaces, roots) order.
 # TO-DO: Count rooted chords in necklaces: should be 2048.
 # E.g., @note_space.necklaces.each do |e|
+      HarmonyMidi::Play.set_up()
 p 'MSB to LSB, G F# F E Eb D C# C B Bb A Ab'
-      @note_space.necklaces.each do |necklace|
-print 'necklace.word.to_s( 2) '; p necklace.word.to_s( 2)
+      @note_space.necklaces.each_with_index do |necklace, necklace_number|
+#print 'necklace.word.to_s( 2) '; p necklace.word.to_s( 2)
 #print 'necklace.word '; p necklace.word
 #print 'necklace.root_words '; p necklace.root_words
 #        necklace.root_words.each do |root_word|
         (0...0).each do |root_word|
-print 'root_word.to_s( 2) '; p root_word.to_s( 2)
+#print 'root_word.to_s( 2) '; p root_word.to_s( 2)
         end #each root_word
-        necklace.roots.each do |chords|
+        had_pause = false
+        necklace.roots.each_with_index do |chords, i|
           next if chords.nil?
           array = chords.compact
 #print 'array.inspect '; p array.inspect
           next if array.nil? || array.empty?
+          (had_pause = true; HarmonyMidi::Play.handle_necklace( necklace, necklace_number)) unless had_pause
           array.each do |chord|
-print 'chord.absolutes '; p chord.absolutes
+#print 'chord.absolutes '; p chord.absolutes
 #print 'chord.inspect '; p chord.inspect
+            HarmonyMidi::Play.handle_chord( chord.absolutes, necklace.root_numbers.at( i))
           end #each chord
-        end #each chords
-      end #each necklace
+        end #each_with_index chords, i
+      end #each_with_index necklace, necklace_number
+      HarmonyMidi::Play.tear_down()
     end
 
   end #class Program
