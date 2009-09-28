@@ -794,14 +794,161 @@ print 'Chord.detail_count '; p Chord.detail_count
   end #class
 end #module
 #=============================
+module Tree
+  CANDIDATE_INTERVALS = (1..11).to_a
+#print 'CANDIDATE_INTERVALS '; p CANDIDATE_INTERVALS
+  MINIMUM_GAP_INTERVAL = 6
+  MAX_GAPS = 2
+  MAX_HIGHEST_NOTE = 3
+#-----------------------------
+  class Node
+    attr_accessor :candidate_intervals_index
+    attr_reader :highest_note,
+                :number_of_gaps,
+                :parent
+    def initialize( p, hn, nog)
+        @parent = p
+        @highest_note = hn
+        @number_of_gaps = nog
+      @candidate_intervals_index = 0
+      step_down_branch
+print 'self.dump '; p self.dump
+    end
+
+    def Node.make_new_node( p, hn, nog)
+      node = Node.new( p, hn, nog)
+#print 'node.dump '; p node.dump
+#print '@@processing_node.dump '; p @@processing_node.dump
+      @@processing_node
+    end
+
+    def Node.initialize_intervals( i)
+      @@intervals = i
+    end
+
+    def processing_node
+      @@processing_node
+    end
+
+    def create_nephew
+      if @candidate_intervals_index + 1 >= CANDIDATE_INTERVALS.length
+        return nil if @parent.nil?
+        return @parent.create_nephew
+      end #if
+      @candidate_intervals_index += 1
+print '@candidate_intervals_index '; p @candidate_intervals_index
+      @@intervals.pop
+      interval = CANDIDATE_INTERVALS.at( @candidate_intervals_index)
+#print 'interval '; p interval
+      @@intervals.push( interval)
+#print '@@intervals '; p @@intervals
+      highest_note = @highest_note + interval
+#print 'highest_note '; p highest_note
+      Node.make_new_node( parent = self, highest_note, @number_of_gaps)
+    end
+
+    def dump
+      'nog: ' + @number_of_gaps.to_s +
+      ' ' +
+      'cii: ' + @candidate_intervals_index.to_s +
+      ' ' +
+      'i: [' + @@intervals.join(',') + ']' +
+      ' ' +
+      'hn: ' + @highest_note.to_s
+    end
+
+    private
+    def step_down_branch
+      highest_note = @highest_note
+      number_of_gaps = @number_of_gaps
+      latest_interval = CANDIDATE_INTERVALS.first
+# Assume the first is insufficiently large to be a gap.
+#     number_of_gaps += 1 if latest_interval >= MINIMUM_GAP_INTERVAL
+      highest_note += latest_interval
+#     (@@processing_node = self; return) if number_of_gaps > MAX_GAPS || highest_note > MAX_HIGHEST_NOTE
+      (@@processing_node = self; return) if highest_note > MAX_HIGHEST_NOTE
+      @@intervals.push( latest_interval)
+      Node.make_new_node( parent = self, highest_note, number_of_gaps)
+    end #def
+
+  end #class
+#-----------------------------
+  class Node_tree
+# A virtual tree, using depth-first traversal; only a single branch exists at any one time.
+    def initialize( beginning)
+#     sum = 0; beginning.each {|e| sum += e}
+      intervals = beginning.inject( []) {|memo, e| memo.empty? ? memo.push( e) : memo.push( e - memo.last)}
+      Node.initialize_intervals( intervals)
+      @node = Node.make_new_node( parent = nil, highest_note = beginning.last,
+      number_of_gaps = 0)
+#print '@node.dump '; p @node.dump
+    end
+
+    def each
+# Because of depth-first traversal, never need to access child nodes, here.
+      node = @node
+      until node.nil?
+#print 'node.object_id '; p node.object_id
+print 'node.dump '; p node.dump
+        node = @node.parent.create_nephew
+      end #until
+
+      return
+
+      highest_note = @highest_note
+      number_of_gaps = @number_of_gaps
+      @candidate_intervals_index += 1
+      return nil if @candidate_intervals_index >= CANDIDATE_INTERVALS.length
+      interval = CANDIDATE_INTERVALS.at( @candidate_intervals_index)
+      number_of_gaps += 1 if interval >= MINIMUM_GAP_INTERVAL
+      return if number_of_gaps > MAX_GAPS || highest_note > MAX_HIGHEST_NOTE
+      @@intervals.push( interval)
+      highest_note += interval
+      Node.make_new_node( parent = @parent, highest_note)
+
+      return
+      return (@parent.nil? ? nil : @parent.next) if @candidate_intervals_index >= CANDIDATE_INTERVALS.length
+      highest_note = @highest_note
+      highest_note -= @@intervals.pop if @candidate_intervals_index >= 2
+      interval = CANDIDATE_INTERVALS.at( @candidate_intervals_index)
+      @candidate_intervals_index += 1
+      return self if 0 == interval # No candidate intervals added.
+      @@intervals.push( interval)
+      highest_note += interval
+      Node.make_new_node( parent = @parent, highest_note)
+    end #def
+
+    def child
+      highest_note = @highest_note
+      Node.make_new_node( parent = self, highest_note).zero_candidate_intervals_index
+    end #def
+
+  end #class
+end #module
+#=============================
+module Harmony2
+#-----------------------------
+  class Read_tree
+    def walk( beginnings)
+     beginnings.each {|beginning| Tree::Node_tree.new( beginning).each {|node| handle( node)}}
+    end
+
+    def handle( node)
+#print 'node.dump '; p node.dump
+    end
+  end #class
+end #module
+#=============================
 module Main
 #-----------------------------
   class Run
     def initialize
 #     Harmony::Chord_beginning.chord_class = Harmony::Chord
 #     Harmony::Chord_beginning.chord_class = Harmony::Chord_accumulate
-      Harmony::Chord_beginning.chord_class = Harmony::Chord_print
-      Harmony::Chord_beginning_categories.new.handle
+#      Harmony::Chord_beginning.chord_class = Harmony::Chord_print
+#      Harmony::Chord_beginning_categories.new.handle
+#      Harmony2::Read_tree.new.walk( Harmony::Chord_beginning_categories.new)
+      Harmony2::Read_tree.new.walk( [[0]])
     end
   end #class
 end #module
