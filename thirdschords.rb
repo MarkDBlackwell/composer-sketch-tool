@@ -111,6 +111,12 @@ Bottom.count 3602224
 #=============================
 module Harmony
   NOTE_NAMES = %w{G Ab A Bb B C C# D Eb E F F#}
+  MINOR_THIRD = 3
+  MAJOR_THIRD = 4
+  TRITONE = 6
+  OCTAVE = NOTE_NAMES.length
+  MINOR_NINTH = 13
+  MAJOR_NINTH = 14
   BEGINNINGS =[ # G, followed by:
 #-----11-----------------------F#
 #[ 0, 11, 13, 19], # F# Ab D - (Gap covers.)
@@ -283,38 +289,32 @@ module Harmony
       @value.last
     end
 
-    def notes_per_octave
-      @value.length/(@value.last/12.0)
+    def gaps_count
+      (1..3).inject( 0) {|memo, multiple| memo +
+      (1...@value.length).find_all {|i|
+           @value.at( i    ) -
+           @value.at( i - 1) >  multiple * MAJOR_THIRD}.length}
     end
 
     def length
       @value.length
     end
 
-    def major_ninths_count
-      count_pairings( 14)
-    end
-
-    def minor_ninths_count
-      count_pairings( 13)
-    end
-
     def missing
-      one_octave = @value.collect {|e| e % NOTE_NAMES.length}
-      Chord.new(( 0...NOTE_NAMES.length).reject {|e| one_octave.include?( e)})
+      to_one_octave = @value.collect {|e| e % OCTAVE}
+      Chord.new(( 0...OCTAVE).reject {|e| to_one_octave.include?( e)})
+    end
+
+    def notes_per_octave
+      @value.length/(@value.last.to_f/OCTAVE)
     end
 
     def to_s
       @value.collect {|note| Note.new( note).to_s}.join( ' ')
     end
 
-    def tritones_count
-      count_pairings( 6)
-    end
-
-    private
-    def count_pairings( interval)
-      @value.collect {|low| @value.find_all {|high| low + interval == high}}.flatten!.length
+    def pairings_count( interval)
+      @value.inject( 0) {|memo, low| memo + @value.find_all {|high| low + interval == high}.length}
     end
 =begin
     def +( a)
@@ -352,7 +352,7 @@ module Harmony
     private
     def partly_generable?
       result = false
-      thirds =[ 3, 4]
+      thirds =[ MINOR_THIRD, MAJOR_THIRD]
       BEGINNINGS.each do |cb|
         (result = true; p 'Do not need this chord:', cb) if cb.length >= 2 and
           thirds.include?( last_interval = cb.last - cb[    cb.length -  2])
@@ -367,7 +367,7 @@ module Harmony
     end
 
     def to_s
-      NOTE_NAMES.at( @value % NOTE_NAMES.length)
+      NOTE_NAMES.at( @value % OCTAVE)
     end
   end #class
 end #module
@@ -388,24 +388,29 @@ end #module
 module Thirds
 #-----------------------------
   class All_chords
+    SINGLE_BIT = 1
+    BIT_STATES = 2
+    BIT_VALUE_0 = 0
+    BIT_VALUE_1 = 1
+
     include Enumerable
     def initialize( tl)
        @thirds_length = tl
     end
 
     def each_index
-      (0...2 ** @thirds_length).each {|i| yield i}
+      (0...BIT_STATES ** @thirds_length).each {|i| yield i}
     end
 
-    private
+#   private
     def each
-      (0...2 ** @thirds_length).each do |word|
-        thirds = (0...@thirds_length).collect {bit_value = word & 1; word >>= 1; bit_value}
+      (0...BIT_STATES ** @thirds_length).each do |word|
+        thirds = (0...@thirds_length).collect {bit_value = word & SINGLE_BIT; word >>= SINGLE_BIT; bit_value}
         note = 0
         relative_chord = thirds.collect do |third|
           case third
-            when 0; note += 4 # Major third.
-            when 1; note += 3 # Minor third.
+            when BIT_VALUE_0; note += Harmony::MAJOR_THIRD
+            when BIT_VALUE_1; note += Harmony::MINOR_THIRD
           end #case
           note
         end #do third
@@ -417,6 +422,10 @@ module Thirds
 end #module
 #=============================
 module Gap
+  SINGLE_BIT = 1
+  BIT_STATES = 2
+  BIT_VALUE_0 = 0
+  BIT_VALUE_1 = 1
 #-----------------------------
   class Constellation_words
     include Enumerable
@@ -424,7 +433,7 @@ module Gap
       @number_of_bits = n
     end
     def each
-      (2 ** @number_of_bits - 1).downto( 0) {|word| yield word}
+      (BIT_STATES ** @number_of_bits - 1).downto( 0) {|word| yield word}
     end
   end #class
 #-----------------------------
@@ -455,21 +464,25 @@ module Gap
         count_gaps = 0
         word_bad = false
         @width.times do
-          count_gaps += 1 if 0 == word & 1 # Least significant single bit.
+          count_gaps += 1 if BIT_VALUE_0 == word & SINGLE_BIT # Least significant.
           word_bad = true if count_gaps > MAX_GAPS ||
                              0 == word & EXCESSIVE_TOGETHER # Least significant several bits.
           break if word_bad
-          word >>= 1
+          word >>= SINGLE_BIT
         end #do times
         word_bad
       end #do word
     end #def
   end #class
 #-----------------------------
-  class Constellation_array
+  class Constellation_positions
     include Enumerable
     def initialize( g)
       @good_words = g
+    end
+
+    def each
+      @good_words.each {|word| yield bits_to_positions( word)}
     end
 
     def each_index
@@ -482,13 +495,10 @@ module Gap
 
     private
     def bits_to_positions( word)
-      word <<= 1
-      (0...@good_words.width).collect {|i| 1 == 1 & (word >>= 1) ? i : nil}.compact # Test each bit, least significant first.
+      word <<= SINGLE_BIT
+      (0...@good_words.width).collect {|i| BIT_VALUE_1 == SINGLE_BIT & (word >>= SINGLE_BIT) ? i : nil}.compact # Test least significant first.
     end
 
-    def each
-      @good_words.each {|word| yield bits_to_positions( word)}
-    end
   end #class
 end #module
 #=============================
@@ -503,15 +513,17 @@ module Print_something
       '[' + @chord_beginning.join(',') + ']' +
       ' - ' +
       '(' +
-      'm9-' + @chord.minor_ninths_count.to_s +
+      'm9-' + @chord.pairings_count( Harmony::MINOR_NINTH).to_s +
       ' ' +
-      'j9-' + @chord.major_ninths_count.to_s +
+      'j9-' + @chord.pairings_count( Harmony::MAJOR_NINTH).to_s +
       ' ' +
-      't-' + @chord.tritones_count.to_s +
+      't-' + @chord.pairings_count( Harmony::TRITONE).to_s +
       ' ' +
-      's-' + @chord.breadth.to_s +
+      'g-' + @chord.gaps_count.to_s +
       ' ' +
-      'd-' + ((100 * @chord.notes_per_octave).round / 100.0).to_s +
+      's-' + @chord.breadth.to_s + # Span.
+      ' ' +
+      'd-' + ((100 * @chord.notes_per_octave).round / 100.0).to_s + # Density
       ')' +
       ' - ' +
       '(' + @chord.missing.to_s + ')' +
@@ -531,6 +543,8 @@ module Print_something
       'j9-' + 'major_ninths' +
       ' ' +
       't-' + 'tritones' +
+      ' ' +
+      'g-' + 'gaps' +
       ' ' +
       's-' + 'span' +
       ' ' +
@@ -555,10 +569,10 @@ module Math_format
     def initialize( cb, re)
       @chord_beginning = cb
       @relative_extension = re
-      @octave = Harmony::NOTE_NAMES.length
-      @chord_beginning_have = Array.new( @octave, false) # Start by assuming that @chord_beginning has no notes.
-      @chord_beginning.each {|note| @chord_beginning_have[ note % @octave] = true}
-      @chord_beginning_last = @chord_beginning.last
+      @chord_beginning_last =
+      @chord_beginning.last
+      @chord_beginning_have = Array.new( Harmony::OCTAVE, false) # Start by assuming that @chord_beginning has no notes.
+      @chord_beginning.each {|note| @chord_beginning_have[ note % Harmony::OCTAVE] = true}
     end
 
     def print_all_lengths
@@ -566,10 +580,10 @@ module Math_format
 #     print "Math_format::Bottom#print_some:\n"
 #     print '@chord_beginning.length '; p @chord_beginning.length
 # Assume extension is internally valid (has no note repetitions).
-      extension = @relative_extension.collect {|e| e + @chord_beginning_last}
+      extension = @relative_extension.collect {|relative_note| relative_note + @chord_beginning_last}
       chord = @chord_beginning.clone
       (0...extension.length).each do |i|
-        break if @chord_beginning_have.at( extension.at( i) % @octave) # Have this note.
+        break if @chord_beginning_have.at( extension.at( i) % Harmony::OCTAVE) # Have this note.
         chord.push( extension.at( i))
 #       print 'chord '; p chord
 #       print 'chord.length '; p chord.length
@@ -586,9 +600,7 @@ module Math_format
   end #class
 #-----------------------------
   class Top
-    OCTAVE_LENGTH = 12
     def run
-      diff = 0
 #     print "Main::Top#run:\n"
 # Sort beginnings by length.
       b = Harmony::Chord_beginnings.new
@@ -600,38 +612,29 @@ module Math_format
       print 'sorted_beginnings.collect {|e| e.length} '
       p      sorted_beginnings.collect {|e| e.length}
       print Print_something::Print_line.heading
+
+#     print "Main::Top#run:\n"
+      diff = 0
       begin_length_index = 6
 #     (6...lengths.length).each do |begin_length_index|
 #     lengths.each_index do |begin_length_index|
-        max_thirds_length = OCTAVE_LENGTH - lengths.at( begin_length_index)
-        gap_patterns = Gap::Constellation_array.new( 
+        max_thirds_length = Harmony::OCTAVE - lengths.at( begin_length_index)
+        gap_patterns = Gap::Constellation_positions.new( 
                        Gap::Constellations.new( max_thirds_length - 1)) # The last place is not properly a gap.
         print 'gap_patterns.length '; p gap_patterns.length
         thirds_chords = Thirds::All_chords.new( max_thirds_length)
-        gaps_and_thirds = thirds_chords.collect do |thirds_chord|
-#         print 'thirds_chord '; p thirds_chord
-#         print 'thirds_chord.length '; p thirds_chord.length
-#         have = (0...max_thirds_length - 1).to_a
-          gap_patterns.collect do |have|
-#           print 'have '; p have
-            extension = have.collect {|i| thirds_chord.at( i)}.push( thirds_chord.last)
-            extension.slice!( valid_length( extension)..-1)
-            extension
-          end #do have
-        end #do thirds_chord
-#       print 'gaps_and_thirds '; p gaps_and_thirds
+
+        extensions = intersect( thirds_chords, gap_patterns)
+#       print 'extensions '; p extensions
+
 #       sorted_beginnings.at( begin_length_index).each do |chord_begin|
         [sorted_beginnings.at( begin_length_index).first].each do |chord_begin|
           print 'chord_begin '; p chord_begin
-#         thirds_chord = [4, 8, 11, 15, 18, 22, 26, 29, 33, 37]
-          thirds_chords.each_index do |thirds_chord_index|
-            gap_patterns.each_index do |have_index|
-              extension = gaps_and_thirds.at( thirds_chord_index).at( have_index)
-#             print 'extension '; p extension
-              Math_format::Bottom.new( chord_begin, extension).print_all_lengths
-#             print "Main::Top#run:\n"
-            end #do have_index
-          end #do thirds_chord_index
+          extensions.each do |extension|
+#           print 'extension '; p extension
+            Math_format::Bottom.new( chord_begin, extension).print_all_lengths
+#           print "Main::Top#run:\n"
+          end #do extension
         end #do chord_begin
         diff = Math_format::Bottom.count - diff
         print 'diff '; p diff
@@ -641,16 +644,31 @@ module Math_format
     end #def
 
     private
+    def intersect( thirds_chords, gap_patterns)
+      result = []
+      thirds_chords.each do |thirds_chord|
+#       print 'thirds_chord '; p thirds_chord
+#       print 'thirds_chord.length '; p thirds_chord.length
+#       have = (0...max_thirds_length - 1).to_a
+        gap_patterns.each do |have|
+#         print 'have '; p have
+          extension = have.collect {|i| thirds_chord.at( i)}.push( thirds_chord.last)
+          extension.slice!( valid_length( extension)..-1)
+          result.push( extension)
+        end #do have
+      end #do thirds_chord
+      result
+    end #def
+
     def valid_length( chord)
-      octave = Harmony::NOTE_NAMES.length
-      have = Array.new( octave, false)
+      have = Array.new( Harmony::OCTAVE, false)
       result = chord.length # Start by assuming the chord is all valid.
       chord.each_with_index do |note, i|
-        if have.at( note % octave)
+        if have.at( note % Harmony::OCTAVE)
           result = i
           break
         end #if
-        have[ note % octave] = true
+        have[ note % Harmony::OCTAVE] = true
       end #do
       result
     end #def
