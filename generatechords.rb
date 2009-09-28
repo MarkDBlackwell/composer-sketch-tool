@@ -21,6 +21,7 @@ module GenerateChords
       @value = 0 # Start without notes.
 # Move G F# F E Eb D C# C B Bb A Ab into MSB to LSB, respectively.
       @@width.downto( 1) {|i| @value <<= Bit::BIT_WIDTH; @value |= Bit::BIT_VALUE_1 if @@have_note.at( i % @@width)}
+#print '@value '; p @value
     end
 
     def Word.set_fixed( note_space)
@@ -87,8 +88,8 @@ module GenerateChords
 # 'This one is less (desirable) than the other one' means greater breadth, so reverse the sign.
       interest_hierarchy_results.push( - (breadth <=> other.breadth))
 #print '@fill_word.to_s( 2)', @fill_word.to_s( 2), 'other.fill_word.to_s( 2)', other.fill_word.to_s( 2),
-#'[m9 tr ot j2 j17 4 br]:', interest_hierarchy_results.inspect, 'absolutes:', node_decorator.absolutes.inspect,
-#'other.node_decorator.absolutes:', other.node_decorator.absolutes.inspect
+#'[m9 tr ot j2 j17 4 br]:', interest_hierarchy_results.inspect, 'absolutes:', leaf_decorator.absolutes.inspect,
+#'other.leaf_decorator.absolutes:', other.leaf_decorator.absolutes.inspect
       interest_hierarchy_results.each {|r| return r unless 0 == r}
       return 0
     end
@@ -188,23 +189,21 @@ module GenerateChords
     end
   end #class ChordAccumulate
 #-----------------------------
-  class NodeDecorator
+  class LeafDecorator
     attr_reader :absolutes
-    attr_accessor :candidate_intervals_index
     include ChordUtilities
 
     def initialize( a)
-#p 'in GenerateChords::NodeDecorator#initialize'
+#p 'in GenerateChords::LeafDecorator#initialize'
           @absolutes = a
-# A value of @@candidate_intervals.length has special meaning; see in_parent_create_next_child, below.
       @candidate_intervals_index = 0
     end
 
     public
-    def NodeDecorator.set_fixed( n)
-#p 'in GenerateChords::NodeDecorator.set_fixed'
+    def LeafDecorator.set_fixed( n)
+#p 'in GenerateChords::LeafDecorator.set_fixed'
           @@note_space = n
-      @@node_class = GeneratedPrunedOrderedPostOrderNaryTree::Node
+      @@leaf_class = GeneratedPrunedOrderedPostOrderNaryTree::Leaf
       @@candidate_intervals = ((@@note_space.a_little_and_a_little...  @@note_space.octave).to_a + [
       @@note_space.octave_and_a_little, @@note_space.major_ninth, 
 # These next two are necessary for certain sparse necklaces.
@@ -221,7 +220,7 @@ module GenerateChords
 # The lowest max_highest_note which fills all the chords is 35.
 # The augmented chord filler takes 41 half-steps.
 #     @@max_highest_note = @@candidate_intervals.last + @@note_space.major_seventh
-      @@max_highest_note = 14 # 2 24 30 35 36 39 41 44 
+      @@max_highest_note = 35 # 2 14 24 30 36 39 41 44 
       '@@candidate_intervals '       + @@candidate_intervals.      inspect + "\n" +
       '@@minimum_gap_interval '      + @@minimum_gap_interval.     inspect + "\n" +
       '@@max_gaps '                  + @@max_gaps.                 inspect + "\n" +
@@ -232,72 +231,31 @@ module GenerateChords
     end
 
     public
-    def NodeDecorator.initial
-      NodeDecorator.new( [0]) # G2, by itself.
+    def LeafDecorator.initial
+#p 'in GenerateChords::LeafDecorator.initial'
+      LeafDecorator.new( [0]) # G2, by itself.
     end
 
     public
-    def next_candidate_interval
-      return nil if @candidate_intervals_index >= @@candidate_intervals.length
-      @@candidate_intervals.at(( @candidate_intervals_index += 1) - 1)
-    end
-
-    public
-    def step_out_branch_leftward( node)
-#p 'in GenerateChords::NodeDecorator#step_out_branch_leftward'
-      until @candidate_intervals_index >= @@candidate_intervals.length
-        absolutes = absolutes_for_child()
-        @candidate_intervals_index += 1
-        next if anything_bad?( absolutes)
-        @@node_class.new( parent = node, NodeDecorator.new( absolutes))
-        break
-      end #until
-# Assume that before this node (node) was created, it was checked for anything bad.
-      @@node_class.capture_leaf( node) if @candidate_intervals_index >= @@candidate_intervals.length
-      @@node_class.leaf()
-    end
-
-    public
-    def in_parent_create_next_child( parent)
-#p 'in GenerateChords::NodeDecorator#in_parent_create_next_child'
-# The special meaning of @node_decorator.candidate_intervals_index at 
-# @@candidate_intervals.length is used here:
-      if @candidate_intervals_index >= @@candidate_intervals.length
-#p '@candidate_intervals_index >= @@candidate_intervals.length'
-        @candidate_intervals_index += 1
-        @@node_class.capture_leaf( parent)
-      else
-#p '@candidate_intervals_index < @@candidate_intervals.length'
-        absolutes = absolutes_for_child()
-        @candidate_intervals_index += 1
-        if anything_bad?( absolutes)
-          in_parent_create_next_child( parent)
-        else
-          @@node_class.new( parent, NodeDecorator.new( absolutes))
-        end
-      end
-    end #def
-
-    private
-    def anything_bad?( absolutes)
-#p 'in GenerateChords::NodeDecorator#anything_bad?'
-      absolutes.last > @@max_highest_note ||
+    def forbear?( absolutes) # Anything bad?
+#p 'in GenerateChords::LeafDecorator#forbear?'
       any_duplicates?( absolutes, @@note_space_width) ||
-      count_space( absolutes, @@minimum_gap_interval) > @@max_gaps ||
+      absolutes.last > @@max_highest_note ||
       count_interval( absolutes, @@note_space.a_little) > @@max_minor_secondths ||
       count_interval( absolutes, @@note_space.octave_and_a_little ) > @@max_minor_ninths ||
+      count_space( absolutes, @@minimum_gap_interval) > @@max_gaps ||
       major_seconds_cluster_too_long?( absolutes_to_intervals( absolutes)) ||
       out_of_order?( absolutes)
     end
 
     private
     def interval_position( intervals, question)
-#p 'in GenerateChords::NodeDecorator#interval_position'
+#p 'in GenerateChords::LeafDecorator#interval_position'
     end
 
     private
     def major_seconds_cluster_too_long?( intervals)
-#p 'in GenerateChords::NodeDecorator#major_seconds_cluster_too_long?'
+#p 'in GenerateChords::LeafDecorator#major_seconds_cluster_too_long?'
 # After I install version 1.9 of Ruby, replace this with Enumerable's each_cons.
 #   def each_cons( a, size)
 #     (0..a.length - size).each {|i| yield a.slice(i, size)}
@@ -310,16 +268,30 @@ module GenerateChords
       result
     end
 
-    private
-    def absolutes_for_child
-#p 'in GenerateChords::NodeDecorator#absolutes_for_child'
+    public
+    def data_for_child
+#p 'in GenerateChords::LeafDecorator#data_for_child'
 #print '@absolutes '; p @absolutes
-      @absolutes.clone.push( @absolutes.last + @@candidate_intervals.at( @candidate_intervals_index))
+#print '@candidate_intervals_index '; p @candidate_intervals_index
+      @absolutes.clone.push( @absolutes.last + candidate())
+    end
+
+    public
+    def candidate
+#p 'in GenerateChords::LeafDecorator#candidate'
+      return nil if @candidate_intervals_index >= @@candidate_intervals.length
+      @@candidate_intervals.at( @candidate_intervals_index)
+    end
+
+    public
+    def next_candidate
+#p 'in GenerateChords::LeafDecorator#next_candidate'
+      @candidate_intervals_index += 1
     end
 
     private
     def dump
-#p 'in GenerateChords::NodeDecorator#dump'
+#p 'in GenerateChords::LeafDecorator#dump'
       'm9: ' + count_interval( @absolutes, @@note_space.octave_and_a_little).to_s + 
       ' ' +
       'm2: ' + count_interval( @absolutes, @@note_space.a_little).to_s + 
@@ -338,7 +310,7 @@ module GenerateChords
 =begin
     private
     def roots
-#p 'in GeneratedPrunedOrderedPostOrderNaryTree::Node#roots'
+#p 'in GeneratedPrunedOrderedPostOrderNaryTree::Leaf#roots'
       a = necklace <<= (@@note_space.octave - 1)
       high_bit = Bit::SINGLE_BIT
       roots = (0...@@note_space.octave).collect do |i|
@@ -352,7 +324,7 @@ module GenerateChords
     end #def
 =end
 
-  end #class NodeDecorator
+  end #class LeafDecorator
 #-----------------------------
   class TreeDecorator
     attr_reader :fill_chords,
@@ -362,10 +334,10 @@ module GenerateChords
           @note_space = n
 # The first bit of this index always would have the same value, '1', for the note, G2, so drop that bit.
       @fill_chords = Array.new( Bit::BIT_STATES ** (@note_space.width - Bit::BIT_WIDTH)) {[]}
-      Word.      set_fixed( @note_space)
-      Chord.     set_fixed( @note_space)
-      @fixed = NodeDecorator.set_fixed( @note_space)
-      GeneratedPrunedOrderedPostOrderNaryTree::Node.set_initial
+      Word.                  set_fixed( @note_space)
+      Chord.                 set_fixed( @note_space)
+      @fixed = LeafDecorator.set_fixed( @note_space)
+      GeneratedPrunedOrderedPostOrderNaryTree::Leaf.set_initial( LeafDecorator)
     end
 
     def walk( counts)
@@ -374,15 +346,15 @@ module GenerateChords
       [@fill_chords, counts]
     end
 
-    def handle( node)
+    def handle( leaf)
 #p 'in GenerateChords::TreeDecorator#handle'
-#print 'node.node_decorator.dump '; p node.node_decorator.dump
-# Add node to necklace root.
-      c = Chord.new( node.node_decorator.absolutes)
+#print 'leaf.leaf_decorator.dump '; p leaf.leaf_decorator.dump
+# Add leaf to necklace root.
+      c = Chord.new( leaf.leaf_decorator.absolutes)
       these = @fill_chords.at( c.fill_word)
       if these.empty?
         these.push( c)
-#print 'c.node_decorator.absolutes'; p c.node_decorator.absolutes
+#print 'c.leaf_decorator.absolutes'; p c.leaf_decorator.absolutes
 #print 'c.fill_word.to_s( 2)'; p c.fill_word.to_s( 2)
         return
       end #if
@@ -390,7 +362,9 @@ module GenerateChords
       unless bested.nil? || bested.empty?
         bested.each {|i| these.delete_at( i)} # Later, try changing this to assigning nil and compact!'ing.
         these.push( c)
-#print 'c.node_decorator.absolutes'; p c.node_decorator.absolutes
+#       raise 'these != @fill_chords.at( c.fill_word)' if these != @fill_chords.at( c.fill_word)
+#       @fill_chords[ c.fill_word] = these
+#print 'c.leaf_decorator.absolutes'; p c.leaf_decorator.absolutes
 #print 'c.fill_word.to_s( 2)'; p c.fill_word.to_s( 2)
       end #unless
     end #def
