@@ -14,14 +14,14 @@ module Main
 
     def run
 #@note_space.necklaces.each {|necklace| print 'necklace.to_s ', necklace.to_s, "\n"}
-#p 'in Main::Program#run before GenerateChords::Walker.new'
-      @walker_decorator = GenerateChords::WalkerDecorator.new( @note_space)
-      @walker = GeneratedPrunedOrderedPostOrderNaryTree::Walker.new( @walker_decorator,
-          GenerateChords::TreeDecorator.new)
-#p 'in Main::Program#run before GenerateChords::Walker#walk'
+#p 'in Main::Program#run before GenerateChords::Tree.new'
+      @tree_decorator = GenerateChords::TreeDecorator.new( @note_space)
+      @tree = GeneratedPrunedOrderedPostOrderNaryTree::Tree.new( @tree_decorator,
+      GenerateChords::NodeDecorator.initial)
+#p 'in Main::Program#run before GenerateChords::Tree#walk'
       dump_fixed()
-      @fill_chords, @counts_dump = @walker.walk
-#p 'in Main::Program#run after GenerateChords::Walker#walk'
+      @fill_chords, @counts_dump = @tree.walk
+#p 'in Main::Program#run after GenerateChords::Tree#walk'
       add_fill_chords_to_necklaces( @fill_chords)
       dump()
     end #def
@@ -42,7 +42,7 @@ module Main
     end #def
 
     def dump_fixed
-      print @walker_decorator.fixed
+      print @tree_decorator.fixed
     end
 
     def dump
@@ -64,9 +64,12 @@ print 'root_word.to_s( 2) '; p root_word.to_s( 2)
         end #each root_word
         necklace.roots.each do |chord_array|
           break if chord_array.nil?
-          chord_array.each do |chord|
+          chord_array.each do |array2|
+            array2.each do |chord|
 print 'chord.word.to_s( 2) '; p chord.word.to_s( 2)
-          end #each chord
+#print 'chord.inspect '; p chord.inspect
+            end #each chord
+          end #each array2
         end #each chord_array
       end #each necklace
 
