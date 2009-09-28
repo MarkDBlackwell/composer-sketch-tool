@@ -59,13 +59,14 @@ chord) number 4.
       @@most_significant_bit_value = note_space.most_significant_bit_value
     end
 
-    def add_rooted_chord( word, chord_array)
-#print 'word '; p word.to_s( 2)
-#print 'word '; p word
-      root_index = (0...@root_words.length).detect {|i| @root_words.at( i) == word}
-#     @roots[ @root_numbers.at( root_index)] = chord_array
+    def add_rooted_chord( unnormalized_word, chords)
+#print 'unnormalized_word ', unnormalized_word, ' '; p unnormalized_word.to_s( 2)
+#print 'chords.inspect '; p chords.inspect
+#print 'unnormalized_word '; p unnormalized_word
+      root_index = (0...@root_words.length).detect {|i| @root_words.at( i) == unnormalized_word}
+#     @roots[ @root_numbers.at( root_index)] = chords
       @roots[ root_index] = [] if @roots[ root_index].nil?
-      @roots[ root_index].push( chord_array)
+      @roots[ root_index].concat( chords)
     end #def
 
     def to_s
@@ -87,7 +88,7 @@ chord) number 4.
     end
 
     def word_to_necklace( word)
-      @necklaces.detect {|e| e.word == word}
+      @necklaces.detect {|necklace| necklace.word == word}
     end
   end #class Necklaces
 =begin
@@ -141,7 +142,7 @@ chord) number 4.
         @note_names = %w{G Ab A Bb B C C# D Eb E F F#}
         @octave = @width = @note_names.length
         @most_significant_bit_value = Bit::BIT_VALUE_1 << (@width - Bit::BIT_WIDTH)
-print '@most_significant_bit_value.to_s( 2) '; p @most_significant_bit_value.to_s( 2)
+#print '@most_significant_bit_value.to_s( 2) '; p @most_significant_bit_value.to_s( 2)
         @necklaces = Necklaces.new( self)
       end # if
     end
