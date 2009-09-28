@@ -13,6 +13,7 @@ module GenerateChords
   end #class Note
 #-----------------------------
   class Word
+#Maybe make 'each' method for the bits.
     attr_reader :value
 # Put G F# F E Eb D C# C B Bb A Ab into indices 0 11 10 9 8 7 6 5 4 3 2 1.
     def initialize( absolutes)
@@ -86,7 +87,7 @@ module GenerateChords
       @@note_space.octave_and_a_little,
 #      @@note_space.half_octave,
 #      @@note_space.octave_and_a_half,
-#      @@note_space.a_little_and_a_little,
+#      @@note_space.two_littles,
 #      @@note_space.two_and_a_third_octaves,
 #      @@note_space.third_octave_and_a_little,
       ]
@@ -212,36 +213,41 @@ module GenerateChords
     end
 
     public
-    def LeafDecorator.set_fixed( n)
+    def LeafDecorator.set_fixed( n, f)
 #p 'in GenerateChords::LeafDecorator.set_fixed'
           @@note_space = n
+          @@note_filter_out = f
       @@leaf_class = GeneratedPrunedOrderedPostOrderNaryTree::Leaf
-#      @@candidate_intervals = ((@@note_space.a_little_and_a_little...  @@note_space.octave).to_a + [
-      @@candidate_intervals = [3, 4] + [5] + (6..11).to_a + (14..23).to_a + (25..26).to_a
+      @@note_space_width = @@note_space.width
+#      @@candidate_intervals = ((@@note_space.two_littles...  @@note_space.octave).to_a + [
+#     @@candidate_intervals = [3, 4] + [5] + (6..11).to_a + (14..23).to_a + (25..26).to_a
+#     @@candidate_intervals = [3, 4] + [5] + (7..11).to_a + (14..23).to_a + (25..26).to_a
+      @@candidate_intervals = [3, 4] + [5] + (7..11).to_a + (14..18).to_a + (20..22).to_a + [25]
 #      @@note_space.octave_and_a_little, @@note_space.major_ninth, 
 # These next two are necessary for certain sparse necklaces.
 #      @@note_space.minor_sixteenth, @@note_space.major_sixteenth]).sort!
-      @@note_space_width = @@note_space.width
-#      @@max_gaps = 3
-      @@max_gaps = 1000
-      @@max_minor_secondths = 0
-      @@minimum_gap_interval = @@note_space.half_octave
-#      @@max_minor_ninths = 1 # 0
-      @@max_minor_ninths = 0
-      @@max_major_seconds_cluster = 2
-      @@major_seconds_cluster = Array.new(
-      @@max_major_seconds_cluster.succ, @@note_space.a_little_and_a_little)
 # The lowest max_highest_note with more than one chord per necklace is 14.
 # The lowest max_highest_note which fills all the chords is 35, or 39
 # The augmented chord filler takes 41 half-steps.
 #     @@max_highest_note = @@candidate_intervals.last + @@note_space.major_seventh
-      @@max_highest_note = 14 # 2 24 28 30 35 36 38 39 41 44 
+      @@max_highest_note = 41 # 2 14 24 28 30 35 36 38 39 44 
+#      @@max_gaps = 3
+      @@max_gaps = 1000
+      @@max_minor_secondths = 0
+      @@minimum_gap_interval = @@note_space.half_octave
+      @@max_tritones = 0
+#      @@max_minor_ninths = 1 # 0
+      @@max_minor_ninths = 0
+      @@max_major_seconds_cluster = 2
+      @@major_seconds_cluster = Array.new( @@max_major_seconds_cluster.succ,
+      @@note_space.two_littles)
       '@@candidate_intervals '       + @@candidate_intervals.      inspect + "\n" +
+      '@@max_highest_note '          + @@max_highest_note.         inspect + "\n" +
       '@@minimum_gap_interval '      + @@minimum_gap_interval.     inspect + "\n" +
       '@@max_gaps '                  + @@max_gaps.                 inspect + "\n" +
       '@@max_minor_secondths '       + @@max_minor_secondths.      inspect + "\n" +
+      '@@max_tritones '              + @@max_tritones.             inspect + "\n" +
       '@@max_minor_ninths '          + @@max_minor_ninths.         inspect + "\n" +
-      '@@max_highest_note '          + @@max_highest_note.         inspect + "\n" +
       '@@max_major_seconds_cluster ' + @@max_major_seconds_cluster.inspect + "\n"
     end
 
@@ -254,15 +260,23 @@ module GenerateChords
     public
     def forbear?( absolutes) # Anything bad?
 #p 'in GenerateChords::LeafDecorator#forbear?'
+#      out_of_filter?( absolutes.last) ||
+      @@note_filter_out.at( absolutes.last % @@note_space_width) || # Outside of necklaces' notes?
       any_duplicates?( absolutes, @@note_space_width) ||
       absolutes.last > @@max_highest_note ||
 #      count_interval( absolutes, @@note_space.a_little) > @@max_minor_secondths ||
+      count_interval( absolutes, @@note_space.half_octave ) > @@max_tritones ||
       count_interval( absolutes, @@note_space.octave_and_a_little ) > @@max_minor_ninths ||
 #      count_space( absolutes, @@minimum_gap_interval) > @@max_gaps ||
 #      major_seconds_cluster_too_long?( absolutes_to_intervals( absolutes)) ||
 #      out_of_order?( absolutes) ||
       false
     end
+
+#    private
+#    def out_of_filter?( last)
+#     ! @@note_filter.at( last % @@note_space_width)
+#    end
 
     private
     def interval_position( intervals, question)
@@ -276,7 +290,7 @@ module GenerateChords
 #   def each_cons( a, size)
 #     (0..a.length - size).each {|i| yield a.slice(i, size)}
 #   end
-#     cluster = Array.new( size, @@note_space.a_little_and_a_little)
+#     cluster = Array.new( size, @@note_space.two_littles)
 #     each_cons( intervals, size) {|a| (result = true; break) if cluster == a}
       size = @@major_seconds_cluster.length
       result = false
@@ -345,14 +359,14 @@ module GenerateChords
   class TreeDecorator
     attr_reader :fill_chords,
                 :fixed
-    def initialize( n)
+    def initialize( n, note_filter)
 #p 'in GenerateChords::TreeDecorator#initialize'
           @note_space = n
 # The first bit of this index always would have the same value, '1', for the note, G2, so drop that bit.
       @fill_chords = Array.new( Bit::BIT_STATES ** (@note_space.width - Bit::BIT_WIDTH)) {[]}
       Word.                  set_fixed( @note_space)
       Chord.                 set_fixed( @note_space)
-      @fixed = LeafDecorator.set_fixed( @note_space)
+      @fixed = LeafDecorator.set_fixed( @note_space, note_filter)
       GeneratedPrunedOrderedPostOrderNaryTree::Leaf.set_initial( LeafDecorator)
     end
 
