@@ -268,40 +268,39 @@ module Chord_utilities
   end
 end #module Chord_utilities
 #=========================
-module Branch_tree
+module One_branch_tree
 =begin
 Author: Mark D. Blackwell
 Date created: April 24, 2009.
-Date last changed: April 24, 2009.
+Date last changed: April 26, 2009.
 A virtual tree, using depth-first traversal; only a single branch exists at any time.
+The module, One_branch_tree_example, is part of this.
 =end
 #-----------------------------
   class Walker
-    def initialize
-      Node.set_fixed()
-      @tree = Tree.new
+    def initialize( n, tree_class)
+p 'in One_branch_tree::Walker#initialize'
+      @@node_class = n
+      @tree = tree_class.new
     end
-
     def walk
+p 'in One_branch_tree::Walker#walk'
       @tree.each {|node| handle( node)}
-      Node.print_counts()
+      @@node_class.print_counts()
     end
-
     def handle( node)
-# Subclasses will do something, here.
-      @@count += 1
+p 'in One_branch_tree::Walker#handle'
+      Node.increment_count()
     end
-
   end #class
 #-----------------------------
   class Tree
-# Subclasses should include, uncomment and perhaps change these next few lines:
-#   def initialize
-#     @first_leaf = Node.make_branch_and_return_leaf( parent = nil)
-#   end
-# (End of the lines that subclasses should include, uncomment and perhaps change.)
-
+    def initialize
+p 'should not be here in One_branch_tree::Tree#initialize'
+    end
     def each
+p 'in One_branch_tree::Tree#each'
+print '@first_leaf '; p @first_leaf
       node = @first_leaf
 # Automatic, depth-first traversal obviates explicitly navigating downward to child nodes.
       (yield node; node = node.create_sibling()) until node.nil?
@@ -309,80 +308,155 @@ A virtual tree, using depth-first traversal; only a single branch exists at any 
   end #class
 #-----------------------------
   class Node
-#   private_class_method :new # Subclasses should uncomment this line.
-   def initialize( p) # Subclasses might change these parameters.
+# Create the same class variable in this superclass as in subclasses.
+   def initialize( p)
+p 'in One_branch_tree::Node#initialize'
          @parent = p
      step_out_branch_leftward()
-# Initialize unhelpfully returns the *first* object made, by unwinding the stack, so instead use @@processing_node (see below).
+# Unhelpfully, the method, 'initialize' returns the *first* object made, by unwinding the stack,
+# so instead use @@processing_node (see below).
    end #def
-
-   def Node.make_branch_and_return_leaf(*args) # Subclasses might change these parameters.
-     new( *args)
-     @@processing_node # See comment under 'initialize', above.
-   end #def
-
     public
     def Node.set_fixed
+p 'in One_branch_tree::Node.set_fixed'
+      @@processing_node = nil
       @@count = 0
     end
-
     private
     def step_out_branch_leftward
-# Subclasses should include, uncomment and perhaps change these next few lines:
-#     until true # Subclasses change the conditions here, in order to extend the branch.
-#       next if false # And change them here.
-#       Node.make_branch_and_return_leaf( parent = self)
-#       break
-#     end #until
-## Assume that before self (this node) was created, it was checked for anything bad that would end the branch.
-#     @@processing_node = self if false # And change them here.
-# (End of the lines that subclasses should include, uncomment and perhaps change.)
+p 'in One_branch_tree::Node#step_out_branch_leftward'
       @@processing_node
     end #def
-
     public
     def create_sibling
+p 'in One_branch_tree::Node#create_sibling'
       return nil if @parent.nil?
       @parent.parent_create_next_child()
     end
-
-# Subclasses should include, uncomment and perhaps change these next few lines:
-#   protected
-#   def parent_create_next_child
-#     return create_sibling() if false # Subclasses change the conditions here, in order to swing the branch rightward.
-#     return @@processing_node = self if false # And change them here.
-#     return parent_create_next_child() if false # And change them here.
-#     Node.make_branch_and_return_leaf( parent = self)
-#   end
-# (End of the lines that subclasses should include, uncomment and perhaps change.)
-
+    public
+    def Node.increment_count
+      @@count += 1
+    end
     public
     def Node.print_counts
+p 'in One_branch_tree::Node.print_counts'
       print '@@count '; p @@count
     end
   end #class
-end #module Branch_tree
+end #module One_branch_tree
+#=========================
+module One_branch_tree_example
+#-----------------------------
+  class Walker < One_branch_tree::Walker
+    def initialize
+p 'in One_branch_tree_example::Walker#initialize'
+      Node.set_fixed()
+      super( Node, Tree)
+p 'back in One_branch_tree_example::Walker#initialize'
+    end
+    def walk
+p 'in One_branch_tree_example::Walker#walk'
+      super
+p 'back in One_branch_tree_example::Walker#walk'
+    end
+    def handle( node)
+p 'in One_branch_tree_example::Walker#handle'
+      super
+p 'back in One_branch_tree_example::Walker#handle'
+    end
+  end #class
+#-----------------------------
+  class Tree < One_branch_tree::Tree
+    def initialize
+p 'in One_branch_tree_example::Tree#initialize'
+    # super # Here, bad to call this.
+      @first_leaf = Node.make_branch_and_return_leaf( parent = nil) # Add some other parameter.
+    end
+  end #class
+#-----------------------------
+  class Node < One_branch_tree::Node
+    SIBLINGS = (1..10).to_a # For example.
+    private_class_method :new
+    def initialize( parent) # Add some other parameter.
+p 'in One_branch_tree_example::Node#initialize'
+# A value of SIBLINGS.length has special meaning; see parent_create_next_child, below.
+      @siblings_index = 0
+      super( parent)
+p 'back in One_branch_tree_example::Node#initialize'
+    end
+    public
+    def Node.set_fixed
+p 'in One_branch_tree_example::Node.set_fixed'
+      super
+    end
+   def Node.make_branch_and_return_leaf( *args)
+p 'in One_branch_tree_example::Node.make_branch_and_return_leaf'
+     new( *args)
+     @@processing_node # See comment in One_branch_tree::Node#initialize.
+   end #def
+    private
+    def step_out_branch_leftward
+p 'in One_branch_tree_example::Node#step_out_branch_leftward'
+      until @siblings_index >= SIBLINGS.length
+        subclass_condition = false
+        next if subclass_condition # And change this.
+        Node.make_branch_and_return_leaf( parent = self)
+        break
+      end #until
+# Assume that before self (this node) was created, it was checked for anything bad that would end the branch.
+      @@processing_node = self if @siblings_index >= SIBLINGS.length
+      result = super
+p 'back in One_branch_tree_example::Node#step_out_branch_leftward'
+      result
+    end #def
+    protected
+    def parent_create_next_child
+p 'in One_branch_tree_example::Node#parent_create_next_child'
+      return create_sibling() if @siblings_index > SIBLINGS.length
+# The special meaning of @siblings_index at SIBLINGS.length is used here:
+      (@siblings_index += 1; return @@processing_node = self) if SIBLINGS.length == @siblings_index
+      @siblings_index += 1
+      subclass_condition = false
+      return parent_create_next_child() if subclass_condition # And change this.
+      Node.make_branch_and_return_leaf( parent = self)
+    # super # No such superclass method.
+    end
+    private
+    def Node.print_counts
+p 'in One_branch_tree_example::Node.print_counts'
+      result = super
+p 'back in One_branch_tree_example::Node.print_counts'
+      result
+    end
+  end #class
+end #module One_branch_tree_example
 #=============================
 module Generate_chords
 #-----------------------------
-  class Walker < Branch_tree::Walker
+  class Walker < One_branch_tree::Walker
     def initialize( n)
+p 'in Generate_chords::Walker#initialize'
           @note_space = n
 # The first bit of this index always would have the same value, '1', for the note, G2, so drop that bit.
       @fill_chords = Array.new( Bit::BIT_STATES ** (@note_space.length - Bit::BIT_WIDTH)) {[]}
       Word. set_fixed( @note_space)
       Chord.set_fixed( @note_space)
       Node. set_fixed( @note_space)
-      super()
+      super( Node, Tree)
+p 'back in Generate_chords::Walker#initialize'
     end
 
     def walk
+p 'in Generate_chords::Walker#walk'
       super
+p 'back in Generate_chords::Walker#walk'
       @fill_chords
     end
 
     def handle( node)
+p 'in Generate_chords::Walker#handle'
       super
+p 'back in Generate_chords::Walker#handle'
 #print 'node.dump '; p node.dump
 #p node.dump
       c = Chord.new( node.absolutes) # Add node to necklace root.
@@ -392,14 +466,15 @@ module Generate_chords
     end #def
   end #class
 #-----------------------------
-  class Tree < Branch_tree::Tree
+  class Tree < One_branch_tree::Tree
     def initialize
-#   # super # No such superclass method.
+p 'in Generate_chords::Tree#initialize'
+    # super # Here, bad to call this.
       @first_leaf = Node.make_branch_and_return_leaf( parent = nil, absolutes = [0]) # G2, by itself.
     end
   end #class
 #-----------------------------
-  class Node < Branch_tree::Node
+  class Node < One_branch_tree::Node
     CANDIDATE_INTERVALS = ((Harmony::MAJOR_SECOND...Harmony::OCTAVE).to_a + [Harmony::MINOR_SIXTEENTH, Harmony::MAJOR_SIXTEENTH]).sort!; print 'CANDIDATE_INTERVALS '; p CANDIDATE_INTERVALS
     MINIMUM_GAP_INTERVAL = Harmony::TRITONE; print 'MINIMUM_GAP_INTERVAL '; p MINIMUM_GAP_INTERVAL
 # The augmented chord filler takes 41 half-steps.
@@ -407,6 +482,7 @@ module Generate_chords
 #   MAX_HIGHEST_NOTE = 41; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
 #   MAX_HIGHEST_NOTE = 44; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
     MAX_HIGHEST_NOTE = 24; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
+#   MAX_HIGHEST_NOTE = 2; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
     MAX_GAPS = 3; print 'MAX_GAPS '; p MAX_GAPS
     MAX_MINOR_SECOND = 0; print 'MAX_MINOR_SECOND '; p MAX_MINOR_SECOND
     MAX_MINOR_NINTH = 0; print 'MAX_MINOR_NINTH '; p MAX_MINOR_NINTH
@@ -415,22 +491,32 @@ module Generate_chords
     private_class_method :new
 
     def initialize( parent, a)
+p 'in Generate_chords::Node#initialize'
           @absolutes = a
 # A value of CANDIDATE_INTERVALS.length has special meaning; see parent_create_next_child, below.
       @candidate_intervals_index = 0
 #print 'self.dump '; p self.dump
       super( parent)
+p 'back in Generate_chords::Node#initialize'
     end #def
 
     public
     def Node.set_fixed( n)
+p 'in Generate_chords::Node.set_fixed'
+      super()
       @@note_space = n
       @@note_space_length = @@note_space.length
-      super()
     end
+
+   def Node.make_branch_and_return_leaf( *args)
+p 'in Generate_chords::Node.make_branch_and_return_leaf'
+     new( *args)
+     @@processing_node
+   end #def
 
     private
     def step_out_branch_leftward
+p 'in Generate_chords::Node#step_out_branch_leftward'
       until @candidate_intervals_index >= CANDIDATE_INTERVALS.length
         absolutes = absolutes_for_child()
         @candidate_intervals_index += 1
@@ -440,11 +526,14 @@ module Generate_chords
       end #until
 # Assume that before this node (self) was created, it was checked for anything bad.
       @@processing_node = self if @candidate_intervals_index >= CANDIDATE_INTERVALS.length
-      super
+      result = super
+p 'back in Generate_chords::Node#step_out_branch_leftward'
+      result
     end #def
 
     protected
     def parent_create_next_child
+p 'in Generate_chords::Node#parent_create_next_child'
       return create_sibling() if @candidate_intervals_index > CANDIDATE_INTERVALS.length
 # The special meaning of @candidate_intervals_index at CANDIDATE_INTERVALS.length is used here:
       (@candidate_intervals_index += 1; return @@processing_node = self) if CANDIDATE_INTERVALS.length == @candidate_intervals_index
@@ -452,17 +541,21 @@ module Generate_chords
       @candidate_intervals_index += 1
       return parent_create_next_child() if anything_bad?( absolutes)
       Node.make_branch_and_return_leaf( parent = self, absolutes)
-#   # super # No such superclass method.
+    # super # No such superclass method.
     end #def
 
     private
     def Node.print_counts
+p 'in Generate_chords::Node.print_counts'
 #print '@@count_have_minor_ninths '; p @@count_have_minor_ninths
-    super
-    end
+      result = super
+p 'back in Generate_chords::Node.print_counts'
+      result
+    end #def
 
     private
     def anything_bad?( absolutes)
+p 'in Generate_chords::Node#anything_bad?'
       absolutes.last > MAX_HIGHEST_NOTE ||
           any_duplicates?( absolutes, @@note_space_length) ||
           count_space( absolutes, MINIMUM_GAP_INTERVAL) > MAX_GAPS ||
@@ -473,11 +566,13 @@ module Generate_chords
 
     private
     def absolutes_for_child
+p 'in Generate_chords::Node#absolutes_for_child'
       @absolutes.clone.push( @absolutes.last + CANDIDATE_INTERVALS.at( @candidate_intervals_index))
     end
 
     public
     def dump
+p 'in Generate_chords::Node#dump'
       'm9: ' + count_interval( @absolutes, @@note_space.minor_ninth).to_s + 
       ' ' +
       'm2: ' + count_interval( @absolutes, @@note_space.minor_second).to_s + 
@@ -496,6 +591,7 @@ module Generate_chords
 
 =begin
     def roots
+p 'in Generate_chords::Node#roots'
       a = necklace <<= (Harmony::OCTAVE - 1)
       high_bit = Bit::SINGLE_BIT
       roots = (0...Harmony::OCTAVE).collect do |i|
@@ -527,35 +623,39 @@ module Generate_chords
   end #class
 #-----------------------------
   class Chord
-@@detail_count = 0
+    attr_reader :absolutes,
+                :fill_word,
+                :is_augmented_default,
+                :is_hand_tuned,
+                :word
+    include Chord_utilities
+
+    def initialize( a)
+          @absolutes = a
+      @word = Word.new( @absolutes).value
+# The note, G2 is ever-present, so change the most-significant bit to zero.
+      @fill_word = @word & @@mask
+print '@fill_word '; p @fill_word
+      @is_hand_tuned = false
+      @is_augmented_default = false
+    end #def
+
+    def Chord.set_fixed( note_space)
+#     @@mask = (Bit::BIT_VALUE_1 << (note_space.length - Bit::BIT_WIDTH)) - 1
+      @@mask = note_space.most_significant_bit_value - 1
+      @@detail_count = 0
+    end
 
     def breadth
       @value.last
     end
 
     def handle( beginning) # The argument is used in subclasses.
-@@detail_count += 1
+      @@detail_count += 1
     end
 
     def length
       @value.length
-    end
-    attr_reader :absolutes,
-                :fill_word,
-                :is_augmented_default,
-                :is_hand_tuned,
-                :word
-    def initialize( a)
-          @absolutes = a
-      @word = Word.new( @absolutes).value
-# The note, G2 is ever-present, so change the most-significant bit to zero.
-      @fill_word = @word & @@mask
-      @is_hand_tuned = false
-      @is_augmented_default = false
-    end #def
-
-    def Chord.set_fixed( note_space)
-      @@mask = (Bit::BIT_VALUE_1 << (note_space.length - Bit::BIT_WIDTH)) - 1
     end
 
     public
@@ -595,6 +695,7 @@ module Generate_chords
       '[' + Necklace::Normalized_chord.new( @chord).to_s + ']' +
       "\n"
     end
+
     def Chord.heading
       'chord' +
       ' - ' +
@@ -620,9 +721,9 @@ module Generate_chords
       "\n"
     end
 
-def Chord.detail_count
-@@detail_count
-end
+    def Chord.detail_count
+      @@detail_count
+    end
 
 =begin # Keep these possibly useful methods.
     def +( a)
@@ -677,6 +778,7 @@ module Generate_note_space
     def initialize( w)
           @width = w
       @good_words = (1..Bit::BIT_STATES ** @width).collect {|word| normalize( word, @width)}.sort!.uniq!
+#print '@good_words '; p @good_words
     end
 
     def each
@@ -694,14 +796,12 @@ module Generate_note_space
 
     def Necklace.set_fixed( note_space)
       @@width = note_space.length
-      @@most_significant_bit_value = Bit::BIT_VALUE_1 << (@@width - 1)
-    end
-
-    def to_s
-     '[' + (0...@@width).reject {|i| @roots.at( i).nil?}.join( ',') + ']'
+      @@most_significant_bit_value = note_space.most_significant_bit_value
     end
 
     def add_rooted_chord( word, chord)
+#print 'word '; p word.to_s( 2)
+print 'word '; p word
       w = @word
       root = (0...@@width).detect do |i|
         maybe_root = w == word
@@ -711,8 +811,14 @@ module Generate_note_space
         w |= Bit::BIT_VALUE_1 if bit
         maybe_root
       end #detect i
+      p 'root was nil ' if root.nil?
       @roots[ root] = chord
     end #def
+
+    def to_s
+#     '[' + (0...@@width).reject {|i| @roots.at( i).nil?}.join( ',') + ']'
+      @word.to_s( 2)
+    end
 
   end #class
 #-----------------------------
@@ -759,13 +865,12 @@ module Generate_note_space
     attr_reader :length,
                 :necklaces,
                 :note_names,
+                :most_significant_bit_value,
     :minor_second, :major_second, :minor_third, :major_third, :fourth, :tritone, :fifth,
     :minor_sixth, :major_sixth, :minor_seventh, :major_seventh, :octave, :minor_ninth, :major_ninth,
     :minor_tenth, :major_tenth, :minor_sixteenth, :major_sixteenth
 
     def initialize
-      @note_names = %w{G Ab A Bb B C C# D Eb E F F#}
-      @length = @octave = @note_names.length
       @minor_second, @major_second = 1, 2
       @minor_third, @major_third = 3, 4
       @fourth, @tritone, @fifth = 5, 6, 7
@@ -774,6 +879,10 @@ module Generate_note_space
       @minor_ninth, @major_ninth = 13, 14
       @minor_tenth, @major_tenth = 15, 16
       @minor_sixteenth, @major_sixteenth = 25, 26
+
+      @note_names = %w{G Ab A Bb B C C# D Eb E F F#}
+      @octave = @length = @note_names.length
+      @most_significant_bit_value = Bit::BIT_VALUE_1 << (@length - Bit::BIT_WIDTH)
       @necklaces = Necklaces.new( self)
     end
   end #class
@@ -784,12 +893,30 @@ module Main
   class Run
     def initialize
       @note_space = Generate_note_space::Note_space.new
-      @most_significant_bit_value = Bit::BIT_VALUE_1 << (@note_space.length - 1)
-
-#     @note_space.necklaces.each {|necklace| print necklace.to_s, "\n"}
-      @fill_chords = Generate_chords::Walker.new( @note_space).walk
+      @most_significant_bit_value = @note_space.most_significant_bit_value
+#@note_space.necklaces.each {|necklace| print 'necklace.to_s ', necklace.to_s, "\n"}
+p 'in Main::Run#initialize before Generate_chords::Walker.new'
+      walker_new = Generate_chords::Walker.new( @note_space)
+p 'in Main::Run#initialize before Generate_chords::Walker#walk'
+      @fill_chords = walker_new.walk
+p 'in Main::Run#initialize after Generate_chords::Walker#walk'
       add_fill_chords_to_necklaces( @fill_chords)
       dump()
+    end #def
+
+    def add_fill_chords_to_necklaces( fill_chords)
+p 'in Main::Run#add_fill_chords_to_necklaces'
+      fill_chords.each_with_index do |chord, fill_word|
+        next if fill_word.nil?
+        word = fill_word | @most_significant_bit_value
+        detected = @note_space.necklaces.word_to_necklace( word)
+if detected.nil?
+print ' detected '; p detected
+else
+print ' detected.to_s '; p detected.to_s
+end
+        detected.add_rooted_chord( word, chord) unless detected.nil?
+      end #each_with_index chord, fill_word
     end #def
 
     def dump
@@ -817,17 +944,8 @@ module Main
       print 'sum  '; p sum
     end #def
 
-    def add_fill_chords_to_necklaces( fill_chords)
-      fill_chords.each_with_index do |chord, fill_word|
-        next if fill_word.nil?
-        word = fill_word | @most_significant_bit_value
-        detected = @note_space.necklaces.word_to_necklace( word)
-print ' detected '; p detected
-        detected.add_rooted_chord( word, chord) unless detected.nil?
-      end #each_with_index chord, fill_word
-    end #def
-
   end #class
 end #module Main
 #=============================
+
 Main::Run.new
