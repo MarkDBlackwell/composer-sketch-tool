@@ -64,7 +64,8 @@ chord) number 4.
 #print 'word '; p word
       root_index = (0...@root_words.length).detect {|i| @root_words.at( i) == word}
 #     @roots[ @root_numbers.at( root_index)] = chord_array
-      @roots[ root_index] = chord_array
+      @roots[ root_index] = [] if @roots[ root_index].nil?
+      @roots[ root_index].push( chord_array)
     end #def
 
     def to_s
@@ -119,14 +120,14 @@ chord) number 4.
                 :necklaces,
                 :note_names,
                 :most_significant_bit_value,
-    :minor_second, :a_little_and_a_little, :minor_third, :major_third, :third_octave_and_a_little, :half_octave, :fifth,
+    :a_little, :a_little_and_a_little, :minor_third, :major_third, :third_octave_and_a_little, :half_octave, :fifth,
     :minor_sixth, :major_sixth, :minor_seventh, :major_seventh, :octave,
     :octave_and_a_little, :major_ninth, :minor_tenth, :major_tenth, :octave_and_a_half,
     :minor_sixteenth, :major_sixteenth, :minor_seventeenth, :two_and_a_third_octaves
 
     def initialize( length)
       if 12 == length 
-        @minor_second, @a_little_and_a_little = 1, 2
+        @a_little, @a_little_and_a_little = 1, 2
         @minor_third, @major_third = 3, 4
         @third_octave_and_a_little, @half_octave, @fifth = 5, 6, 7
         @minor_sixth, @major_sixth = 8, 9
