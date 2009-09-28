@@ -848,31 +848,37 @@ MAX_GAPS 2
 MAX_HIGHEST_NOTE 48
 @@count 456685
 =end
-  CANDIDATE_INTERVALS = (1..11).to_a
-print 'CANDIDATE_INTERVALS '; p CANDIDATE_INTERVALS
-  MINIMUM_GAP_INTERVAL = 9
-print 'MINIMUM_GAP_INTERVAL '; p MINIMUM_GAP_INTERVAL
-  MAX_GAPS = 2
-print 'MAX_GAPS '; p MAX_GAPS
-  MAX_HIGHEST_NOTE = 14
-print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
+  CANDIDATE_INTERVALS = (1..11).to_a; print 'CANDIDATE_INTERVALS '; p CANDIDATE_INTERVALS
+  MINIMUM_GAP_INTERVAL = 9; print 'MINIMUM_GAP_INTERVAL '; p MINIMUM_GAP_INTERVAL
+  MAX_GAPS = 2; print 'MAX_GAPS '; p MAX_GAPS
+  MAX_HIGHEST_NOTE = 14; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
 #-----------------------------
   class Node
-    def initialize( p, hn, nog, i)
+    @@count_minor_ninths = 0
+    @@count_have_minor_ninths = 0
+
+#   def initialize( p, hn, nog, i)
+#   def initialize( p, hn, i)
+    def initialize( p, i)
         @parent = p
-        @highest_note = hn
-        @number_of_gaps = nog
+#       @highest_note_old = hn
+#        @number_of_gaps_old = nog
         @intervals = i
       @absolutes = @intervals.inject( nil) {|memo, e| memo.nil? ? [ e] : memo.push( memo.last + e)}
       @have_notes = @intervals.inject( nil) {|memo, e| memo.nil? ? [ e % Harmony::OCTAVE] : memo.push( memo.last + e % Harmony::OCTAVE)}
 #print '@have_notes '; p @have_notes
-#     alert 'new called' if caller != Node.make_new_node
+#     alert 'new called wrongly' if caller != Node.make_new_node
       @candidate_intervals_index = 0
+#print 'self.dump '; p self.dump
       step_down_branch
     end
 
-    def Node.make_new_node( p, hn, nog, i)
-      node = Node.new( p, hn, nog, i)
+#   def Node.make_new_node( p, hn, nog, i)
+#   def Node.make_new_node( p, hn, i)
+    def Node.make_new_node( p, i)
+#     node = Node.new( p, hn, nog, i)
+#     node = Node.new( p, hn, i)
+      node = Node.new( p, i)
       @@processing_node
     end #def
 
@@ -882,11 +888,11 @@ print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
     end
 
     def dump
-      'ng: ' + @number_of_gaps.to_s +
+      'ng: ' + number_of_gaps.to_s +
       ' ' +
       'i: [' + @intervals.join(',') + ']' +
       ' ' +
-      'hn: ' + @highest_note.to_s
+      'hn: ' + highest_note.to_s
     end
 
     protected
@@ -896,31 +902,132 @@ print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
       return self if CANDIDATE_INTERVALS.length == @candidate_intervals_index
       return create_sibling if @candidate_intervals_index > CANDIDATE_INTERVALS.length
       interval = CANDIDATE_INTERVALS.at( @candidate_intervals_index)
-      highest_note = @highest_note + interval
-      return create_next_child if check_stuff( highest_note)
-      number_of_gaps = @number_of_gaps
-      if interval >= MINIMUM_GAP_INTERVAL
-        number_of_gaps += 1
-        return create_next_child if number_of_gaps > MAX_GAPS
-      end #if
-      intervals = @intervals.clone.push( interval)
-      Node.make_new_node( parent = self, highest_note, number_of_gaps, intervals)
+      try_intervals = @intervals.clone.push( interval)
+      return create_next_child if anything_bad( try_intervals)
+#     intervals = @intervals.clone.push( interval)
+#     highest_note_old = @highest_note_old + interval
+#     Node.make_new_node( parent = self, @highest_note_old + interval, number_of_gaps_old, intervals)
+#     Node.make_new_node( parent = self, @highest_note_old + interval, intervals)
+      Node.make_new_node( parent = self, try_intervals)
     end #def
+
+    def highest_note
+      @absolutes.last
+    end
+
+    def number_of_gaps
+      @intervals.find_all {|e| e >= MINIMUM_GAP_INTERVAL}.length
+    end
+
+=begin
+    def include_minor_ninth?( try_highest)
+      temp = @absolutes.include?( try_highest - Harmony::MINOR_NINTH)
+      if temp
+#        @@count_have_minor_ninths += 1 
+      end #if
+      temp
+    end
+=end
+
+    def include_minor_ninth_test?( try_highest)
+      temp = @absolutes.include?( try_highest - Harmony::MINOR_NINTH)
+      if temp
+        @@count_have_minor_ninths += 1 
+#print 'try_highest '; p try_highest
+      end #if
+      temp
+    end
+
+=begin
+    def number_of_minor_ninths( intervals)
+      count = 0
+      (0...intervals.length).each do |start|
+        sum = 0
+        (start...intervals.length).each do |e|
+          sum += e
+          if sum >= Harmony::MINOR_NINTH
+            if Harmony::MINOR_NINTH == sum
+              count += 1
+            end #if
+            break
+          end #if
+        end #each e
+      end #each start
+      if count > 0
+#       @@count_minor_ninths += 1
+      end #if
+      count
+    end #def
+=end
+
+    def number_of_minor_ninths_test( intervals)
+      count = 0
+      (0...intervals.length).each do |start_index|
+        sum = 0
+        (start_index...intervals.length).each do |i|
+#print 'sum '; p sum
+          sum += intervals.at( i)
+          if sum >= Harmony::MINOR_NINTH
+            if Harmony::MINOR_NINTH == sum
+              count += 1
+#print 'sum '; p sum
+#print 'intervals '; p intervals
+            end #if
+            break
+          end #if
+        end #each i
+      end #each start_index
+      if count > 0
+        @@count_minor_ninths += 1
+#print 'intervals.last '; p intervals.last
+#print 'count '; p count
+      end #if
+      count
+    end #def
+
+    def Node.print_counts
+print '@@count_minor_ninths '; p @@count_minor_ninths
+print '@@count_have_minor_ninths '; p @@count_have_minor_ninths
+    end
 
     private
-    def step_down_branch
-      latest_interval = CANDIDATE_INTERVALS.first
-      highest_note = @highest_note + latest_interval
-      (@@processing_node = self; return) if check_stuff( highest_note)
-      intervals = @intervals.clone.push( latest_interval)
-# Assume the first is insufficiently large to be a gap.
-      Node.make_new_node( parent = self, highest_note, @number_of_gaps, intervals)
+=begin
+    def anything_bad_old( interval)
+        try_highest = highest_note + interval
+      (interval >= MINIMUM_GAP_INTERVAL && number_of_gaps + 1 > MAX_GAPS) ||
+      try_highest > MAX_HIGHEST_NOTE ||
+      @have_notes.include?( try_highest % Harmony::OCTAVE) ||
+#      @absolutes.include?( try_highest - Harmony::MINOR_NINTH) ||
+      include_minor_ninth?( try_highest) ||
+      false
+    end #def
+=end
+
+    def anything_bad( try_intervals)
+        highest = highest_note + try_intervals.last
+
+#      include_minor_ninth_test?( highest)
+#      number_of_minor_ninths_test( try_intervals)
+
+      (try_intervals.last >= MINIMUM_GAP_INTERVAL && number_of_gaps + 1 > MAX_GAPS) ||
+      highest > MAX_HIGHEST_NOTE ||
+      @have_notes.include?( highest % Harmony::OCTAVE) ||
+#     @absolutes.include?( highest - Harmony::MINOR_NINTH) ||
+      include_minor_ninth_test?( highest) ||
+      number_of_minor_ninths_test( try_intervals) >= 1 ||
+      false
     end #def
 
-    def check_stuff( highest_note)
-      highest_note > MAX_HIGHEST_NOTE ||
-      @have_notes.include?( highest_note % Harmony::OCTAVE) ||
-      @absolutes.include?( highest_note - Harmony::MINOR_NINTH)
+    def step_down_branch
+      latest_interval = CANDIDATE_INTERVALS.first
+      try_intervals = @intervals.clone.push( CANDIDATE_INTERVALS.first)
+      (@@processing_node = self; return) if anything_bad( try_intervals)
+      intervals = @intervals.clone.push( latest_interval)
+#     highest_note_old = @highest_note_old + latest_interval
+# Assume the first is insufficiently large to be a gap.
+#     Node.make_new_node( parent = self, @highest_note_old + latest_interval, @number_of_gaps_old, intervals)
+#     Node.make_new_node( parent = self, highest_note + latest_interval, intervals)
+      Node.make_new_node( parent = self, try_intervals)
     end #def
 
   end #class
@@ -929,8 +1036,10 @@ print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
 # A virtual tree, using depth-first traversal; only a single branch exists at any one time.
     def initialize( beginning)
       intervals = beginning.inject( nil) {|memo, e| memo.nil? ? [e] : memo.push( e - memo.last)}
-      @first_leaf = Node.make_new_node( parent = nil, highest_note = beginning.last,
-      number_of_gaps = 0, intervals)
+#     @first_leaf = Node.make_new_node( parent = nil, highest_note_try = beginning.last,
+      @first_leaf = Node.make_new_node( parent = nil, 
+#     number_of_gaps_old = 0, intervals)
+      intervals)
     end #def
 
     def each
@@ -951,7 +1060,8 @@ module Harmony2
   class Read_tree
 @@count = 0
     def walk( beginnings)
-     beginnings.each {|beginning| Tree::Nodes.new( beginning).each {|node| handle( node)}}
+      beginnings.each {|beginning| Tree::Nodes.new( beginning).each {|node| handle( node)}}
+      Tree::Node.print_counts
 print '@@count '; p @@count
     end
 
