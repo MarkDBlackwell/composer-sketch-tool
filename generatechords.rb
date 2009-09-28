@@ -56,6 +56,14 @@ module GenerateChords
       @@detail_count = 0
     end
 
+    def average
+      @absolutes.inject {|memo, e| memo += e}.to_f/@absolutes.length
+    end
+
+    def second_note
+      @absolutes.at( 1)
+    end
+
     def breadth
       @absolutes.last
     end
@@ -75,21 +83,24 @@ module GenerateChords
     def <=>( other)
       interest_hierarchy = [
       @@note_space.octave_and_a_little,
-      @@note_space.half_octave,
-      @@note_space.octave_and_a_half,
-      @@note_space.a_little_and_a_little,
-      @@note_space.two_and_a_third_octaves,
-      @@note_space.third_octave_and_a_little,
+#      @@note_space.half_octave,
+#      @@note_space.octave_and_a_half,
+#      @@note_space.a_little_and_a_little,
+#      @@note_space.two_and_a_third_octaves,
+#      @@note_space.third_octave_and_a_little,
       ]
+# TO DO: use counts in more sophisticatedly weighing comparison.
       counts, other_counts = [@absolutes, other.absolutes].
       collect {|a| interest_hierarchy.collect {|e| count_interval( a, e)}}
 # 'This one is less (desirable) than the other one' means more bad intervals, etc., so reverse the sign.
       interest_hierarchy_results = (0...interest_hierarchy.length).collect {|i| - (counts.at( i) <=> other_counts.at( i))}
 # 'This one is less (desirable) than the other one' means greater breadth, so reverse the sign.
-      interest_hierarchy_results.push( - (breadth <=> other.breadth))
+      interest_hierarchy_results.push( - (breadth() <=> other.breadth()))
 #print '@fill_word.to_s( 2)', @fill_word.to_s( 2), 'other.fill_word.to_s( 2)', other.fill_word.to_s( 2),
 #'[m9 tr ot j2 j17 4 br]:', interest_hierarchy_results.inspect, 'absolutes:', leaf_decorator.absolutes.inspect,
 #'other.leaf_decorator.absolutes:', other.leaf_decorator.absolutes.inspect
+      interest_hierarchy_results.push( second_note() <=> other.second_note())
+      interest_hierarchy_results.push( average() <=> other.average())
       interest_hierarchy_results.each {|r| return r unless 0 == r}
       return 0
     end
@@ -204,23 +215,26 @@ module GenerateChords
 #p 'in GenerateChords::LeafDecorator.set_fixed'
           @@note_space = n
       @@leaf_class = GeneratedPrunedOrderedPostOrderNaryTree::Leaf
-      @@candidate_intervals = ((@@note_space.a_little_and_a_little...  @@note_space.octave).to_a + [
-      @@note_space.octave_and_a_little, @@note_space.major_ninth, 
+#      @@candidate_intervals = ((@@note_space.a_little_and_a_little...  @@note_space.octave).to_a + [
+      @@candidate_intervals = [3, 4] + [5] + (6..11).to_a + (14..23).to_a + (25..26).to_a
+#      @@note_space.octave_and_a_little, @@note_space.major_ninth, 
 # These next two are necessary for certain sparse necklaces.
-      @@note_space.minor_sixteenth, @@note_space.major_sixteenth]).sort!
+#      @@note_space.minor_sixteenth, @@note_space.major_sixteenth]).sort!
       @@note_space_width = @@note_space.width
-      @@max_gaps = 3
+#      @@max_gaps = 3
+      @@max_gaps = 1000
       @@max_minor_secondths = 0
       @@minimum_gap_interval = @@note_space.half_octave
-      @@max_minor_ninths = 1 # 0
+#      @@max_minor_ninths = 1 # 0
+      @@max_minor_ninths = 0
       @@max_major_seconds_cluster = 2
       @@major_seconds_cluster = Array.new(
       @@max_major_seconds_cluster.succ, @@note_space.a_little_and_a_little)
 # The lowest max_highest_note with more than one chord per necklace is 14.
-# The lowest max_highest_note which fills all the chords is 35.
+# The lowest max_highest_note which fills all the chords is 35, or 39
 # The augmented chord filler takes 41 half-steps.
 #     @@max_highest_note = @@candidate_intervals.last + @@note_space.major_seventh
-      @@max_highest_note = 35 # 2 14 24 30 36 39 41 44 
+      @@max_highest_note = 39 # 2 14 24 28 30 35 36 38 41 44 
       '@@candidate_intervals '       + @@candidate_intervals.      inspect + "\n" +
       '@@minimum_gap_interval '      + @@minimum_gap_interval.     inspect + "\n" +
       '@@max_gaps '                  + @@max_gaps.                 inspect + "\n" +
@@ -241,11 +255,12 @@ module GenerateChords
 #p 'in GenerateChords::LeafDecorator#forbear?'
       any_duplicates?( absolutes, @@note_space_width) ||
       absolutes.last > @@max_highest_note ||
-      count_interval( absolutes, @@note_space.a_little) > @@max_minor_secondths ||
+#      count_interval( absolutes, @@note_space.a_little) > @@max_minor_secondths ||
       count_interval( absolutes, @@note_space.octave_and_a_little ) > @@max_minor_ninths ||
-      count_space( absolutes, @@minimum_gap_interval) > @@max_gaps ||
-      major_seconds_cluster_too_long?( absolutes_to_intervals( absolutes)) ||
-      out_of_order?( absolutes)
+#      count_space( absolutes, @@minimum_gap_interval) > @@max_gaps ||
+#      major_seconds_cluster_too_long?( absolutes_to_intervals( absolutes)) ||
+#      out_of_order?( absolutes) ||
+      false
     end
 
     private
