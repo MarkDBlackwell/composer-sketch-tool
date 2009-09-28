@@ -1,6 +1,6 @@
 module ChordUtilities
   def absolutes_to_intervals( absolutes)
-    previous  = absolutes.first
+    previous = absolutes.first
     absolutes.collect {|e| result = e - previous; previous = e; result}
   end
 
@@ -17,6 +17,11 @@ module ChordUtilities
 
   def count_space( absolutes, interval)
     absolutes_to_intervals( absolutes).find_all {|e| e >= interval}.length
+  end
+
+  def intervals_to_absolutes( intervals)
+    previous = 0
+    [0] + intervals.collect {|e| previous += e}
   end
 
   def missing( absolutes, octave)
