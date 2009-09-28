@@ -59,207 +59,178 @@ Use Enumerable.
 a = All_chords.new
 a.each {|e| p e}
 =end
+#=============================
+module Harmony
+  NOTE_NAMES = %w{G Ab A Bb B C C# D Eb E F F#}
+  NOTE_NAMES_LENGTH = NOTE_NAMES.length
+#-----------------------------
+  class Chord
+    include Enumerable
+    def initialize( v)
+      @value = v
+    end
 
-NOTE_NAMES = %w{G Ab A Bb B C C# D Eb E F F#}
-#print 'NOTE_NAMES '; p NOTE_NAMES
-#print "NOTE_NAMES.join( ' ') "; p NOTE_NAMES.join( ' ')
+    def +( s)
+      @value.to_s + s
+    end #def
 
-NOTE_NAMES_LENGTH = NOTE_NAMES.length
-#print 'NOTE_NAMES_LENGTH '; p NOTE_NAMES_LENGTH
+    def each
+      @value.each {|e| yield e}
+    end
 
-#THIRDS_LENGTH = 2
-THIRDS_LENGTH = 11
-print 'THIRDS_LENGTH '; p THIRDS_LENGTH
-OCTAVE_LENGTH = THIRDS_LENGTH + 1
+    def length
+      @value.length
+    end
 
-class All_third_chord_words
-  include Enumerable
-  def each
-    (0...2 ** THIRDS_LENGTH).to_a.each do |word|
-      yield word
-    end #do
-  end #def
-end #class
+    def major_ninths_count
+      count_pairings( 14)
+    end
 
-class All_third_chords
-  include Enumerable
-  STARTING_CHORD =[ 0]
-  CW = All_third_chord_words.new
-# print 'CW '; p CW.collect {|e| e}
+    def minor_ninths_count
+      count_pairings( 13)
+    end
 
-  def each
-    CW.each do |word|
-      a = word
-      thirds = (1..THIRDS_LENGTH).collect do #11 bits.
-#       print 'a '; p a
-        bit = a & 1
-        a >>= 1
-        bit
+    def missing
+      one_octave = @value.collect {|e| e % NOTE_NAMES_LENGTH}
+      Chord.new(( 0...NOTE_NAMES_LENGTH).to_a.reject {|e| one_octave.include?( e)})
+    end
+
+    def reverse
+      Chord.new( @value.reverse)
+    end
+
+    def to_s
+      @value.collect {|note| Note.new( note).to_s}.join( ' ')
+    end
+
+    def tritones_count
+      count_pairings( 6)
+    end
+
+    def truncate( a)
+      Chord.new( @value.slice( 0...a))
+    end
+
+    private
+    def count_pairings( interval)
+      matches=@value.collect do |e1|
+        @value.find_all do |e2|
+          e1 + interval == e2
+        end #do
       end #do
-#     print 'thirds '; p thirds
-      note = STARTING_CHORD.last
-      chord = STARTING_CHORD +
-      thirds.collect do |e|
-        case e
-        when 0
-          note += 4 # Major third.
-        when 1
-          note += 3 # Minor third.
-        end #case
-        note
+      matches.flatten.length
+    end
+  end #class
+#-----------------------------
+  class Note
+    def initialize( v)
+      @value = v
+    end
+
+    def to_s
+      NOTE_NAMES.at( @value % NOTE_NAMES_LENGTH)
+    end
+  end #class
+end #module
+#=============================
+module Necklace_chords
+#-----------------------------
+  class Normalized_chord
+    def initialize( chord)
+      @value = '0' # Is stub.
+    end
+
+    def to_s
+      @value
+    end
+  end #class
+end #module
+#=============================
+module Thirds_chords
+  THIRDS_LENGTH = 11
+  OCTAVE_LENGTH = THIRDS_LENGTH + 1
+#-----------------------------
+  class All_thirds_chord_words
+    include Enumerable
+    def each
+      (0...2 ** THIRDS_LENGTH).to_a.each {|word| yield word}
+    end
+  end #class
+#-----------------------------
+  class All_thirds_chords
+    include Enumerable
+    STARTING_CHORD =[ 0]
+    CW = All_thirds_chord_words.new
+    def each
+      CW.each do |word|
+        a = word
+        thirds = (1..THIRDS_LENGTH).collect {bit = a & 1; a >>= 1; bit}
+        note = STARTING_CHORD.last
+        chord = STARTING_CHORD + thirds.collect do |e|
+          case e
+            when 0; note += 4 # Major third.
+            when 1; note += 3 # Minor third.
+          end #case
+          note
+        end #do
+        yield Harmony::Chord.new( chord)
       end #do
-#     print 'chord '; p chord
-      yield Chord.new( chord)
-    end #do
-  end #def
-end #class
+    end #def
+  end #class
+#-----------------------------
+  class Specific_length_thirds_chords
+    include Enumerable
+    def initialize( len)
+      @length = len
+    end
 
-class Chord
-  include Enumerable
-  def initialize( v)
-    @value = v
-  end #def
-
-  def +( s)
-    @value.to_s + s
-  end #def
-
-  def each
-    @value.each {|e| yield e}
-  end #def
-
-  def length
-    @value.length
-  end #def
-
-  def missing
-    a = @value.collect do |e|
-      e % NOTE_NAMES_LENGTH
-    end #do
-    b = (0...NOTE_NAMES_LENGTH).to_a.reject do |e|
-      a.include?( e)
-    end #do
-    Chord.new( b)
-  end #def
-
-  def reverse
-    Chord.new( @value.reverse)
-  end #def
-
-  def to_s
-#   print " @value "; p @value
-    a = @value.collect do |note|
-      Note.new( note).to_s
-    end #do
-#   print "a "; p a
-#   print "a.join "; p a.join
-#   print "a.join( ' ') "; p a.join( ' ')
-#   print "a.join( ' ').length "; p a.join( ' ').length
-    a.join( ' ')
-  end #def
-
-  def truncate( a)
-    b = @value.slice( 0...a)
-#   print 'b=@value.slice( 0...a) '; p @value.slice( 0...a)
-    c = Chord.new( b)
-#   print 'c '; p c
-    c
-  end #def
-end #class
-
-class Normalized_chord
-  def initialize( chord)
-    @value = '0' # Is stub.
-  end
-
-  def to_s
-    @value
-  end
-end #class
-
-class Note
-  def initialize( v)
-    @value = v
-  end
-
-  def to_s
-    NOTE_NAMES.at( @value % NOTE_NAMES_LENGTH)
-  end #def
-end #class
-
-class Print_some
-  def to_s
-    result = ''
-#   print ' Specific_length_chords.new( THIRDS_LENGTH + 1) '; p Specific_length_chords.new( THIRDS_LENGTH + 1)
-    a = Specific_length_chords.new( THIRDS_LENGTH + 1)
-    a.each do |chord|
-      result += Normalized_chord.new( chord).to_s + ' - ('
-      result += chord.missing.to_s + ') - '
-      result += chord.reverse.to_s + "\n"
-#     print 'chord '; p chord
-    end #do
-    result
-  end #def
-end #class
-
-class Specific_length_chords
-  def initialize( len)
-    @length = len
-  end
-
-  def each
-#   a = Valid_length_third_chords.new
-#   a.each {|e| p e}
-#   print 'Valid_length_third_chords.new.to_s '; p Valid_length_third_chords.new.to_s
-    a = Valid_length_third_chords.new.find_all do |chord|
-      chord.length == @length
-    end #do
-#   print 'a.length '; p a.length
-    a.each do |chord|
-      yield Chord.new( chord)
-    end #do
-  end #def
-end #class
-
-class Valid_length_third_chords
-  include Enumerable
-
-  def each
-    get.each {|e| yield e}
-  end #def
-
-  def to_s
-    a = get.collect do |e|
-      e.to_s
-    end #do
-    a
-  end #def
-
-  private
-
-  def get
-#   count =0
-    a = All_third_chords.new.collect do |chord|
-      have = Array.new( NOTE_NAMES_LENGTH, false)
-#     print ' have '; p have
-      valid_length = chord.length # Start by assuming that all notes are valid.
-      chord.each_with_index do |note, i|
-#       print 'note ', note, ' i '; p i
-#       count += 1
-#       print ' have.at( note % NOTE_NAMES_LENGTH) '; p have.at( note % NOTE_NAMES_LENGTH)
-        if have.at( note % NOTE_NAMES_LENGTH)
-          valid_length = i
-          break
-        end #if
-        have[ note % NOTE_NAMES_LENGTH] = true
+    def each
+      found = Valid_length_thirds_chords.new.find_all {|chord| chord.length == @length}
+      found.each {|chord| yield Harmony::Chord.new( chord)}
+    end
+  end #class
+#-----------------------------
+  class Valid_length_thirds_chords
+    include Enumerable
+    def initialize
+      @value = All_thirds_chords.new.collect do |chord|
+        have = Array.new( Harmony::NOTE_NAMES_LENGTH, false)
+        valid_length = chord.length # Assume the whole chord is valid.
+        chord.each_with_index do |note, i|
+          if have.at( note % Harmony::NOTE_NAMES_LENGTH)
+            valid_length = i
+            break
+          end #if
+          have[ note % Harmony::NOTE_NAMES_LENGTH] = true
+        end #do
+        chord = chord.truncate( valid_length)
       end #do
-#     print 'valid_length '; p valid_length
-      chord = chord.truncate( valid_length)
-    end #do
-#   print 'count '; p count
-    a
-  end #def
-end #class
+    end #def
 
-s = Print_some.new.to_s
-print s
+    def each
+      @value.each {|e| yield e}
+    end
+
+    def to_s
+      @value.collect {|e| e.to_s}
+    end
+  end #class
+end #module
+#=============================
+module Main
+#-----------------------------
+  class Print_some
+    def to_s
+      Thirds_chords::Specific_length_thirds_chords.new( Thirds_chords::THIRDS_LENGTH + 1).collect do |chord|
+        Necklace_chords::Normalized_chord.new( chord).to_s + ' - (' +
+        chord.missing.to_s + ') - (m9-' +
+        chord.minor_ninths_count.to_s + ' j9-' +
+        chord.major_ninths_count.to_s + ' t-' +
+        chord.tritones_count.to_s + ') - ' +
+        chord.reverse.to_s
+      end.join("\n")
+    end
+  end #class
+#-----------------------------
+  print Print_some.new.to_s
+end #module
