@@ -62,7 +62,6 @@ a.each {|e| p e}
 #=============================
 module Harmony
   NOTE_NAMES = %w{G Ab A Bb B C C# D Eb E F F#}
-  NOTE_NAMES_LENGTH = NOTE_NAMES.length
 #-----------------------------
   class Chord
     include Enumerable
@@ -70,8 +69,8 @@ module Harmony
       @value = v
     end
 
-    def +( s)
-      @value.to_s + s
+    def +( a)
+      Chord.new( @value + a.value)
     end #def
 
     def each
@@ -91,12 +90,12 @@ module Harmony
     end
 
     def missing
-      one_octave = @value.collect {|e| e % NOTE_NAMES_LENGTH}
-      Chord.new(( 0...NOTE_NAMES_LENGTH).to_a.reject {|e| one_octave.include?( e)})
+      one_octave = @value.collect {|e| e % NOTE_NAMES.length}
+      Chord.new(( 0...NOTE_NAMES.length).to_a.reject {|e| one_octave.include?( e)})
     end
 
-    def reverse
-      Chord.new( @value.reverse)
+    def breadth
+      @value.value.last
     end
 
     def to_s
@@ -107,8 +106,12 @@ module Harmony
       count_pairings( 6)
     end
 
-    def truncate( a)
+    def take( a)
       Chord.new( @value.slice( 0...a))
+    end
+
+    def value
+      @value
     end
 
     private
@@ -119,7 +122,7 @@ module Harmony
         end #do
       end #do
       matches.flatten.length
-    end
+    end #def
   end #class
 #-----------------------------
   class Note
@@ -128,9 +131,20 @@ module Harmony
     end
 
     def to_s
-      NOTE_NAMES.at( @value % NOTE_NAMES_LENGTH)
+      NOTE_NAMES.at( @value % NOTE_NAMES.length)
     end
   end #class
+#-----------------------------
+#  class Note_from_name
+#    def initialize( n)
+#      @note_name = n
+#    end
+
+#    def number
+#      NOTE_NAMES.index( @note_name)
+#    end
+#  end #class
+
 end #module
 #=============================
 module Necklace_chords
@@ -147,26 +161,31 @@ module Necklace_chords
 end #module
 #=============================
 module Thirds_chords
-  THIRDS_LENGTH = 11
-  OCTAVE_LENGTH = THIRDS_LENGTH + 1
 #-----------------------------
   class All_thirds_chord_words
     include Enumerable
+    def initialize( tl)
+      @thirds_length = tl
+    end
+
     def each
-      (0...2 ** THIRDS_LENGTH).to_a.each {|word| yield word}
+      (0...2 ** @thirds_length).to_a.each {|word| yield word}
     end
   end #class
 #-----------------------------
   class All_thirds_chords
     include Enumerable
-    STARTING_CHORD =[ 0]
-    CW = All_thirds_chord_words.new
+    def initialize( cb, tl)
+      @chord_beginning = cb
+      @thirds_length = tl
+    end
+
     def each
-      CW.each do |word|
+      All_thirds_chord_words.new( @thirds_length).each do |word|
         a = word
-        thirds = (1..THIRDS_LENGTH).collect {bit = a & 1; a >>= 1; bit}
-        note = STARTING_CHORD.last
-        chord = STARTING_CHORD + thirds.collect do |e|
+        thirds = (1..@thirds_length).collect {bit = a & 1; a >>= 1; bit}
+        note = @chord_beginning.last
+        chord = @chord_beginning + thirds.collect do |e|
           case e
             when 0; note += 4 # Major third.
             when 1; note += 3 # Minor third.
@@ -180,30 +199,33 @@ module Thirds_chords
 #-----------------------------
   class Specific_length_thirds_chords
     include Enumerable
-    def initialize( len)
-      @length = len
+    def initialize( cb, tl)
+      @chord_beginning = cb
+      @thirds_length = tl
     end
 
     def each
-      found = Valid_length_thirds_chords.new.find_all {|chord| chord.length == @length}
+      found = Valid_length_thirds_chords.new( @chord_beginning, @thirds_length).find_all {|chord| chord.length == @chord_beginning.length + @thirds_length}
       found.each {|chord| yield Harmony::Chord.new( chord)}
     end
   end #class
 #-----------------------------
   class Valid_length_thirds_chords
     include Enumerable
-    def initialize
-      @value = All_thirds_chords.new.collect do |chord|
-        have = Array.new( Harmony::NOTE_NAMES_LENGTH, false)
+    def initialize( cb, tl)
+      @chord_beginning = cb
+      @thirds_length = tl
+      @value = All_thirds_chords.new( @chord_beginning, @thirds_length).collect do |chord|
+        have = Array.new( Harmony::NOTE_NAMES.length, false)
         valid_length = chord.length # Assume the whole chord is valid.
         chord.each_with_index do |note, i|
-          if have.at( note % Harmony::NOTE_NAMES_LENGTH)
+          if have.at( note % Harmony::NOTE_NAMES.length)
             valid_length = i
             break
           end #if
-          have[ note % Harmony::NOTE_NAMES_LENGTH] = true
+          have[ note % Harmony::NOTE_NAMES.length] = true
         end #do
-        chord = chord.truncate( valid_length)
+        chord = chord.take( valid_length)
       end #do
     end #def
 
@@ -219,18 +241,250 @@ end #module
 #=============================
 module Main
 #-----------------------------
+  class Chord_beginnings
+    CHORD_BEGINNINGS =[ # G, followed by:
+[ 0, 11, 13, 19], # F# Ab D
+[ 0, 11, 13, 15], # F# Ab Bb
+[ 0, 11], # F#
+
+[ 0, 10, 15], # F Bb
+[ 0, 10, 13, 15], # F Ab Bb
+[ 0, 10], # F
+
+[ 0, 9, 15], # E Bb
+[ 0, 9, 11, 19, 20, 22], # E F# D Eb F (U)
+[ 0, 9, 11, 19, 20], # E F# D Eb (U)
+[ 0, 9, 11, 19], # E F# D (U)
+[ 0, 9, 11, 14, 16], # E F# A B (U)
+[ 0, 9, 11, 13, 19], # E F# Ab D
+[ 0, 9, 11, 13, 15], # E F# Ab Bb (U)
+[ 0, 9, 11], # E F# (U)
+[ 0, 9], # E
+
+[ 0, 8, 19], # Eb D
+[ 0, 8, 15], # Eb Bb
+[ 0, 8, 13, 19], # Eb Ab D
+[ 0, 8, 13, 15], # Eb Ab Bb
+[ 0, 8, 13], # Eb Ab
+[ 0, 8, 11, 19], # Eb F# D (U)
+[ 0, 8, 11, 17, 19], # Eb F# C D (U)
+[ 0, 8, 11, 17], # Eb F# C (U)
+[ 0, 8, 11, 16], # Eb F# B (U)
+[ 0, 8, 11, 13, 19], # Eb F# Ab D
+[ 0, 8, 11, 13, 18], # Eb F# Ab C# (U)
+[ 0, 8, 11, 13, 15], # Eb F# Ab Bb (U)
+[ 0, 8, 11, 13], # Eb F# Ab
+[ 0, 8], # Eb (U)
+
+[ 0, 7, 11, 17], # D F# C (U)
+[ 0, 7, 11, 13, 15], # D F# Ab Bb (U)
+[ 0, 7, 11, 13], # D F# Ab (U)
+[ 0, 7, 10, 16, 18], # D F B C# (U)
+[ 0, 7, 10, 16], # D F B (U)
+[ 0, 7, 9, 11, 18], # D E F# C# (U)
+[ 0, 7, 9, 11, 15, 20, 22], # D E F# Bb Eb F (U)
+[ 0, 7, 9, 11, 15, 20], # D E F# Bb Eb (U)
+[ 0, 7, 9, 11, 14, 16], # D E F# A B (U)
+[ 0, 7, 9, 11, 13, 15], # D E F# Ab Bb (U)
+[ 0, 7, 9, 11, 13], # D E F# Ab (U)
+[ 0, 7, 9, 11], # D E F# (U)
+[ 0, 7, 9], # D E (U)
+[ 0, 7], # D (U)
+
+[ 0, 6, 10, 14, 15, 17], # C# F A Bb C (U)
+[ 0, 6, 10, 14, 15], # C# F A Bb (U)
+[ 0, 6, 9, 14, 16, 17], # C# E A B C (U)
+[ 0, 6, 9, 14, 16], # C# E A B (U)
+[ 0, 6, 9, 14], # C# E A (U)
+[ 0, 6, 9, 11], # C# E F# (U)
+[ 0, 6, 8, 10], # C# Eb F (U)
+[ 0, 6, 8], # C# Eb (U)
+[ 0, 6], # C# (U)
+
+[ 0, 5, 15], # C Bb
+[ 0, 5, 13, 19], # C Ab D
+[ 0, 5, 13, 15], # C Ab Bb
+[ 0, 5, 13], # C Ab
+[ 0, 5, 11, 14, 16], # C F# A B (U)
+[ 0, 5, 11, 13, 19], # C F# Ab D
+[ 0, 5, 11, 13, 15], # C F# Ab Bb
+[ 0, 5, 11, 13], # C F# Ab
+[ 0, 5, 11], # C F# (U)
+[ 0, 5, 9, 16, 19, 20], # C E B D Eb (U)
+[ 0, 5, 9, 16], # C E B (U)
+[ 0, 5, 9, 15], # C E Bb
+[ 0, 5, 9, 14, 16, 18], # C E A B C# (U)
+[ 0, 5, 9, 14, 16], # C E A B (U)
+[ 0, 5, 9, 14], # C E A (U)
+[ 0, 5, 9, 13, 19], # C E Ab D
+[ 0, 5, 9, 13, 15], # C E Ab Bb
+[ 0, 5, 9, 11, 13, 19], # C E F# Ab D
+[ 0, 5, 9, 11, 13, 15], # C E F# Ab Bb (U)
+[ 0, 5, 9, 11, 13], # C E F# Ab
+[ 0, 5, 9, 11], # C E F#
+[ 0, 5, 8, 16], # C Eb B (U)
+[ 0, 5, 8, 15], # C Eb Bb
+[ 0, 5, 8, 13, 19], # C Eb Ab D
+[ 0, 5, 8, 13, 15], # C Eb Ab Bb (U)
+[ 0, 5, 8, 13], # C Eb Ab
+[ 0, 5, 8, 10, 15], # C Eb F Bb (U)
+[ 0, 5, 8, 10], # C Eb F (U)
+[ 0, 5, 7, 15], # C D Bb
+[ 0, 5, 7, 13, 19], # C D Ab D
+[ 0, 5, 7, 13, 15], # C D Ab Bb
+[ 0, 5, 7, 13], # C D Ab
+[ 0, 5, 7, 11, 13, 19], # C D F# Ab D
+[ 0, 5, 7, 11, 13, 15], # C D F# Ab Bb
+[ 0, 5, 7, 11, 13], # C D F# Ab
+[ 0, 5, 7], # C D (U)
+[ 0, 5], # C (U)
+
+[ 0, 4, 15], # B Bb
+[ 0, 4, 13, 15], # B Ab Bb (U)
+[ 0, 4, 11, 14, 15], # B F# A Bb (U)
+[ 0, 4, 11, 13, 19], # B F# Ab D
+[ 0, 4, 11, 13, 15], # B F# Ab Bb (U)
+[ 0, 4, 11, 13], # B F# Ab (U)
+[ 0, 4, 11], # B F# (U)
+[ 0, 4, 10, 13, 15], # B F Ab Bb (U)
+[ 0, 4, 10], # B F (U)
+[ 0, 4, 9, 15], # B E Bb (U)
+[ 0, 4, 9, 13, 19], # B E Ab D
+[ 0, 4, 9, 13, 15], # B E Ab Bb (U)
+[ 0, 4, 9, 11, 13, 15], # B E F# Ab Bb (U)
+[ 0, 4, 9, 11], # B E F# (U)
+[ 0, 4, 8, 15], # B Eb Bb (U)
+[ 0, 4, 8, 13, 19], # B Eb Ab D
+[ 0, 4, 8, 13, 15], # B Eb Ab Bb
+[ 0, 4, 8, 13], # B Eb Ab
+[ 0, 4, 8, 11, 13, 15], # B Eb F# Ab Bb (U)
+[ 0, 4, 8, 11, 13], # B Eb F# Ab
+[ 0, 4, 8, 10], # B Eb F (U)
+[ 0, 4, 7, 15], # B D Bb (U)
+[ 0, 4, 7, 14], # B D A (U)
+[ 0, 4, 7, 13, 15, 17], # B D Ab Bb C (U)
+[ 0, 4, 7, 13, 15], # B D Ab Bb (U)
+[ 0, 4, 7, 13], # B D Ab (U)
+
+[ 0, 3, 13], # Bb Ab
+[ 0, 3, 11], # Bb F# (U)
+[ 0, 3, 9, 11], # Bb E F# (U)
+[ 0, 3, 9], # Bb E (U)
+[ 0, 3, 8, 13, 19], # Bb Eb Ab D
+[ 0, 3, 8, 13], # Bb Eb Ab
+[ 0, 3, 8, 11, 13], # Bb Eb F# Ab
+[ 0, 3, 8, 10], # Bb Eb F
+[ 0, 3, 8], # Bb Eb
+[ 0, 3, 7, 13], # Bb D Ab
+[ 0, 3, 7, 11, 13], # Bb D F# Ab
+[ 0, 3, 7, 9], # Bb D E
+[ 0, 3, 6, 14], # Bb C# A (U)
+
+[ 0, 2, 11], # A F#
+[ 0, 2], # A
+
+[ 0], # Just G (U)
+#[ 0, 3], [ 0, 4], # Test of the 'do not need this chord' message functionality.
+]
+    def initialize
+      @chord_beginnings = partly_generable? ? [] : CHORD_BEGINNINGS
+    end
+
+    def each
+      @chord_beginnings.each {|e| yield e}
+    end
+
+    private
+    def partly_generable?
+      thirds =[ 3, 4]
+      result = false
+      CHORD_BEGINNINGS.each do |cb|
+        (result = true; p 'Do not need this chord:', cb) if cb.length >= 2 and
+                             thirds.include?( cb.last - cb[ cb.length - 2]) # Last interval.
+      end #do
+      result
+    end #def
+  end #class
+#-----------------------------
   class Print_some
+    def initialize( cb, tl)
+      @chord_beginning = cb
+      @thirds_length = tl
+    end
+
     def to_s
-      Thirds_chords::Specific_length_thirds_chords.new( Thirds_chords::THIRDS_LENGTH + 1).collect do |chord|
-        Necklace_chords::Normalized_chord.new( chord).to_s + ' - (' +
-        chord.missing.to_s + ') - (m9-' +
-        chord.minor_ninths_count.to_s + ' j9-' +
-        chord.major_ninths_count.to_s + ' t-' +
-        chord.tritones_count.to_s + ') - ' +
-        chord.reverse.to_s
-      end.join("\n")
+      s = Thirds_chords::Specific_length_thirds_chords.new( @chord_beginning, @thirds_length).collect do |chord|
+        '[' + @chord_beginning.join(',') + ']' +
+        ' - ' +
+        '(' +
+        'm9-' + chord.minor_ninths_count.to_s +
+        ' ' +
+        'j9-' + chord.major_ninths_count.to_s +
+        ' ' +
+        't-' + chord.tritones_count.to_s +
+        ' ' +
+        's-' + chord.breadth.to_s +
+        ')' +
+        ' - ' +
+        '(' + chord.missing.to_s + ')' +
+        ' - ' +
+        '(' + Necklace_chords::Normalized_chord.new( chord).to_s + ')' +
+        ' - ' +
+        chord.to_s +
+        ''
+      end.join("\n") + "\n"
+      "\n" == s ? '' : s
     end
   end #class
 #-----------------------------
-  print Print_some.new.to_s
+  class Mathematical_format
+    def initialize( cb, tl)
+      @chord_beginning = cb
+      @thirds_length = tl
+    end
+
+    def print_me
+      print Print_some.new( @chord_beginning, @thirds_length).to_s
+    end
+  end #class
+#-----------------------------
+  class Main_do
+    OCTAVE_LENGTH = 12
+    def run
+      Chord_beginnings.new.each do |cb|
+        (OCTAVE_LENGTH - cb.length).downto( 0) do |thirds_length|
+          Mathematical_format.new( cb, thirds_length).print_me
+        end
+      end
+    end
+  end #class
+#-----------------------------
+  Main_do.new.run
 end #module
+
+=begin
+class gaps
+Chord length not extended, only gaps intruduced.
+If 11 thirds, then 10 places for gaps; excludes G.
+Not shortening on the right, high-pitch, side.
+Thus, not the last note, either, thus 9 places to put gaps.
+Experience shows that 2-space gaps are the biggest found.
+Minor thirds need not be accommodated --yes, they do, in order to cut different notes.
+3-space gaps accommodate diminished chords, like G Bb C# E Ab becomes G _ _ _ Ab.
+Experience shows 4 total spaces are the most meeded.
+How many combinations are there of 4 drawn from 9 things?
+Permutations of 9 is 9!; permutations of 4 is 4!.
+Permutations of 4 drawn from 9 is 9!/(9-4)! = 9!/5!.
+9 first choices, ... 6 fourth choices.
+Number of permutations of these 4 is 4!, so, to get the number of combinations of these 4, divide by 4!.
+So, 9!/(5!x4!) = 9x8x7x6/(4x3x2) = 3x7x6 = 9x2x7 = 2x3**2x7 =2x63 = 126.
+Combinations of 5 drawn from 9 is 9!/((9-5)!x5!), also 126.
+Of 6, 9!/((9-6)!x6!) = 9x8x7/(3x2) = 3x4x7 =84.
+Need all from none up through 5.
+Might as well do 512, removing ones that have too many spaces or too long stretches of gap.
+Shift a bit word, looking for 4-space gaps (=15) and for more than 4 total 1-bits.
+Generate gap words (10 bits = thirds_length - 1).
+Shift through, checking 4-bit groupings and 1-bits.
+Keep the good ones.
+Keep and apply to all the thirds-length (=11) chords.
+=end
