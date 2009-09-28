@@ -128,12 +128,20 @@ module Harmony
   MAJOR_SECOND = 2
   MINOR_THIRD = 3
   MAJOR_THIRD = 4
+  FOURTH = 5
   TRITONE = 6
+  FIFTH = 7
+  MINOR_SIXTH = 8
   MAJOR_SIXTH = 9
   MINOR_SEVENTH = 10
+  MAJOR_SEVENTH = 11
   OCTAVE = NOTE_NAMES.length
   MINOR_NINTH = 13
   MAJOR_NINTH = 14
+  MINOR_TENTH = 15
+  MAJOR_TENTH = 16
+  MINOR_SIXTEENTH = 25
+  MAJOR_SIXTEENTH = 26
   BEGINNINGS =[ # G, followed by:
 #-----11-----------------------F#
 #[ 0, 11, 13, 19], # F# Ab D - (Gap covers.)
@@ -648,240 +656,6 @@ print 'Chord.detail_count '; p Chord.detail_count
   end #class
 end #module
 #=============================
-module Fill_chords
-#print ' '; p 
-
-=begin
-CANDIDATE_INTERVALS = (1..11).to_a
-MINIMUM_GAP_INTERVAL = 3
-MAX_GAPS = 3
-MAX_HIGHEST_NOTE = 10
-nog count
-0 232
-1 568
-2 216
-3 8
-all 1024
-439 node.dump "nog: 3 i: [0,1,3,3,3] hn: 10"
-823 node.dump "nog: 3 i: [0,3,1,3,3] hn: 10"
-871 node.dump "nog: 3 i: [0,3,3,1,3] hn: 10"
-877 node.dump "nog: 3 i: [0,3,3,3,1] hn: 10"
-878 node.dump "nog: 3 i: [0,3,3,3] hn: 9"
-879 node.dump "nog: 3 i: [0,3,3,4] hn: 10"
-887 node.dump "nog: 3 i: [0,3,4,3] hn: 10"
-951 node.dump "nog: 3 i: [0,4,3,3] hn: 10"
-#-----------------------------
-CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MINIMUM_GAP_INTERVAL 9
-MAX_HIGHEST_NOTE 24
-MAX_GAPS 2
-MAX_MINOR_SECOND 0
-MAX_MINOR_NINTH 0
-@@count 2324
-
-CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MINIMUM_GAP_INTERVAL 9
-MAX_HIGHEST_NOTE 36
-MAX_GAPS 2
-MAX_MINOR_SECOND 0
-MAX_MINOR_NINTH 0
-@@count 58181
-
-CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MINIMUM_GAP_INTERVAL 9
-MAX_HIGHEST_NOTE 48
-MAX_GAPS 2
-MAX_MINOR_SECOND 0
-MAX_MINOR_NINTH 0
-@@count 530446
-
-CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MINIMUM_GAP_INTERVAL 10
-MAX_HIGHEST_NOTE 24
-MAX_GAPS 2
-MAX_MINOR_SECOND 0
-MAX_MINOR_NINTH 0
-@@count 2324
-
-CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MINIMUM_GAP_INTERVAL 10
-MAX_HIGHEST_NOTE 36
-MAX_GAPS 2
-MAX_MINOR_SECOND 0
-MAX_MINOR_NINTH 0
-@@count 58425
-
-=end
-  CANDIDATE_INTERVALS = (Harmony::MINOR_SECOND...Harmony::OCTAVE).to_a; print 'CANDIDATE_INTERVALS '; p CANDIDATE_INTERVALS
-  MINIMUM_GAP_INTERVAL = Harmony::MAJOR_SIXTH; print 'MINIMUM_GAP_INTERVAL '; p MINIMUM_GAP_INTERVAL
-#  MINIMUM_GAP_INTERVAL = Harmony::MINOR_SEVENTH; print 'MINIMUM_GAP_INTERVAL '; p MINIMUM_GAP_INTERVAL
-  MAX_HIGHEST_NOTE = 24; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
-  MAX_GAPS = 2; print 'MAX_GAPS '; p MAX_GAPS
-  MAX_MINOR_SECOND = 0; print 'MAX_MINOR_SECOND '; p MAX_MINOR_SECOND
-  MAX_MINOR_NINTH = 0; print 'MAX_MINOR_NINTH '; p MAX_MINOR_NINTH
-
-#-----------------------------
-  class Node
-    private_class_method :new
-    public
-    def Node.make_branch_and_return_leaf( *args)
-      node = new( *args)
-      @@processing_node
-    end #def
-
-    def initialize( p, a) # Returns the *first* object made, by unwinding the stack.
-      @parent = p
-      @absolutes = a
-# A value of CANDIDATE_INTERVALS.length has a special meaning; see parent_create_next_child, below.
-      @candidate_intervals_index = 0
-#print 'self.dump '; p self.dump
-      step_down_branch_tending_left
-    end #def
-
-    private
-    def step_down_branch_tending_left
-      until @candidate_intervals_index >= CANDIDATE_INTERVALS.length
-        next_on_branch_absolutes = child_absolutes
-        @candidate_intervals_index += 1
-        next if anything_bad?( next_on_branch_absolutes)
-        Node.make_branch_and_return_leaf( parent = self, next_on_branch_absolutes)
-        break
-      end #until
-# Assume that before this node (self) was created, it was checked for anything bad.
-      @@processing_node = self if @candidate_intervals_index >= CANDIDATE_INTERVALS.length
-      @@processing_node
-    end #def
-
-    public
-    def create_sibling
-      return nil if @parent.nil?
-      @parent.parent_create_next_child
-    end
-
-    protected
-    def parent_create_next_child
-      return create_sibling if @candidate_intervals_index > CANDIDATE_INTERVALS.length
-# The special meaning of @candidate_intervals_index at CANDIDATE_INTERVALS.length is used here:
-      (@candidate_intervals_index += 1; return @@processing_node = self) if CANDIDATE_INTERVALS.length == @candidate_intervals_index
-      next_absolutes = child_absolutes
-      @candidate_intervals_index += 1
-      return parent_create_next_child if anything_bad?( next_absolutes)
-      Node.make_branch_and_return_leaf( parent = self, next_absolutes)
-    end #def
-
-    private
-    def absolutes_to_intervals( absolutes)
-      previous  = absolutes.first
-      intervals = absolutes.collect {|e| result = e - previous; previous = e; result}
-    end
-
-    private
-    def any_duplicates?( absolutes)
-      have_note = Array.new( Harmony::OCTAVE).fill( false)
-      absolutes.any? {|e| already = have_note.at( e % Harmony::OCTAVE)
-                                    have_note[    e % Harmony::OCTAVE] = true; already}
-    end
-
-    private
-    def anything_bad?( absolutes)
-      absolutes.last > MAX_HIGHEST_NOTE ||
-          any_duplicates?( absolutes) ||
-          count_gaps( absolutes) > MAX_GAPS ||
-          count_interval( absolutes, Harmony::MINOR_SECOND) > MAX_MINOR_SECOND ||
-          count_interval( absolutes, Harmony::MINOR_NINTH) > MAX_MINOR_NINTH ||
-          out_of_order?( absolutes)
-    end #def
-
-    private
-    def child_absolutes
-      @absolutes.clone.push( @absolutes.last + CANDIDATE_INTERVALS.at( @candidate_intervals_index))
-    end
-
-    private
-    def count_gaps( absolutes)
-      absolutes_to_intervals( absolutes).find_all {|e| e >= MINIMUM_GAP_INTERVAL}.length
-    end
-
-    private
-    def count_interval( absolutes, interval)
-      count = 0
-      (0...absolutes.length).each do |left_index|
-        left = absolutes.at( left_index)
-        (left_index + 1...absolutes.length).each do |right_index|
-          difference = absolutes.at( right_index) - left
-          count += 1 if difference == interval
-          break if difference >= interval # Assume absolutes are sorted.
-        end #each right_index
-      end #each left_index
-      count
-    end #def
-
-    private
-    def out_of_order?( absolutes)
-      absolutes.sort != absolutes
-    end
-
-    public
-    def dump
-      'm9: ' + count_interval( @absolutes, Harmony::MINOR_NINTH).to_s + 
-      ' ' +
-      'm2: ' + count_interval( @absolutes, Harmony::MINOR_SECOND).to_s + 
-      ' ' +
-      'tt: ' + count_interval( @absolutes, Harmony::TRITONE).to_s + 
-      ' ' +
-      'ng: ' + count_gaps( @absolutes).to_s +
-      ' ' +
-      'j9: ' + count_interval( @absolutes, Harmony::MAJOR_NINTH).to_s + 
-      ' ' +
-      'hn: ' + (highest_note = @absolutes.last).to_s +
-      ' ' +
-      'i: [' + absolutes_to_intervals( @absolutes).join(',') + ']' +
-      ''
-    end
-
-    private
-    def Node.print_counts
-#print '@@count_have_minor_ninths '; p @@count_have_minor_ninths
-    end
-
-  end #class
-#-----------------------------
-  class Tree
-# A virtual tree, using depth-first traversal; only a single branch exists at any time.
-    def initialize
-      @first_leaf = Node.make_branch_and_return_leaf( parent = nil, absolutes = [0])
-    end
-
-    def each
-# Here, automatic, depth-first traversal means never explicitly navigating downward to child nodes.
-      node = @first_leaf
-      until node.nil?
-        yield node
-        node = node.create_sibling
-      end #until
-    end #def
-
-  end #class
-end #module
-#=============================
-module Harmony2
-#-----------------------------
-  class Granularity
-@@count = 0
-    def walk
-      Fill_chords::Tree.new.each {|node| handle( node)}
-      Fill_chords::Node.print_counts
-print '@@count '; p @@count
-    end
-
-    def handle( node)
-@@count += 1
-#print 'node.dump '; p node.dump
-#p node.dump
-    end
-  end #class
-end #module
-#=============================
 module Gap
   MAX_GAPS = 5
 #-----------------------------
@@ -1013,15 +787,324 @@ module Third
 end #module
 #=============================
 module Bit
+  BIT_WIDTH = 1
   SINGLE_BIT = 1
   BIT_STATES = 2
   BIT_VALUE_0 = 0
   BIT_VALUE_1 = 1
 end #module
 #=============================
-module Necklace
+=begin
+CANDIDATE_INTERVALS = (1..11).to_a
+MINIMUM_GAP_INTERVAL = 3
+MAX_GAPS = 3
+MAX_HIGHEST_NOTE = 10
+nog count
+0 232
+1 568
+2 216
+3 8
+all 1024
+439 node.dump "nog: 3 i: [0,1,3,3,3] hn: 10"
+823 node.dump "nog: 3 i: [0,3,1,3,3] hn: 10"
+871 node.dump "nog: 3 i: [0,3,3,1,3] hn: 10"
+877 node.dump "nog: 3 i: [0,3,3,3,1] hn: 10"
+878 node.dump "nog: 3 i: [0,3,3,3] hn: 9"
+879 node.dump "nog: 3 i: [0,3,3,4] hn: 10"
+887 node.dump "nog: 3 i: [0,3,4,3] hn: 10"
+951 node.dump "nog: 3 i: [0,4,3,3] hn: 10"
 #-----------------------------
-  class All_words
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 9
+MAX_HIGHEST_NOTE 24
+MAX_GAPS 2
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 2324
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 9
+MAX_HIGHEST_NOTE 36
+MAX_GAPS 2
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 58181
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 9
+MAX_HIGHEST_NOTE 48
+MAX_GAPS 2
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 530446
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 10
+MAX_HIGHEST_NOTE 24
+MAX_GAPS 2
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 2324
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 10
+MAX_HIGHEST_NOTE 36
+MAX_GAPS 2
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 58425
+=end
+module Generate_chords
+  CANDIDATE_INTERVALS = ((Harmony::MINOR_SECOND...Harmony::OCTAVE).to_a + [Harmony::MINOR_SIXTEENTH, Harmony::MAJOR_SIXTEENTH]).sort!; print 'CANDIDATE_INTERVALS '; p CANDIDATE_INTERVALS
+  MINIMUM_GAP_INTERVAL = Harmony::TRITONE; print 'MINIMUM_GAP_INTERVAL '; p MINIMUM_GAP_INTERVAL
+# The augmented chord filler takes 41 half-steps.
+  MAX_HIGHEST_NOTE = CANDIDATE_INTERVALS.last + Harmony::MAJOR_SEVENTH; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
+  MAX_GAPS = 3; print 'MAX_GAPS '; p MAX_GAPS
+  MAX_MINOR_SECOND = 0; print 'MAX_MINOR_SECOND '; p MAX_MINOR_SECOND
+  MAX_MINOR_NINTH = 0; print 'MAX_MINOR_NINTH '; p MAX_MINOR_NINTH
+#-----------------------------
+  class Node
+    attr_reader :absolutes
+    private_class_method :new
+    def initialize( p, a) # Returns the *first* object made, by unwinding the stack.
+      @parent = p
+      @absolutes = a
+# A value of CANDIDATE_INTERVALS.length has special meaning; see parent_create_next_child, below.
+      @candidate_intervals_index = 0
+#print 'self.dump '; p self.dump
+      step_down_branch_leftward()
+    end #def
+
+    public
+    def Node.make_branch_and_return_leaf( *args)
+      new( *args)
+      @@processing_node
+    end #def
+
+    private
+    def step_down_branch_leftward
+      until @candidate_intervals_index >= CANDIDATE_INTERVALS.length
+        absolutes = absolutes_for_child()
+        @candidate_intervals_index += 1
+        next if anything_bad?( absolutes)
+        Node.make_branch_and_return_leaf( parent = self, absolutes)
+        break
+      end #until
+# Assume that before this node (self) was created, it was checked for anything bad.
+      @@processing_node = self if @candidate_intervals_index >= CANDIDATE_INTERVALS.length
+      @@processing_node
+    end #def
+
+    public
+    def create_sibling
+      return nil if @parent.nil?
+      @parent.parent_create_next_child()
+    end
+
+    protected
+    def parent_create_next_child
+      return create_sibling() if @candidate_intervals_index > CANDIDATE_INTERVALS.length
+# The special meaning of @candidate_intervals_index at CANDIDATE_INTERVALS.length is used here:
+      (@candidate_intervals_index += 1; return @@processing_node = self) if CANDIDATE_INTERVALS.length == @candidate_intervals_index
+      absolutes = absolutes_for_child()
+      @candidate_intervals_index += 1
+      return parent_create_next_child() if anything_bad?( absolutes)
+      Node.make_branch_and_return_leaf( parent = self, absolutes)
+    end #def
+
+=begin
+    def roots
+      a = necklace <<= (Harmony::OCTAVE - 1)
+      high_bit = Bit::SINGLE_BIT
+      roots = (0...Harmony::OCTAVE).collect do |i|
+        bit_set = high_bit == a & high_bit
+        a = a ^ high_bit
+        a <<= Bit::SINGLE_BIT
+        a &= Bit::BIT_VALUE_1 if bit_set
+        bit_set ? i : nil
+      end #collect i
+      roots
+    end #def
+=end
+
+    private
+    def absolutes_to_intervals( absolutes)
+      previous  = absolutes.first
+      intervals = absolutes.collect {|e| result = e - previous; previous = e; result}
+    end
+
+    public
+    def Node.set_note_space_length( len)
+      @@note_space_length = len
+    end
+
+    private
+    def any_duplicates?( absolutes)
+      have_note = Array.new( @@note_space_length).fill( false)
+      absolutes.any? {|note| already =
+         have_note.at( note % @@note_space_length)
+         have_note[    note % @@note_space_length] = true; already}
+    end
+
+    private
+    def anything_bad?( absolutes)
+      absolutes.last > MAX_HIGHEST_NOTE ||
+          any_duplicates?( absolutes) ||
+          count_gaps( absolutes) > MAX_GAPS ||
+          count_interval( absolutes, Harmony::MINOR_SECOND) > MAX_MINOR_SECOND ||
+          count_interval( absolutes, Harmony::MINOR_NINTH) > MAX_MINOR_NINTH ||
+          out_of_order?( absolutes)
+    end #def
+
+    private
+    def absolutes_for_child
+      @absolutes.clone.push( @absolutes.last + CANDIDATE_INTERVALS.at( @candidate_intervals_index))
+    end
+
+    private
+    def count_gaps( absolutes)
+      absolutes_to_intervals( absolutes).find_all {|e| e >= MINIMUM_GAP_INTERVAL}.length
+    end
+
+    private
+    def count_interval( absolutes, interval)
+      count = 0
+      (0...absolutes.length).each do |left_index|
+        left = absolutes.at( left_index)
+        (left_index + 1...absolutes.length).each do |right_index|
+          difference = absolutes.at( right_index) - left
+          count += 1 if difference == interval
+          break if difference >= interval # Assume absolutes are sorted.
+        end #each right_index
+      end #each left_index
+      count
+    end #def
+
+    private
+    def out_of_order?( absolutes)
+      absolutes.sort != absolutes
+    end
+
+    public
+    def dump
+      'm9: ' + count_interval( @absolutes, Harmony::MINOR_NINTH).to_s + 
+      ' ' +
+      'm2: ' + count_interval( @absolutes, Harmony::MINOR_SECOND).to_s + 
+      ' ' +
+      'tt: ' + count_interval( @absolutes, Harmony::TRITONE).to_s + 
+      ' ' +
+      'ng: ' + count_gaps( @absolutes).to_s +
+      ' ' +
+      'j9: ' + count_interval( @absolutes, Harmony::MAJOR_NINTH).to_s + 
+      ' ' +
+      'hn: ' + (highest_note = @absolutes.last).to_s +
+      ' ' +
+      'i: [' + absolutes_to_intervals( @absolutes).join(',') + ']' +
+      ''
+    end
+
+    private
+    def Node.print_counts
+#print '@@count_have_minor_ninths '; p @@count_have_minor_ninths
+    end
+
+  end #class
+#-----------------------------
+  class Tree
+# A virtual tree, using depth-first traversal; only a single branch exists at any time.
+    def initialize( len)
+      Node.set_note_space_length( len)
+      @first_leaf = Node.make_branch_and_return_leaf( parent = nil, absolutes = [0]) # G2, by itself.
+    end
+
+    def each
+# Automatic, depth-first traversal obviates explicitly navigating downward to child nodes.
+      node = @first_leaf
+      until node.nil?
+        yield node
+        node = node.create_sibling()
+      end #until
+    end #def
+
+  end #class
+#-----------------------------
+  class Word
+    attr_reader :value
+    def initialize( absolutes, note_space)
+      length = note_space.length
+      have_note = Array.new( length, false)
+      absolutes.each {|e| have_note[ e % length] = true}
+      @value = 0 # No notes.
+      have_note.each {|e| @value <<= Bit::SINGLE_BIT; @value |= Bit::BIT_VALUE_1 if e}
+    end
+  end #class
+#-----------------------------
+  class Chord
+    attr_reader :absolutes,
+                :fill_word,
+                :is_hand_tuned,
+                :is_augmented_default
+    def initialize( a, ns)
+          @absolutes = a
+          @note_space = ns
+# The note, G2: is ever-present, so change the most-significant bit to zero.
+      @fill_word = Word.new( @absolutes, @note_space).value & ((Bit::BIT_VALUE_1 << (@note_space.length - Bit::BIT_WIDTH)) - 1)
+      @is_hand_tuned = false
+      @is_augmented_default = false
+    end #def
+
+    public
+    def play
+    end
+
+  end #class
+=begin
+#-----------------------------
+  class Chords
+    include Enumerable
+    def initialize
+    end
+
+    def <=>
+    end
+
+    def each
+    end
+  end #class
+=end
+#-----------------------------
+  class Walker
+@@count = 0
+    def initialize( ns)
+          @note_space = ns
+# The first bit of this index has always the same value, '1', for the note, G2.
+      @fill_chords = Array.new( Bit::BIT_STATES ** (@note_space.length - Bit::BIT_WIDTH)) {[]}
+    end
+
+    def walk
+      Tree.new( @note_space.length).each {|node| handle( node)}
+      Node.print_counts()
+print '@@count '; p @@count
+      @fill_chords
+    end
+
+    def handle( node)
+@@count += 1
+#print 'node.dump '; p node.dump
+#p node.dump
+# Add node to necklace root.
+      c = Chord.new( node.absolutes, @note_space)
+#print 'c.fill_word '; p c.fill_word
+#print '@fill_chords[ c.fill_word] '; p @fill_chords[ c.fill_word]
+# Array of arrays of chords.
+      @fill_chords[ c.fill_word].push( c)
+    end #def
+  end #class
+end #module
+#=============================
+module Generate_note_space
+#-----------------------------
+  class Necklace_words_all
     include Enumerable
     def initialize( n)
           @note_space_size = n
@@ -1038,7 +1121,7 @@ module Necklace
 
   end #class
 #-----------------------------
-  class Good_words
+  class Necklace_words_good
     include Enumerable
     def initialize( a)
           @all_words = a
@@ -1069,29 +1152,66 @@ module Necklace
 
   end #class
 #-----------------------------
-  class Chord
+  class Necklace
+    attr_reader :roots
     def initialize( wo, wi)
           @word = wo
           @width = wi
       @most_significant_bit_value = Bit::BIT_VALUE_1 << (@width - 1)
+#      @roots = 
     end
 
     def to_s
       word = @word
       bit = @most_significant_bit_value
       chord = '[' + (0...@width).
-      find_all {bit_set = bit & word == bit; word <<= Bit::SINGLE_BIT; bit_set}.join( ',') +
-      ']'
+      find_all {bit_set = bit == bit & word; word ^ bit; word <<= Bit::SINGLE_BIT; bit_set}.join( ',') + ']'
     end
-
   end #class
 #-----------------------------
-  class Chords
-    def initialize
-      all = Necklace::All_words.new( Harmony::OCTAVE)
-      good = Necklace::Good_words.new( all)
-      @chords = good.collect {|word| Necklace::Chord.new( word, Harmony::OCTAVE)}
-      @chords.each {|chord| print chord.to_s, "\n"}
+  class Necklaces
+    def initialize( len)
+      @note_space_length = len
+      @necklaces =    Necklace_words_good.new(
+                      Necklace_words_all. new( @note_space_length)).collect {|word|
+                      Necklace.new( word,      @note_space_length)}
+    end #def
+
+    def each
+      @necklaces.each {|necklace| yield necklace}
+    end
+  end #class
+=begin
+#-----------------------------
+  class All_roots
+    def initialize( anc)
+          @all_necklace_chords = anc
+      width = @all_necklace_chords.width
+      @all_necklace_chords.each do |necklace_chord|
+        c = necklace_chord
+        roots = (0...width).collect do |i|
+          next unless Bit::BIT_VALUE1 == c & Bit::SINGLE_BIT
+          root = Root.new( necklace_chord, i)
+          c >>= Bit::SINGLE_BIT
+          root
+        end #collect i
+      end #each necklace_chord
+      roots.each do |chord|
+      end #each chord
+    end #def
+
+    def each
+      @all_necklace_chords.each {|e| yield e}
+    end
+  end #class
+=end
+#-----------------------------
+  class Note_space
+    attr_reader :length,
+                :necklaces
+    def initialize( length)
+      @length = length
+      @necklaces = Necklaces.new( @length)
     end
   end #class
 end #module
@@ -1099,14 +1219,39 @@ end #module
 module Main
 #-----------------------------
   class Run
+    WESTERN_DUODECIMAL = 12
     def initialize
 #     Harmony::Chord_beginning.chord_class = Harmony::Chord
 #     Harmony::Chord_beginning.chord_class = Harmony::Chord_accumulate
 #     Harmony::Chord_beginning.chord_class = Harmony::Chord_print
 #     Harmony::Chord_beginning_categories.new.handle
-#     Harmony2::Granularity.new.walk( Harmony::Chord_beginning_categories.new)
-#     Harmony2::Granularity.new.walk
-      Necklace::Chords.new
+#     Generate_chords::Walker.new.walk( Harmony::Chord_beginning_categories.new)
+
+      note_space = Generate_note_space::Note_space.new( WESTERN_DUODECIMAL)
+#     note_space.necklaces.each {|necklace| print necklace.to_s, "\n"}
+      fill_chords = Generate_chords::Walker.new( note_space).walk
+empty_ones = []
+sum = 0
+sum_length = 0
+fill_chords.each_with_index do |e, i|
+empty_ones.push( i) if e.empty?
+sum += e.length
+thing = e.collect {|a| a.absolutes}
+sum_length += thing.length
+#print i, ' ', i.to_s( 2), ' '; p thing
+print i, ' ', thing.length, ' ', i.to_s( 2), ":\n"; thing.each {|e| p e}
+end #each_with_index e, i
+#print 'empty_ones  '; p empty_ones
+fill_chords.each_with_index do |e, i|
+next unless e.empty?
+# Print i exploded to bits.
+print 'i ', i, ' '; p i.to_s( 2)
+end #each_with_index e, i
+print 'empty_ones.length  '; p empty_ones.length
+print 'fill_chords.length '; p fill_chords.length
+print 'sum_length '; p sum_length
+print 'sum_length.to_f/fill_chords.length  '; p sum_length.to_f/fill_chords.length
+print 'sum  '; p sum
     end
   end #class
 end #module
