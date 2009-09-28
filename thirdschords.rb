@@ -197,6 +197,31 @@ module Thirds_chords
     end #def
   end #class
 #-----------------------------
+  class Gapped_chords
+    def initialize( cb, ep, tl)
+      @chord_beginning = cb
+      @existence_pattern = ep
+      @thirds_length = tl
+    end
+
+    def each
+      found.each do |full_chord|
+#        chord = full_chord impressed with @existence_pattern
+        chord = full_chord[ 0] # Assume at least have G.
+        temp_chord = full_chord.slice( 1..-2)
+# Maybe use Array#delete_if or Array#compact?.
+        existence_positions = (0...@existence_pattern.length).collect {|i| @existence_pattern.at( i) ? i : nil}.compact
+
+
+        chord = full_chord.first if full_chord.length >= 1
+        chord += existence_positions.collect {|i| temp_chord.at( i)} if full_chord.length >= 3
+        chord += full_chord.last if full_chord.length >= 2
+
+#        if full_chord.length >= 3
+      end #do
+    end #def
+  end #class
+#-----------------------------
   class Specific_length_thirds_chords
     include Enumerable
     def initialize( cb, tl)
@@ -215,15 +240,16 @@ module Thirds_chords
     def initialize( cb, tl)
       @chord_beginning = cb
       @thirds_length = tl
+      octave = Harmony::NOTE_NAMES.length
       @value = All_thirds_chords.new( @chord_beginning, @thirds_length).collect do |chord|
-        have = Array.new( Harmony::NOTE_NAMES.length, false)
-        valid_length = chord.length # Assume the whole chord is valid.
+        have = Array.new( octave, false)
+        valid_length = chord.length # Start by assuming the chord is all valid.
         chord.each_with_index do |note, i|
-          if have.at( note % Harmony::NOTE_NAMES.length)
+          if have.at( note % octave)
             valid_length = i
             break
           end #if
-          have[ note % Harmony::NOTE_NAMES.length] = true
+          have[ note % octave] = true
         end #do
         chord = chord.take( valid_length)
       end #do
@@ -239,7 +265,7 @@ module Thirds_chords
   end #class
 end #module
 #=============================
-module Main
+module Chord_begin
 #-----------------------------
   class Chord_beginnings
     CHORD_BEGINNINGS =[ # G, followed by:
@@ -405,63 +431,9 @@ module Main
       result
     end #def
   end #class
-#-----------------------------
-  class Print_some
-    def initialize( cb, tl)
-      @chord_beginning = cb
-      @thirds_length = tl
-    end
-
-    def to_s
-      s = Thirds_chords::Specific_length_thirds_chords.new( @chord_beginning, @thirds_length).collect do |chord|
-        '[' + @chord_beginning.join(',') + ']' +
-        ' - ' +
-        '(' +
-        'm9-' + chord.minor_ninths_count.to_s +
-        ' ' +
-        'j9-' + chord.major_ninths_count.to_s +
-        ' ' +
-        't-' + chord.tritones_count.to_s +
-        ' ' +
-        's-' + chord.breadth.to_s +
-        ')' +
-        ' - ' +
-        '(' + chord.missing.to_s + ')' +
-        ' - ' +
-        '(' + Necklace_chords::Normalized_chord.new( chord).to_s + ')' +
-        ' - ' +
-        chord.to_s +
-        ''
-      end.join("\n") + "\n"
-      "\n" == s ? '' : s
-    end
-  end #class
-#-----------------------------
-  class Mathematical_format
-    def initialize( cb, tl)
-      @chord_beginning = cb
-      @thirds_length = tl
-    end
-
-    def print_me
-      print Print_some.new( @chord_beginning, @thirds_length).to_s
-    end
-  end #class
-#-----------------------------
-  class Main_do
-    OCTAVE_LENGTH = 12
-    def run
-      Chord_beginnings.new.each do |cb|
-        (OCTAVE_LENGTH - cb.length).downto( 0) do |thirds_length|
-          Mathematical_format.new( cb, thirds_length).print_me
-        end
-      end
-    end
-  end #class
-#-----------------------------
-  Main_do.new.run
 end #module
-
+#=============================
+module Gap
 =begin
 class gaps
 Chord length not extended, only gaps intruduced.
@@ -488,3 +460,130 @@ Shift through, checking 4-bit groupings and 1-bits.
 Keep the good ones.
 Keep and apply to all the thirds-length (=11) chords.
 =end
+#-----------------------------
+  class Gap_constellation_words
+    include Enumerable
+    def initialize( n)
+      @number_of_bits = n
+    end
+    def each
+      (( 2 ** @number_of_bits) - 1).downto( 0) {|word| yield word}
+    end
+  end #class
+#-----------------------------
+  class Gap_constellation_good
+    MAX_GAPS = 5
+    EXCESSIVE_TOGETHER = 0b1111
+    def initialize( a)
+      @all_words = Gap_constellation_words.new( @array_length = a)
+      @good_words = pick
+    end
+    def each
+      @good_words.each {|e| yield e}
+    end #def
+
+    private
+    def pick
+      @all_words.reject do |w|
+        word = w
+        count_gaps = 0
+        word_bad = false
+        @array_length.times do
+          count_gaps += 1 if 0 == word & 1 # Least significant single bit.
+          word_bad = true if count_gaps > MAX_GAPS ||
+                             0 == word & EXCESSIVE_TOGETHER # Least significant several bits.
+          break if word_bad
+          word >>= 1
+        end #do
+        word_bad
+      end #do
+    end #def
+  end #class
+#-----------------------------
+  class Gap_constellation_array
+    def initialize( a)
+      @good_words = Gap_constellation_good.new( @array_length = a)
+    end
+
+    def each
+      @good_words.each {|word| yield bits_to_boolean_array( word)}
+    end #def
+
+    private
+    def bits_to_boolean_array( word)
+      word <<= 1
+      (1..@array_length).collect {1 == 1 & (word >>= 1)} # Test each bit, least significant first.
+    end #def
+  end #class
+end #module
+#=============================
+module Print_something
+#-----------------------------
+  class Print_line
+    def initialize( cb, ep, tl)
+      @chord_beginning = cb
+      @existence_pattern = ep
+      @thirds_length = tl
+    end
+
+    def to_s
+      s = Thirds_chords::Specific_length_thirds_chords.new( @chord_beginning, 
+# @existence_pattern, 
+@thirds_length).collect do |chord|
+        '[' + @chord_beginning.join(',') + ']' +
+        ' - ' +
+        '(' +
+        'm9-' + chord.minor_ninths_count.to_s +
+        ' ' +
+        'j9-' + chord.major_ninths_count.to_s +
+        ' ' +
+        't-' + chord.tritones_count.to_s +
+        ' ' +
+        's-' + chord.breadth.to_s +
+        ')' +
+        ' - ' +
+        '(' + chord.missing.to_s + ')' +
+        ' - ' +
+        '(' + Necklace_chords::Normalized_chord.new( chord).to_s + ')' +
+        ' - ' +
+        chord.to_s +
+        ''
+      end.join("\n") + "\n"
+      "\n" == s ? '' : s
+    end
+  end #class
+#-----------------------------
+  class Mathematical_format
+    def initialize( cb, ep, mtl)
+      @chord_beginning = cb
+      @existence_pattern = ep
+      @max_thirds_length = mtl
+    end
+
+    def print_me
+      @max_thirds_length.downto( 0) do |thirds_length|
+        print Print_line.new( @chord_beginning, @existence_pattern, thirds_length).to_s
+      end #do
+    end
+  end #class
+end #module
+#=============================
+module Main
+#-----------------------------
+  class Main_do
+    OCTAVE_LENGTH = 12
+    def run
+      gap_patterns = Gap::Gap_constellation_array.new( OCTAVE_LENGTH - 2) # The first and last places are not properly gaps.
+#      print a.size
+      Chord_begin::Chord_beginnings.new.each do |chord_begin|
+        max_thirds_length = OCTAVE_LENGTH - chord_begin.length
+        existence_pattern = 0
+#        gap_patterns.each do |existence_pattern|
+          Print_something::Mathematical_format.new( chord_begin, existence_pattern, max_thirds_length).print_me
+#        end #do
+      end #do
+    end #def
+  end #class
+#-----------------------------
+  Main_do.new.run
+end #module
