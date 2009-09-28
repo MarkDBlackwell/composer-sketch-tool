@@ -274,9 +274,12 @@ end #module
 #=============================
 module Harmony
   NOTE_NAMES = %w{G Ab A Bb B C C# D Eb E F F#}
+  MINOR_SECOND = 1
+  MAJOR_SECOND = 2
   MINOR_THIRD = 3
   MAJOR_THIRD = 4
   TRITONE = 6
+  MAJOR_SIXTH = 9
   OCTAVE = NOTE_NAMES.length
   MINOR_NINTH = 13
   MAJOR_NINTH = 14
@@ -847,22 +850,82 @@ MINIMUM_GAP_INTERVAL 9
 MAX_GAPS 2
 MAX_HIGHEST_NOTE 48
 @@count 456685
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 9
+MAX_GAPS 2
+MAX_HIGHEST_NOTE 14
+...
+@@count 2303
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 9
+MAX_GAPS 2
+MAX_MINOR_NINTHS 1
+MAX_MINOR_SECONDS 1
+MAX_TRITONES 2
+MAX_HIGHEST_NOTE 24
+@@count 3866
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 9
+MAX_GAPS 2
+MAX_MINOR_NINTHS 1
+MAX_MINOR_SECONDS 1
+MAX_TRITONES 2
+MAX_HIGHEST_NOTE 36
+@@count 190551
+
+Removed a counting error:
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 9
+MAX_GAPS 2
+MAX_MINOR_SECONDS 1
+MAX_TRITONES 2
+MAX_MINOR_NINTHS 1
+MAX_HIGHEST_NOTE 24
+@@count 6473
+
+Removed an error in @@processing_node setting.
+Removed an error in @candidate_intervals_index incrementation.
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 9
+MAX_GAPS 2
+MAX_MINOR_SECONDS 1
+MAX_TRITONES 2
+MAX_MINOR_NINTHS 1
+MAX_HIGHEST_NOTE 24
+@@count 23045
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 9
+MAX_GAPS 2
+MAX_MINOR_SECONDS 0
+MAX_TRITONES 2
+MAX_MINOR_NINTHS 0
+MAX_HIGHEST_NOTE 24
+@@count 2268
+
+@@count 2324
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MAX_GAPS 2
+MAX_HIGHEST_NOTE 24
+MAX_MINOR_NINTHS 0
+MAX_MINOR_SECONDS 0
+MAX_TRITONES 2000
+MINIMUM_GAP_INTERVAL 9
 =end
-  CANDIDATE_INTERVALS = (1..11).to_a; print 'CANDIDATE_INTERVALS '; p CANDIDATE_INTERVALS
-  MINIMUM_GAP_INTERVAL = 9; print 'MINIMUM_GAP_INTERVAL '; p MINIMUM_GAP_INTERVAL
+  CANDIDATE_INTERVALS = (Harmony::MINOR_SECOND...Harmony::OCTAVE).to_a; print 'CANDIDATE_INTERVALS '; p CANDIDATE_INTERVALS
+  MINIMUM_GAP_INTERVAL = Harmony::MAJOR_SIXTH; print 'MINIMUM_GAP_INTERVAL '; p MINIMUM_GAP_INTERVAL
   MAX_GAPS = 2; print 'MAX_GAPS '; p MAX_GAPS
-  MAX_HIGHEST_NOTE = 14; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
+  MAX_MINOR_SECONDS = 0; print 'MAX_MINOR_SECONDS '; p MAX_MINOR_SECONDS
+  MAX_TRITONES = 2000; print 'MAX_TRITONES '; p MAX_TRITONES
+  MAX_MINOR_NINTHS = 0; print 'MAX_MINOR_NINTHS '; p MAX_MINOR_NINTHS
+  MAX_HIGHEST_NOTE = 24; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
 #-----------------------------
   class Node
-    @@count_minor_ninths = 0
-    @@count_have_minor_ninths = 0
-
-#   def initialize( p, hn, nog, i)
-#   def initialize( p, hn, i)
     def initialize( p, i)
         @parent = p
-#       @highest_note_old = hn
-#        @number_of_gaps_old = nog
         @intervals = i
       @absolutes = @intervals.inject( nil) {|memo, e| memo.nil? ? [ e] : memo.push( memo.last + e)}
       @have_notes = @intervals.inject( nil) {|memo, e| memo.nil? ? [ e % Harmony::OCTAVE] : memo.push( memo.last + e % Harmony::OCTAVE)}
@@ -873,11 +936,7 @@ MAX_HIGHEST_NOTE 48
       step_down_branch
     end
 
-#   def Node.make_new_node( p, hn, nog, i)
-#   def Node.make_new_node( p, hn, i)
     def Node.make_new_node( p, i)
-#     node = Node.new( p, hn, nog, i)
-#     node = Node.new( p, hn, i)
       node = Node.new( p, i)
       @@processing_node
     end #def
@@ -887,30 +946,85 @@ MAX_HIGHEST_NOTE 48
       @parent.create_next_child
     end
 
-    def dump
-      'ng: ' + number_of_gaps.to_s +
-      ' ' +
-      'i: [' + @intervals.join(',') + ']' +
-      ' ' +
-      'hn: ' + highest_note.to_s
-    end
-
-    protected
-    def create_next_child
-# At parent level.
-      @candidate_intervals_index += 1
-      return self if CANDIDATE_INTERVALS.length == @candidate_intervals_index
+    def create_next_child # At parent level.
+#if [0, 4, 4, 3, 4, 4] == @intervals.slice( 0..5)
+#print '@intervals '; p @intervals
+#end
+      (@@processing_node = self; @candidate_intervals_index += 1; return @@processing_node) if CANDIDATE_INTERVALS.length == @candidate_intervals_index
       return create_sibling if @candidate_intervals_index > CANDIDATE_INTERVALS.length
       interval = CANDIDATE_INTERVALS.at( @candidate_intervals_index)
+      @candidate_intervals_index += 1
       try_intervals = @intervals.clone.push( interval)
       return create_next_child if anything_bad( try_intervals)
-#     intervals = @intervals.clone.push( interval)
-#     highest_note_old = @highest_note_old + interval
-#     Node.make_new_node( parent = self, @highest_note_old + interval, number_of_gaps_old, intervals)
-#     Node.make_new_node( parent = self, @highest_note_old + interval, intervals)
       Node.make_new_node( parent = self, try_intervals)
     end #def
 
+    private
+    def step_down_branch
+#if [0, 4, 4, 3, 4, 4] == @intervals.slice( 0..5)
+#print '@intervals '; p @intervals
+#end
+      until @candidate_intervals_index >= CANDIDATE_INTERVALS.length
+        interval = CANDIDATE_INTERVALS.at( @candidate_intervals_index)
+        @candidate_intervals_index += 1
+        try_intervals = @intervals.clone.push( interval)
+#if [0, 4, 4, 3, 4, 4] == try_intervals.slice( 0..5)
+#print 'try_intervals '; p try_intervals
+#end
+        next if anything_bad( try_intervals)
+# Assume the first is insufficiently large to be a gap.
+        node = Node.make_new_node( parent = self, try_intervals)
+        break
+      end #until
+      @@processing_node = self if @candidate_intervals_index >= CANDIDATE_INTERVALS.length
+      @@processing_node
+    end #def
+
+=begin
+    def step_down_branch_old
+      latest_interval = CANDIDATE_INTERVALS.first
+      try_intervals = @intervals.clone.push( CANDIDATE_INTERVALS.first)
+      (@@processing_node = self; return) if anything_bad( try_intervals)
+      intervals = @intervals.clone.push( latest_interval)
+# Assume the first is insufficiently large to be a gap.
+      Node.make_new_node( parent = self, try_intervals)
+    end #def
+=end
+
+    def anything_bad( try_intervals)
+        highest = highest_note + try_intervals.last
+# Why doesn't this get to even try try_intervals [0, 4, 4, 3, 4, 4, 3]?
+#if [0, 4, 4, 3, 4, 4] == try_intervals.slice( 0..5)
+#print 'try_intervals '; p try_intervals
+#end
+      highest > MAX_HIGHEST_NOTE ||
+      (try_intervals.last >= MINIMUM_GAP_INTERVAL && number_of_gaps + 1 > MAX_GAPS) ||
+      @have_notes.include?( highest % Harmony::OCTAVE) ||
+      count_an_interval( try_intervals, Harmony::MINOR_SECOND) > MAX_MINOR_SECONDS ||
+      count_an_interval( try_intervals, Harmony::TRITONE) > MAX_TRITONES ||
+      count_an_interval( try_intervals, Harmony::MINOR_NINTH) > MAX_MINOR_NINTHS ||
+      false
+    end #def
+
+    public
+    def dump
+      'm9: ' + count_an_interval( @intervals, Harmony::MINOR_NINTH).to_s + 
+      ' ' +
+      'm2: ' + count_an_interval( @intervals, Harmony::MINOR_SECOND).to_s + 
+      ' ' +
+      'tt: ' + count_an_interval( @intervals, Harmony::TRITONE).to_s + 
+      ' ' +
+      'ng: ' + number_of_gaps.to_s +
+      ' ' +
+      'j9: ' + count_an_interval( @intervals, Harmony::MAJOR_NINTH).to_s + 
+      ' ' +
+      'hn: ' + highest_note.to_s +
+      ' ' +
+      'i: [' + @intervals.join(',') + ']' +
+      ''
+    end
+
+    protected
     def highest_note
       @absolutes.last
     end
@@ -919,116 +1033,22 @@ MAX_HIGHEST_NOTE 48
       @intervals.find_all {|e| e >= MINIMUM_GAP_INTERVAL}.length
     end
 
-=begin
-    def include_minor_ninth?( try_highest)
-      temp = @absolutes.include?( try_highest - Harmony::MINOR_NINTH)
-      if temp
-#        @@count_have_minor_ninths += 1 
-      end #if
-      temp
-    end
-=end
-
-    def include_minor_ninth_test?( try_highest)
-      temp = @absolutes.include?( try_highest - Harmony::MINOR_NINTH)
-      if temp
-        @@count_have_minor_ninths += 1 
-#print 'try_highest '; p try_highest
-      end #if
-      temp
-    end
-
-=begin
-    def number_of_minor_ninths( intervals)
-      count = 0
-      (0...intervals.length).each do |start|
-        sum = 0
-        (start...intervals.length).each do |e|
-          sum += e
-          if sum >= Harmony::MINOR_NINTH
-            if Harmony::MINOR_NINTH == sum
-              count += 1
-            end #if
-            break
-          end #if
-        end #each e
-      end #each start
-      if count > 0
-#       @@count_minor_ninths += 1
-      end #if
-      count
-    end #def
-=end
-
-    def number_of_minor_ninths_test( intervals)
+    def count_an_interval( intervals, interval_to_count)
       count = 0
       (0...intervals.length).each do |start_index|
         sum = 0
-        (start_index...intervals.length).each do |i|
-#print 'sum '; p sum
+        (start_index + 1...intervals.length).each do |i|
           sum += intervals.at( i)
-          if sum >= Harmony::MINOR_NINTH
-            if Harmony::MINOR_NINTH == sum
-              count += 1
-#print 'sum '; p sum
-#print 'intervals '; p intervals
-            end #if
-            break
-          end #if
+          count += 1 if sum == interval_to_count
+          break if sum >= interval_to_count
         end #each i
       end #each start_index
-      if count > 0
-        @@count_minor_ninths += 1
-#print 'intervals.last '; p intervals.last
-#print 'count '; p count
-      end #if
       count
     end #def
 
     def Node.print_counts
-print '@@count_minor_ninths '; p @@count_minor_ninths
-print '@@count_have_minor_ninths '; p @@count_have_minor_ninths
+#print '@@count_have_minor_ninths '; p @@count_have_minor_ninths
     end
-
-    private
-=begin
-    def anything_bad_old( interval)
-        try_highest = highest_note + interval
-      (interval >= MINIMUM_GAP_INTERVAL && number_of_gaps + 1 > MAX_GAPS) ||
-      try_highest > MAX_HIGHEST_NOTE ||
-      @have_notes.include?( try_highest % Harmony::OCTAVE) ||
-#      @absolutes.include?( try_highest - Harmony::MINOR_NINTH) ||
-      include_minor_ninth?( try_highest) ||
-      false
-    end #def
-=end
-
-    def anything_bad( try_intervals)
-        highest = highest_note + try_intervals.last
-
-#      include_minor_ninth_test?( highest)
-#      number_of_minor_ninths_test( try_intervals)
-
-      (try_intervals.last >= MINIMUM_GAP_INTERVAL && number_of_gaps + 1 > MAX_GAPS) ||
-      highest > MAX_HIGHEST_NOTE ||
-      @have_notes.include?( highest % Harmony::OCTAVE) ||
-#     @absolutes.include?( highest - Harmony::MINOR_NINTH) ||
-      include_minor_ninth_test?( highest) ||
-      number_of_minor_ninths_test( try_intervals) >= 1 ||
-      false
-    end #def
-
-    def step_down_branch
-      latest_interval = CANDIDATE_INTERVALS.first
-      try_intervals = @intervals.clone.push( CANDIDATE_INTERVALS.first)
-      (@@processing_node = self; return) if anything_bad( try_intervals)
-      intervals = @intervals.clone.push( latest_interval)
-#     highest_note_old = @highest_note_old + latest_interval
-# Assume the first is insufficiently large to be a gap.
-#     Node.make_new_node( parent = self, @highest_note_old + latest_interval, @number_of_gaps_old, intervals)
-#     Node.make_new_node( parent = self, highest_note + latest_interval, intervals)
-      Node.make_new_node( parent = self, try_intervals)
-    end #def
 
   end #class
 #-----------------------------
@@ -1036,10 +1056,7 @@ print '@@count_have_minor_ninths '; p @@count_have_minor_ninths
 # A virtual tree, using depth-first traversal; only a single branch exists at any one time.
     def initialize( beginning)
       intervals = beginning.inject( nil) {|memo, e| memo.nil? ? [e] : memo.push( e - memo.last)}
-#     @first_leaf = Node.make_new_node( parent = nil, highest_note_try = beginning.last,
-      @first_leaf = Node.make_new_node( parent = nil, 
-#     number_of_gaps_old = 0, intervals)
-      intervals)
+      @first_leaf = Node.make_new_node( parent = nil, intervals)
     end #def
 
     def each
@@ -1067,7 +1084,8 @@ print '@@count '; p @@count
 
     def handle( node)
 @@count += 1
-print 'node.dump '; p node.dump
+#print 'node.dump '; p node.dump
+p node.dump
     end
   end #class
 end #module
