@@ -245,10 +245,14 @@ print 'count_roots '; p count_roots
 # TO-DO: Count rooted chords in necklaces: should be 2048.
 # E.g., @note_space.necklaces.each do |e|
       HarmonyMidi::Play.set_up()
-p '111111111111, MSB to LSB, is G F# F E Eb D C# C B Bb A Ab'
       unless @select_necklaces_indices.empty?
 print '@select_necklaces_indices '; p @select_necklaces_indices
       end
+print "Table of Necklaces:\n"
+print "'111111111111' (MSB to LSB) means:\n"
+print "G F# F E Eb D C# C B Bb A Ab, 0,1,2,3,4,5,6,7,8,9,10,11, [0,11,10,9,8,7,6,5,4,3,2,1].\n"
+print "\nNecklace_number: Binary_string - Notes not Missing_notes.\n"
+print "MIDI_time Root_number-Chord_name [Absolute_notes] Note_letter_names\n"
       (0...(@select_necklaces_indices.empty? ? @note_space.necklaces : @select_necklaces_indices).
       length).each do |necklace_index|
         necklace_number = @select_necklaces_indices.empty? ? necklace_index : @select_necklaces_indices.at( necklace_index)
@@ -275,7 +279,7 @@ print '@select_necklaces_indices '; p @select_necklaces_indices
             intervals_used += absolutes_to_intervals( chord.absolutes)
             intervals_used.sort!.uniq!
             highest_note = chord.absolutes.last if chord.absolutes.last > highest_note
-            HarmonyMidi::Play.handle_chord( chord.absolutes, necklace.root_numbers.at( i), get_chord_name( chord.absolutes))
+            HarmonyMidi::Play.handle_chord( @note_space, chord.absolutes, necklace.root_numbers.at( i), get_chord_name( chord.absolutes))
           end #each chord
         end #downto i
       end #each necklace_index
@@ -288,7 +292,7 @@ print 'highest_note '; p highest_note
     def get_chord_name( absolutes)
       have = Array.new( 12, false)
       absolutes.each {|note| have[ note % 12] = true}
-      minor_ninth                  =  1 # Interval from G to Ab; ...
+      minor_ninth                  =  1 # Intervals from G to: Ab.
       ninth                        =  2 # A.
       minor                        =  3 # Bb.
       major                        =  4 # B.
@@ -301,28 +305,20 @@ print 'highest_note '; p highest_note
       major_seventh                = 11 # F#.
       letter = (have.at( major) && ! have.at( minor)) ? 'I' : 'i'
       type = get_type( have, minor, major, diminished, fifth, augmented, sixth)
-# Add intervals to the name.
-#      flavored = [                          have.at( major_seventh    ) ? 'j7'  : nil,
-#                                            have.at( minor_ninth      ) ? 'm9'  : nil,
-#                  (! type.include?( 'd') && have.at( major_eleventh  )) ? 'j11' : nil,
-#                  ('a' != type           && have.at( minor_thirteenth)) ? 'm13' : nil]
-      flavored = (                          have.at( major_seventh    ) ? 'j7'  : '') +
-                 (                          have.at( minor_ninth      ) ? 'm9'  : '') +
-                 ((! type.include?( 'd') && have.at( major_eleventh  )) ? 'j11' : '') +
+      flavored = (                          have.at(    major_seventh)  ? 'j7'  : '') +
+                 (                          have.at(      minor_ninth)  ? 'm9'  : '') +
+                 ((! type.include?( 'd') && have.at(   major_eleventh)) ? 'j11' : '') +
                  (('a' != type           && have.at( minor_thirteenth)) ? 'm13' : '')
       compatible = []
       [ minor_thirteenth, major_eleventh, minor_ninth, major_seventh].inject( true) do |memo, e|
-#       set_to = memo && ! have.at( e)
-#       compatible.push( set_to)
         have_this_value = have.at( e)
         have_this_value = false if minor_thirteenth == e && 'a' == type
-        have_this_value = false if major_eleventh   == e && type.include?( 'd')
+        have_this_value = false if   major_eleventh == e && type.include?( 'd')
         compatible.push( set_to = memo && ! have_this_value)
         set_to
       end #inject memo, e
       compatible.reverse!
 #print 'compatible '; p compatible
-#     plain = Array.new( 4, nil)
       plain = ''
       [[ seventh, '7'], [ ninth, '9'], [ eleventh, '11'], [ thirteenth, '13']].
       each_with_index do |e, i|
@@ -330,54 +326,42 @@ print 'highest_note '; p highest_note
         if have.at( interval) && compatible.at( i)
 #?          if (! type.include?( 'd') && eleventh == interval) ||
           unless ('d6' == type && thirteenth == interval)
-#           plain.fill( nil)
-#           plain[ i] = interval_string
             plain = interval_string
           end #unless
         end #if
       end #each_with_index e, i
-#     intervals = (0...plain.length).collect {|i| flavored.at( i).to_s + plain.at( i).to_s}.join('')
-#     intervals = flavored.join('') + plain
       intervals = flavored + plain
       eliminations = Array.new( 11.succ, nil) # Eliminate these intervals from the chord.
 # Assume we have a higher interval, and check for the absence of this interval.
-      eliminations[  3] =  3 unless [ major,    minor                ].detect {|e| have.at( e)}
-#     eliminations[  5] =  5 unless [ fifth,    diminished, augmented].detect {|e| have.at( e)}
-      eliminations[  5] =  5 unless 'a' == type || type.include?( 'd') || have.at( fifth)
-#     eliminations[  5] =  5 if ('a' != type &&
-#                                   [ fifth,    diminished           ].detect {|e| have.at( e)}.nil?)
-#     eliminations[  5] =  5 if (! type.include?( 'd') &&
-#                                   [ fifth, diminished].detect {|e| have.at( e)}.nil?)
-      eliminations[  7] =  7 unless [ seventh,  major_seventh        ].detect {|e| have.at( e)}
-      eliminations[  9] =  9 unless [ ninth,    minor_ninth          ].detect {|e| have.at( e)}
-      eliminations[ 11] = 11 unless [ eleventh, major_eleventh       ].detect {|e| have.at( e)}
-      eliminations[ 11] = 11 if (type.include?( 'd') && ! have.at( eleventh))
+      eliminations[  3] =  3 unless [    major,    minor      ].detect {|e| have.at( e)}
+      eliminations[  7] =  7 unless [  seventh,  major_seventh].detect {|e| have.at( e)}
+      eliminations[  9] =  9 unless [    ninth,    minor_ninth].detect {|e| have.at( e)}
+      eliminations[ 11] = 11 unless [ eleventh, major_eleventh].detect {|e| have.at( e)}
+      eliminations[ 11] = 11 if ( ! have.at(          eleventh)) && type.include?( 'd')
+      eliminations[  5] =  5 unless have.at(             fifth)  || type.include?( 'd') || 'a' == type
 # Check for the absence of any higher interval.
       if     [ thirteenth, minor_thirteenth].detect {|e| have.at( e)}.nil? ||
-      ('d6' == type && ! have.at( minor_thirteenth)) ||
-      ('a'  == type && ! have.at( thirteenth))
+                     ('d6' == type        && ! have.at( minor_thirteenth)) ||
+                     ('a'  == type        && ! have.at(       thirteenth))
             eliminations[ 11] = nil
-        if   [ eleventh,   major_eleventh  ].detect {|e| have.at( e)}.nil? ||
-      (type.include?( 'd') && ! have.at( eleventh))
+        if   [   eleventh,   major_eleventh].detect {|e| have.at( e)}.nil? ||
+                     (type.include?( 'd') && ! have.at(         eleventh))
             eliminations[  9] = nil
-          if [ ninth,      minor_ninth     ].detect {|e| have.at( e)}.nil?
+          if [      ninth,      minor_ninth].detect {|e| have.at( e)}.nil?
             eliminations[  7] = nil
           end
         end
-      end
-      eliminations.compact!
-      eliminations = eliminations.join( ',')
+      end #if
+      eliminations = eliminations.compact.join(',')
       eliminations = 'x' + eliminations unless '' == eliminations
       suspensions = Array.new( 13.succ, nil) # Add these intervals to the chord.
       suspensions[  3] =  3 unless [ major,      minor           ].detect {|e| ! have.at( e)}
       suspensions[  7] =  7 unless [ seventh,    major_seventh   ].detect {|e| ! have.at( e)}
       suspensions[  9] =  9 unless [ ninth,      minor_ninth     ].detect {|e| ! have.at( e)}
-      suspensions[ 11] = 11 unless [ eleventh,   major_eleventh  ].detect {|e| ! have.at( e)}
-      suspensions[ 13] = 13 unless [ thirteenth, minor_thirteenth].detect {|e| ! have.at( e)}
-#     suspensions[  5] =  5 if [ diminished, augmented].detect {|e| have.at( e)} && have.at( fifth)
+      suspensions[ 11] = 11 unless [ eleventh,   major_eleventh  ].detect {|e| ! have.at( e)} || type.include?( 'd')
+      suspensions[ 13] = 13 unless [ thirteenth, minor_thirteenth].detect {|e| ! have.at( e)} || [ 'a', 'd6'].include?( type)
       suspensions[  5] =  5 if have.at( fifth) && (type.include?( 'd') || 'a' == type)
-      suspensions.compact!
-      suspensions = suspensions.join( ',')
+      suspensions = suspensions.compact.join(',')
       suspensions = 's' + suspensions unless '' == suspensions
       letter + type + intervals + eliminations + suspensions
     end #def
@@ -386,12 +370,8 @@ print 'highest_note '; p highest_note
       return '' if have.at( fifth)
       return '' if [diminished, augmented].detect {|e| have.at( e)}.nil?
       type = ''
-      if have.at( diminished)
-        if have.at( sixth) && have.at( minor)
-          type = 'd6'
-        else
-          type = 'd'
-        end
+      if have.at( diminished) && ! have.at( major)
+        type = [ minor, sixth].detect {|e| ! have.at( e)} ? 'd' : 'd6'
       elsif have.at( augmented) && have.at( major)
         type = 'a'
       end
