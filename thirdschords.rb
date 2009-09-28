@@ -855,10 +855,13 @@ MAX_MINOR_NINTH 0
 @@count 58425
 =end
 module Generate_chords
-  CANDIDATE_INTERVALS = ((Harmony::MINOR_SECOND...Harmony::OCTAVE).to_a + [Harmony::MINOR_SIXTEENTH, Harmony::MAJOR_SIXTEENTH]).sort!; print 'CANDIDATE_INTERVALS '; p CANDIDATE_INTERVALS
+  CANDIDATE_INTERVALS = ((Harmony::MAJOR_SECOND...Harmony::OCTAVE).to_a + [Harmony::MINOR_SIXTEENTH, Harmony::MAJOR_SIXTEENTH]).sort!; print 'CANDIDATE_INTERVALS '; p CANDIDATE_INTERVALS
   MINIMUM_GAP_INTERVAL = Harmony::TRITONE; print 'MINIMUM_GAP_INTERVAL '; p MINIMUM_GAP_INTERVAL
 # The augmented chord filler takes 41 half-steps.
-  MAX_HIGHEST_NOTE = CANDIDATE_INTERVALS.last + Harmony::MAJOR_SEVENTH; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
+#  MAX_HIGHEST_NOTE = CANDIDATE_INTERVALS.last + Harmony::MAJOR_SEVENTH; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
+#  MAX_HIGHEST_NOTE = 41; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
+  MAX_HIGHEST_NOTE = 44; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
+#  MAX_HIGHEST_NOTE = 24; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
   MAX_GAPS = 3; print 'MAX_GAPS '; p MAX_GAPS
   MAX_MINOR_SECOND = 0; print 'MAX_MINOR_SECOND '; p MAX_MINOR_SECOND
   MAX_MINOR_NINTH = 0; print 'MAX_MINOR_NINTH '; p MAX_MINOR_NINTH
@@ -1233,19 +1236,20 @@ module Main
 empty_ones = []
 sum = 0
 sum_length = 0
+most_significant_bit_value = Bit::BIT_VALUE_1 << (note_space.length - 1)
 fill_chords.each_with_index do |e, i|
 empty_ones.push( i) if e.empty?
 sum += e.length
 thing = e.collect {|a| a.absolutes}
 sum_length += thing.length
 #print i, ' ', i.to_s( 2), ' '; p thing
-print i, ' ', thing.length, ' ', i.to_s( 2), ":\n"; thing.each {|e| p e}
+print i, ' ', thing.length, ' ', ( most_significant_bit_value | i).to_s( 2), ":\n"; thing.each {|e| p e}
 end #each_with_index e, i
 #print 'empty_ones  '; p empty_ones
 fill_chords.each_with_index do |e, i|
 next unless e.empty?
 # Print i exploded to bits.
-print 'i ', i, ' '; p i.to_s( 2)
+print 'i ', i, ' '; p ( most_significant_bit_value | i).to_s( 2)
 end #each_with_index e, i
 print 'empty_ones.length  '; p empty_ones.length
 print 'fill_chords.length '; p fill_chords.length
