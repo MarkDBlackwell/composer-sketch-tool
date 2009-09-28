@@ -1,5 +1,5 @@
 require 'chordutilities'
-require 'onebranchtree'
+require 'lazytree'
 module GenerateChords
 #-----------------------------
   class Note
@@ -186,7 +186,7 @@ module GenerateChords
     end
   end #class ChordAccumulate
 #-----------------------------
-  class Node < OneBranchTree::Node
+  class Node < LazyTree::Node
     include ChordUtilities
     attr_reader :absolutes
     private_class_method :new
@@ -220,24 +220,14 @@ module GenerateChords
       @@minimum_gap_interval = @@note_space.tritone
       @@max_gaps = 3
       @@max_minor_secondths = 0
-#      @@max_minor_ninths = 0
-      @@max_minor_ninths = 1
-# The augmented chord filler takes 41 half-steps.
+      @@max_minor_ninths = 1 # 0
 # The lowest max_highest_note with more than one chord per necklace is 14.
 # The lowest max_highest_note which fills all the chords is 35.
+# The augmented chord filler takes 41 half-steps.
 #      @@max_highest_note = @@candidate_intervals.last + @@note_space.major_seventh
-#      @@max_highest_note = 2
-#      @@max_highest_note = 14
-#      @@max_highest_note = 24
-#      @@max_highest_note = 30
-#      @@max_highest_note = 35
-#      @@max_highest_note = 36
-#      @@max_highest_note = 39
-#      @@max_highest_note = 41
-      @@max_highest_note = 44
+      @@max_highest_note = 24 # 44 2 14 30 35 36 39 41
       @@max_major_seconds_cluster = 2
       @@major_second_cluster = Array.new( @@max_major_seconds_cluster.succ, @@note_space.major_second)
-
       '@@candidate_intervals '       + @@candidate_intervals.      inspect + "\n" +
       '@@minimum_gap_interval '      + @@minimum_gap_interval.     inspect + "\n" +
       '@@max_gaps '                  + @@max_gaps.                 inspect + "\n" +
@@ -305,20 +295,17 @@ module GenerateChords
     end #def
 
     def major_second_cluster_too_long?( intervals)
-#     size = @@max_major_seconds_cluster.succ
+# After I install version 1.9 of Ruby, replace this with Enumerable's each_cons.
 #     cluster = Array.new( size, @@note_space.major_second)
+#     each_cons( intervals, size) {|a| (result = true; break) if cluster == a}
+#    def each_cons( a, size)
+#      (0..a.length - size).each {|i| yield a.slice(i, size)}
+#    end
       size = @@major_second_cluster.length
       result = false
-#     each_cons( intervals, size) {|a| (result = true; break) if cluster == a}
-#     each_cons( intervals, size) {|a| (result = true; break) if @@major_second_cluster == a}
       (0..intervals.length - size).each {|i| (result = true; break) if intervals.slice( i, size) == @@major_second_cluster}
       result
     end
-
-#    def each_cons( a, size)
-# After I install version 1.9 of Ruby, replace this with Enumerable's each_cons.
-#      (0..a.length - size).each {|i| yield a.slice(i, size)}
-#    end
 
     def interval_position( intervals, question)
     end
@@ -366,7 +353,7 @@ module GenerateChords
 
   end #class Node
 #-----------------------------
-  class Tree < OneBranchTree::Tree
+  class Tree < LazyTree::Tree
     def initialize
 #p 'in GenerateChords::Tree#initialize'
     # super # Here, bad to call this.
@@ -374,9 +361,9 @@ module GenerateChords
     end
   end #class Tree
 #-----------------------------
-  class Walker < OneBranchTree::Walker
+  class Walker < LazyTree::Walker
     attr_reader :fixed
-    def initialize( n)
+    def initialize( n, decorator_class)
 #p 'in GenerateChords::Walker#initialize'
           @note_space = n
 # The first bit of this index always would have the same value, '1', for the note, G2, so drop that bit.
@@ -385,7 +372,7 @@ module GenerateChords
       Chord.        set_fixed( @note_space)
       @fixed = Node.set_fixed( @note_space)
       Node.set_initial
-      super( Node, Tree)
+      super( Node, Tree, decorator_class)
 #p 'back in GenerateChords::Walker#initialize'
     end
 
@@ -401,15 +388,8 @@ module GenerateChords
       super
 #p 'back in GenerateChords::Walker#handle'
 #print 'node.dump '; p node.dump
-#p node.dump
 # Add node to necklace root.
       c = Chord.new( node.absolutes)
-#print 'c.fill_word '; p c.fill_word
-#print '@fill_chords[ c.fill_word] '; p @fill_chords[ c.fill_word]
-#     @fill_chords[ c.fill_word].push( c)
-#print @fill_chords.at( c.fill_word).length, ' '
-#     unless @fill_chords.at( c.fill_word).any? {|e| c < e}
-#       @fill_chords[ c.fill_word].push( c)
       these = @fill_chords.at( c.fill_word)
       if these.empty?
         these.push( c)
@@ -427,4 +407,7 @@ module GenerateChords
       end #unless
     end #def
   end #class Walker
+#-----------------------------
+  class WalkerDecorator
+  end #class WalkerDecorator
 end #module GenerateChords
