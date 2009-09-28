@@ -1,4 +1,5 @@
 module Bit
+  BINARY = 2
   BIT_STATES = 2
   BIT_VALUE_0 = 0
   BIT_VALUE_1 = 1
