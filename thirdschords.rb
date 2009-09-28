@@ -107,6 +107,19 @@ gap_patterns.length 8
 beginning [0, 7, 9, 11, 15, 20, 22]
 diff 316
 Chord.detail_count 3602224
+
+extensions.length 718848
+categorized_beginnings.collect {|a| a.length} [1, 2, 7, 26, 29, 13, 1]
+@beginnings.first.length 1
+extension_lengths 11
+long_extension_categories.collect {|a| a.length} [0, 0, 0, 0, 590, 2753, 3255, 2368, 1093, 315, 42]
+long_extension_categories.collect {|a| a.length} [0, 0, 0, 106, 964, 1681, 1684, 1041, 399, 74]
+long_extension_categories.collect {|a| a.length} [0, 0, 27, 300, 763, 984, 741, 348, 70]
+long_extension_categories.collect {|a| a.length} [0, 1, 44, 244, 471, 462, 291, 70]
+long_extension_categories.collect {|a| a.length} [0, 4, 48, 175, 228, 179, 72]
+long_extension_categories.collect {|a| a.length} [0, 3, 48, 94, 93, 42]
+long_extension_categories.collect {|a| a.length} [0, 11, 37, 48, 24]
+@@categorized_extensions.collect {|a| a.length} [12800, 51616, 89792, 118584, 131988, 166738, 101012, 37342, 8020, 914, 42]
 =end
 #=============================
 module Bit
@@ -141,7 +154,6 @@ module Third
       (0...Bit::BIT_STATES ** @thirds_length).each {|i| yield i}
     end
 
-    private
     def each
       (0...Bit::BIT_STATES ** @thirds_length).each do |word|
         thirds = (0...@thirds_length).collect {bit_value = word & Bit::SINGLE_BIT; word >>= Bit::SINGLE_BIT; bit_value}
@@ -232,7 +244,7 @@ module Gap
     end
 
     private
-    def bits_to_positions( word)
+    def bits_to_positions( word) # Zero-based.
       word <<= Bit::SINGLE_BIT
       (0...@good_words.width).collect {|i| Bit::BIT_VALUE_1 == Bit::SINGLE_BIT & (word >>= Bit::SINGLE_BIT) ? i : nil}.compact # Test least significant first.
     end
@@ -413,7 +425,6 @@ module Harmony
 #-----------------------------
   class Chord
 @@detail_count = 0
-
     def initialize( v)
       @value = v
     end
@@ -482,7 +493,6 @@ module Harmony
       to_s +
       "\n"
     end
-
     def Chord.heading
       '[' + 'beginning' + ']' +
       ' - ' +
@@ -534,6 +544,7 @@ end
     end
 =end
   end #class
+=begin
 #-----------------------------
   class Chord_beginning_old
     def Chord_beginning_old.chord_class=( c)
@@ -663,6 +674,7 @@ print 'categorized_beginnings.collect {|a| a.length} '; p categorized_beginnings
 print 'Chord.detail_count '; p Chord.detail_count
     end
   end #class
+=end
 #-----------------------------
   class Chord_beginning
     def Chord_beginning.chord_class=( c)
@@ -675,47 +687,34 @@ print 'Chord.detail_count '; p Chord.detail_count
 #print '@beginning.length '; p @beginning.length
       @beginning_have = @beginning.inject( Array.new( OCTAVE, false # Start by assuming that @beginning has no notes.
       )) {|memo, note| memo[ note % OCTAVE] = true; memo}
+#print '@beginning_have '; p @beginning_have
     end
 
-
-
-#NEW CODE:
-    def handle( extension_shrinkage)
+    def handle( extensions)
       @beginning_last = @beginning.last
-      extension_shrinkage.each do |extension_different_lengths|
-#       extension_different_lengths.reverse_each do |relative_extension|
-#print 'relative_extension '; p relative_extension
-#         absolute_extension = relative_extension.collect {|relative_note| @beginning_last + relative_note}
-#         handle_all_lengths( absolute_extension)
-#         absolute_extension = relative_extension.collect {|relative_note| @beginning_last + relative_note}
-#         handle_all_lengths( absolute_extension)
-#       end #do relative_extension
-          handle_all_lengths( extension_different_lengths)
-      end #do extension_different_lengths
+      extensions.each do |extension_differing_lengths|
+          handle_all_lengths( extension_differing_lengths)
+      end #do extension_differing_lengths
     end
 
     private
-    def handle_all_lengths( extension_different_lengths)
-#      chord = @beginning.clone
-      extension_different_lengths.reverse_each do |relative_extension|
+    def handle_all_lengths( extension_differing_lengths)
+      relative_extension_break = false
+      extension_differing_lengths.reverse_each do |relative_extension|
 #print 'relative_extension '; p relative_extension
-        absolute_extension = relative_extension.collect {|relative_note| @beginning_last + relative_note}
-        absolute_extension.each do |note|
-
-
-
-
-          break ** two levels ** if @beginning_have.at( note % OCTAVE)
-        chord.push( note)
-#print 'chord '; p chord
-#print 'chord.length '; p chord.length
-        @@chord.new( chord).handle( @beginning)
-      end #do note
+        relative_extension.each do |relative_note|
+          (relative_extension_break = true; break) if @beginning_have.at(( @beginning_last + relative_note) % OCTAVE)
+        end #do relative_note
+        break if relative_extension_break
+        @@chord.new( @beginning + relative_extension.collect {|relative_note|
+        @beginning_last + relative_note}).handle( @beginning)
+      end #do relative_extension
 #print '@@chord.detail_count '; p @@chord.detail_count
     end #def
   end #class
 #-----------------------------
   class Chord_beginnings
+    THIRDS =[ MINOR_THIRD, MAJOR_THIRD]
     include Enumerable
     def initialize
       @chord_beginnings = part_is_generable? ? [] : BEGINNINGS
@@ -728,14 +727,9 @@ print 'Chord.detail_count '; p Chord.detail_count
     private
     def part_is_generable?
       result = false
-      thirds =[ MINOR_THIRD, MAJOR_THIRD]
       BEGINNINGS.each do |a|
         (result = true; p 'Do not need this chord:', a) if a.length >= 2 and
-           thirds.include?( last_interval = a.last - a[    a.length -  2])
-
-
-
-#NEW CODE:
+           THIRDS.include?( last_interval = a.last - a[    a.length -  2])
         (result = true; p 'Duplicate chord:', a) if BEGINNINGS.find_all {|e| e == a}.length >= 2
       end #do a
       result
@@ -743,82 +737,101 @@ print 'Chord.detail_count '; p Chord.detail_count
   end #class
 #-----------------------------
   class Chord_beginning_category
-
-
-
-#NEW CODE:
+    ALL_VALID = Array.new( OCTAVE, false)
+# Relies on its objects being created in order of non-decreasing @beginnings length.
     @@first_time = true
     def initialize( b)
       @beginnings = b
+# Relies on @max_thirds_length never increasing.
+#print '@beginnings.first.length '; p @beginnings.first.length
       @max_thirds_length = OCTAVE - @beginnings.first.length # All same length.
       if @@first_time
-        extensions = make_internally_valid_no_note_repetitions(
-        product( Third::All_chords.new( @max_thirds_length), 
+        long_extension_categories = product(
+        Third::All_chords.new(       @max_thirds_length), 
         Gap::All_constellation_positions.new(
-        Gap::All_constellations.new(    @max_thirds_length - 1)))) # The last place is not properly a gap.
-#Get lengths.
-        extension_length_categories = (1..extensions.collect {|a| a.length}.max).to_a
-# foll. -- or just length - 1.
-        @@categorized_extensions = (0...extensions.length).inject( Array.new( extension_length_categories.length) {[]}) {
-        |memo, i| memo[ extension_length_categories.at( extensions.at( i).length)].push( [extensions.at( i), i]); memo}
+        Gap::All_constellations.new( @max_thirds_length - 1)), # The last place is not properly a gap.
+                                     @max_thirds_length)
+#print 'long_extension_categories.length '; p long_extension_categories.length
+print 'long_extension_categories.collect {|a| a.length} '; p long_extension_categories.collect {|a| a.length}
+# Is inject ... at( i) slow?
+# Is array creation (of [--, i]) slower than using struc?
 # Add shrinkage to length categories and Gap-Third combination categories.
-#       @@extension_shrinkage = (0...extensions.length).collect {|i| [[extensions.at( i), i]]}
-        @@extension_shrinkage = extensions.collect {|e| [e]}
-        extensions.each_with_index do |a, i|
-          shrinking = a.clone
-          (a.length - 1).times do # One shorter, down through a length of 1 to handle gaps at the beginning.
-            shrinking.pop
-            b = [shrinking, i]
-            c = @@categorized_extensions.at( shrinking.length)
-            break if c.include?( b)
-            c.push( b)
-            @@extension_shrinkage.at( i).push( shrinking)
-          end #do times
-        end #do a, i
+#Get lengths.
+        @@shrinking_extension_categories = long_extension_categories.clone # Works with clear on its objects.
+        @@extensions = []
+        long_extension_categories.each do |category|
+          category.each do |extension|
+#print 'extension '; p extension
+            pushable_extensions = []
+            shrinking = extension
+            (extension.length - 1).times do # Down through a length of 1 to handle gaps at the first place.
+              shrinking = shrinking.clone
+              shrinking.pop
+#print 'shrinking '; p shrinking
+              c = @@shrinking_extension_categories.at( shrinking.length - 1)
+#print 'shrinking.length '; p shrinking.length
+              break if c.include?( shrinking)
+              c.push( shrinking)
+              pushable_extensions.push( shrinking) # Same object.
+            end #do times
+            @@extensions.push( pushable_extensions)
+          end #do extension
+        end #do unshrunk_extension_category
       else
         @@first_time = false
-        (@max_thirds_length - 1...@@categorized_extensions.length).each do |i|
-          @@categorized_extensions.at( i).each {|a| a.clear}
-          @@categorized_extensions.delete_at( i)}
+        (@max_thirds_length + 1..@@shrinking_extension_categories.length).each do |i|
+          @@shrinking_extension_categories.at( i - 1).each {|a| a.clear} # Keep object (not value) for arrays holding it.
+          @@shrinking_extension_categories.delete_at( i - 1) # Delete reference to object (not object).
         end #do i
+        @@extensions.each {|a| a.reject! {|e| e.empty?}}
+        @@extensions.reject! {|e| e.empty?}
       end #if
-      @@extension_shrinkage.each {|a| a.reject! {|e| e.empty?}}
-      @@extension_shrinkage.reject! {|e| e.empty?}
     end
 
     def handle
 detail_count_difference = Chord.detail_count
-#print 'extensions '; p extensions
-#      @beginnings.each do |beginning|
-      [@beginnings.first].each {|beginning|
-
-
-
-#NEW CODE:
-        Chord_beginning.new( beginning).handle( @@extension_shrinkage)}
+#     [@beginnings.first].each {|beginning|
+      @beginnings.each {|beginning|
+        Chord_beginning.new( beginning).handle( @@extensions)}
 detail_count_difference = Chord.detail_count - detail_count_difference
 print 'detail_count_difference '; p detail_count_difference
     end #def
 
     private
-    def product( thirds_chords, gap_patterns)
-      thirds_chords.inject( []) do |memo, thirds_chord|
+    def product( thirds_chords, gap_patterns, el)
+      extension_lengths = el # 1 through maximum length.
+      categorized_extensions = Array.new( extension_lengths) {[]}
+      thirds_chords.each do |thirds_chord|
 #print 'thirds_chord '; p thirds_chord
 #print 'thirds_chord.length '; p thirds_chord.length
-#       positive_pattern = (0...max_thirds_length - 1).to_a
-        memo.concat( gap_patterns.collect do |positive_pattern|
+        pp_break = false
+        gap_patterns.each do |positive_pattern| # Get valid length:
 #print 'positive_pattern '; p positive_pattern
-          positive_pattern.collect {|i| thirds_chord.at( i)}.push( thirds_chord.last)
-        end) #do positive_pattern
-      end #do memo, thirds_chord
+          have = ALL_VALID.clone
+          chord = []
+          positive_pattern.each do |e|
+            note = thirds_chord.at( e)
+            (pp_break = true; break) if have.at( note % OCTAVE)
+            have[ note % OCTAVE] = true
+            chord.push( note)
+          end #do e
+          break if pp_break
+          note = thirds_chord.last
+          chord.push( note) unless have.at( note % OCTAVE)
+          c = categorized_extensions.at( chord.length - 1)
+          break if c.include?( chord)
+          c.push( chord)
+        end #do positive_pattern
+      end #do thirds_chord
+      categorized_extensions
     end #def
-
+=begin
     def make_internally_valid_no_note_repetitions( extensions)
       extensions.collect {|e| e.first( valid_length( e))}
     end
 
     def valid_length( chord)
-      have = Array.new( OCTAVE, false)
+      have = ALL_VALID.clone
       result = chord.length # Start by assuming the chord is all valid.
       chord.each_with_index do |note, i|
         (result = i; break) if have.at( note % OCTAVE)
@@ -826,6 +839,7 @@ print 'detail_count_difference '; p detail_count_difference
       end #do
       result
     end #def
+=end
   end #class
 #-----------------------------
   class Chord_beginning_categories
@@ -843,8 +857,8 @@ print 'categorized_beginnings.collect {|a| a.length} '; p categorized_beginnings
     end #def
 
     def each
-#     @beginning_categories.each {|a| yield a}
-      (6...@beginning_categories.length).each {|i| yield @beginning_categories.at( i)}
+#     (6...@beginning_categories.length).each {|i| yield @beginning_categories.at( i)}
+      @beginning_categories.each {|a| yield a}
     end
 
     def handle
@@ -882,10 +896,6 @@ module Main
     def initialize
 #     Harmony::Chord_beginning.chord_class = Harmony::Chord
 #     Harmony::Chord_beginning.chord_class = Harmony::Chord_accumulate
-
-#     Harmony::Chord_beginning_old.chord_class = Harmony::Chord_print
-#     Harmony::Chord_beginning_categories_old.new.handle
-
       Harmony::Chord_beginning.chord_class = Harmony::Chord_print
       Harmony::Chord_beginning_categories.new.handle
     end
