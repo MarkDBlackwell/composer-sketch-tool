@@ -97,8 +97,20 @@ module Harmony
       Chord.new( @value + a.value)
     end #def
 
+    def at( i)
+      @value.at( i)
+    end
+
+    def breadth
+      @value.value.last
+    end
+
     def each
       @value.each {|e| yield e}
+    end
+
+    def last
+      @value.last
     end
 
     def length
@@ -118,9 +130,9 @@ module Harmony
       Chord.new(( 0...NOTE_NAMES.length).to_a.reject {|e| one_octave.include?( e)})
     end
 
-    def breadth
-      @value.value.last
-    end
+#    def take( a)
+#      Chord.new( @value.slice( 0...a))
+#    end
 
     def to_s
       @value.collect {|note| Note.new( note).to_s}.join( ' ')
@@ -128,10 +140,6 @@ module Harmony
 
     def tritones_count
       count_pairings( 6)
-    end
-
-    def take( a)
-      Chord.new( @value.slice( 0...a))
     end
 
     def value
@@ -188,45 +196,45 @@ module Chord_begin
 #-----------------------------
   class Chord_beginnings
     CHORD_BEGINNINGS =[ # G, followed by:
-[ 0, 11, 13, 19], # F# Ab D
+#[ 0, 11, 13, 19], # F# Ab D - (Gap covers.)
 [ 0, 11, 13, 15], # F# Ab Bb
-[ 0, 11], # F#
+#[ 0, 11], # F# - (Gap covers.)
 
 [ 0, 10, 15], # F Bb
 [ 0, 10, 13, 15], # F Ab Bb
-[ 0, 10], # F
+#[ 0, 10], # F - (Gap covers.)
 
-[ 0, 9, 15], # E Bb
+#[ 0, 9, 15], # E Bb - (Gap covers.)
 [ 0, 9, 11, 19, 20, 22], # E F# D Eb F (U)
 [ 0, 9, 11, 19, 20], # E F# D Eb (U)
-[ 0, 9, 11, 19], # E F# D (U)
+#[ 0, 9, 11, 19], # E F# D (U) - (Gap covers.)
 [ 0, 9, 11, 14, 16], # E F# A B (U)
-[ 0, 9, 11, 13, 19], # E F# Ab D
+#[ 0, 9, 11, 13, 19], # E F# Ab D - (Gap covers.)
 [ 0, 9, 11, 13, 15], # E F# Ab Bb (U)
 [ 0, 9, 11], # E F# (U)
-[ 0, 9], # E
+#[ 0, 9], # E - (Gap covers.)
 
-[ 0, 8, 19], # Eb D
-[ 0, 8, 15], # Eb Bb
-[ 0, 8, 13, 19], # Eb Ab D
+#[ 0, 8, 19], # Eb D - (Gap covers.)
+#[ 0, 8, 15], # Eb Bb - (Gap covers.)
+#[ 0, 8, 13, 19], # Eb Ab D - (Gap covers.)
 [ 0, 8, 13, 15], # Eb Ab Bb
 [ 0, 8, 13], # Eb Ab
-[ 0, 8, 11, 19], # Eb F# D (U)
+#[ 0, 8, 11, 19], # Eb F# D (U) - (Gap covers.)
 [ 0, 8, 11, 17, 19], # Eb F# C D (U)
-[ 0, 8, 11, 17], # Eb F# C (U)
+#[ 0, 8, 11, 17], # Eb F# C (U) - (Gap covers.)
 [ 0, 8, 11, 16], # Eb F# B (U)
-[ 0, 8, 11, 13, 19], # Eb F# Ab D
+#[ 0, 8, 11, 13, 19], # Eb F# Ab D - (Gap covers.)
 [ 0, 8, 11, 13, 18], # Eb F# Ab C# (U)
 [ 0, 8, 11, 13, 15], # Eb F# Ab Bb (U)
 [ 0, 8, 11, 13], # Eb F# Ab
-[ 0, 8], # Eb (U)
+#[ 0, 8], # Eb (U) - (Gap covers.)
 
-[ 0, 7, 11, 17], # D F# C (U)
+#[ 0, 7, 11, 17], # D F# C (U) - (Gap covers.)
 [ 0, 7, 11, 13, 15], # D F# Ab Bb (U)
 [ 0, 7, 11, 13], # D F# Ab (U)
 [ 0, 7, 10, 16, 18], # D F B C# (U)
-[ 0, 7, 10, 16], # D F B (U)
-[ 0, 7, 9, 11, 18], # D E F# C# (U)
+#[ 0, 7, 10, 16], # D F B (U) - (Gap covers.)
+#[ 0, 7, 9, 11, 18], # D E F# C# (U) - (Gap covers.)
 [ 0, 7, 9, 11, 15, 20, 22], # D E F# Bb Eb F (U)
 [ 0, 7, 9, 11, 15, 20], # D E F# Bb Eb (U)
 [ 0, 7, 9, 11, 14, 16], # D E F# A B (U)
@@ -234,7 +242,7 @@ module Chord_begin
 [ 0, 7, 9, 11, 13], # D E F# Ab (U)
 [ 0, 7, 9, 11], # D E F# (U)
 [ 0, 7, 9], # D E (U)
-[ 0, 7], # D (U)
+#[ 0, 7], # D (U) - (Gap covers.)
 
 [ 0, 6, 10, 14, 15, 17], # C# F A Bb C (U)
 [ 0, 6, 10, 14, 15], # C# F A Bb (U)
@@ -244,88 +252,89 @@ module Chord_begin
 [ 0, 6, 9, 11], # C# E F# (U)
 [ 0, 6, 8, 10], # C# Eb F (U)
 [ 0, 6, 8], # C# Eb (U)
-[ 0, 6], # C# (U)
+#[ 0, 6], # C# (U) - (Gap covers.)
 
-[ 0, 5, 15], # C Bb
-[ 0, 5, 13, 19], # C Ab D
+#[ 0, 5, 15], # C Bb - (Gap covers.)
+#[ 0, 5, 13, 19], # C Ab D - (Gap covers.)
 [ 0, 5, 13, 15], # C Ab Bb
-[ 0, 5, 13], # C Ab
+#[ 0, 5, 13], # C Ab - (Gap covers.)
 [ 0, 5, 11, 14, 16], # C F# A B (U)
-[ 0, 5, 11, 13, 19], # C F# Ab D
+#[ 0, 5, 11, 13, 19], # C F# Ab D - (Gap covers.)
 [ 0, 5, 11, 13, 15], # C F# Ab Bb
 [ 0, 5, 11, 13], # C F# Ab
-[ 0, 5, 11], # C F# (U)
+#[ 0, 5, 11], # C F# (U) - (Gap covers.)
 [ 0, 5, 9, 16, 19, 20], # C E B D Eb (U)
-[ 0, 5, 9, 16], # C E B (U)
-[ 0, 5, 9, 15], # C E Bb
+#[ 0, 5, 9, 16], # C E B (U) - (Gap covers.)
+#[ 0, 5, 9, 15], # C E Bb - (Gap covers.)
 [ 0, 5, 9, 14, 16, 18], # C E A B C# (U)
 [ 0, 5, 9, 14, 16], # C E A B (U)
 [ 0, 5, 9, 14], # C E A (U)
-[ 0, 5, 9, 13, 19], # C E Ab D
+#[ 0, 5, 9, 13, 19], # C E Ab D - (Gap covers.)
 [ 0, 5, 9, 13, 15], # C E Ab Bb
-[ 0, 5, 9, 11, 13, 19], # C E F# Ab D
+#[ 0, 5, 9, 11, 13, 19], # C E F# Ab D - (Gap covers.)
 [ 0, 5, 9, 11, 13, 15], # C E F# Ab Bb (U)
 [ 0, 5, 9, 11, 13], # C E F# Ab
 [ 0, 5, 9, 11], # C E F#
-[ 0, 5, 8, 16], # C Eb B (U)
-[ 0, 5, 8, 15], # C Eb Bb
-[ 0, 5, 8, 13, 19], # C Eb Ab D
+#[ 0, 5, 8, 16], # C Eb B (U) - (Gap covers.)
+#[ 0, 5, 8, 15], # C Eb Bb - (Gap covers.)
+#[ 0, 5, 8, 13, 19], # C Eb Ab D - (Gap covers.)
 [ 0, 5, 8, 13, 15], # C Eb Ab Bb (U)
 [ 0, 5, 8, 13], # C Eb Ab
 [ 0, 5, 8, 10, 15], # C Eb F Bb (U)
 [ 0, 5, 8, 10], # C Eb F (U)
-[ 0, 5, 7, 15], # C D Bb
-[ 0, 5, 7, 13, 19], # C D Ab D
+#[ 0, 5, 7, 15], # C D Bb - (Gap covers.)
+#[ 0, 5, 7, 13, 19], # C D Ab D
 [ 0, 5, 7, 13, 15], # C D Ab Bb
-[ 0, 5, 7, 13], # C D Ab
-[ 0, 5, 7, 11, 13, 19], # C D F# Ab D
+#[ 0, 5, 7, 13], # C D Ab - (Gap covers.)
+#[ 0, 5, 7, 11, 13, 19], # C D F# Ab D - (Gap covers.)
 [ 0, 5, 7, 11, 13, 15], # C D F# Ab Bb
 [ 0, 5, 7, 11, 13], # C D F# Ab
 [ 0, 5, 7], # C D (U)
 [ 0, 5], # C (U)
 
-[ 0, 4, 15], # B Bb
+#[ 0, 4, 15], # B Bb - (Gap covers.)
 [ 0, 4, 13, 15], # B Ab Bb (U)
 [ 0, 4, 11, 14, 15], # B F# A Bb (U)
-[ 0, 4, 11, 13, 19], # B F# Ab D
+#[ 0, 4, 11, 13, 19], # B F# Ab D - (Gap covers.)
 [ 0, 4, 11, 13, 15], # B F# Ab Bb (U)
 [ 0, 4, 11, 13], # B F# Ab (U)
-[ 0, 4, 11], # B F# (U)
+#[ 0, 4, 11], # B F# (U) - (Gap covers.)
 [ 0, 4, 10, 13, 15], # B F Ab Bb (U)
-[ 0, 4, 10], # B F (U)
-[ 0, 4, 9, 15], # B E Bb (U)
-[ 0, 4, 9, 13, 19], # B E Ab D
+#[ 0, 4, 10], # B F (U) - (Gap covers.)
+#[ 0, 4, 9, 15], # B E Bb (U) - (Gap covers.)
+#[ 0, 4, 9, 13, 19], # B E Ab D - (Gap covers.)
 [ 0, 4, 9, 13, 15], # B E Ab Bb (U)
 [ 0, 4, 9, 11, 13, 15], # B E F# Ab Bb (U)
 [ 0, 4, 9, 11], # B E F# (U)
-[ 0, 4, 8, 15], # B Eb Bb (U)
-[ 0, 4, 8, 13, 19], # B Eb Ab D
+[ 0, 4, 9, 15], # B E (U)
+#[ 0, 4, 8, 15], # B Eb Bb (U) - (Gap covers.)
+#[ 0, 4, 8, 13, 19], # B Eb Ab D - (Gap covers.)
 [ 0, 4, 8, 13, 15], # B Eb Ab Bb
 [ 0, 4, 8, 13], # B Eb Ab
 [ 0, 4, 8, 11, 13, 15], # B Eb F# Ab Bb (U)
 [ 0, 4, 8, 11, 13], # B Eb F# Ab
 [ 0, 4, 8, 10], # B Eb F (U)
-[ 0, 4, 7, 15], # B D Bb (U)
-[ 0, 4, 7, 14], # B D A (U)
+#[ 0, 4, 7, 15], # B D Bb (U) - (Gap covers.)
+#[ 0, 4, 7, 14], # B D A (U) - (Gap covers.)
 [ 0, 4, 7, 13, 15, 17], # B D Ab Bb C (U)
 [ 0, 4, 7, 13, 15], # B D Ab Bb (U)
-[ 0, 4, 7, 13], # B D Ab (U)
+#[ 0, 4, 7, 13], # B D Ab (U) - (Gap covers.)
 
-[ 0, 3, 13], # Bb Ab
-[ 0, 3, 11], # Bb F# (U)
+#[ 0, 3, 13], # Bb Ab - (Gap covers.)
+#[ 0, 3, 11], # Bb F# (U) - (Gap covers.)
 [ 0, 3, 9, 11], # Bb E F# (U)
-[ 0, 3, 9], # Bb E (U)
-[ 0, 3, 8, 13, 19], # Bb Eb Ab D
+#[ 0, 3, 9], # Bb E (U) - (Gap covers.)
+#[ 0, 3, 8, 13, 19], # Bb Eb Ab D - (Gap covers.)
 [ 0, 3, 8, 13], # Bb Eb Ab
 [ 0, 3, 8, 11, 13], # Bb Eb F# Ab
 [ 0, 3, 8, 10], # Bb Eb F
 [ 0, 3, 8], # Bb Eb
-[ 0, 3, 7, 13], # Bb D Ab
+#[ 0, 3, 7, 13], # Bb D Ab - (Gap covers.)
 [ 0, 3, 7, 11, 13], # Bb D F# Ab
 [ 0, 3, 7, 9], # Bb D E
-[ 0, 3, 6, 14], # Bb C# A (U)
+#[ 0, 3, 6, 14], # Bb C# A (U) - (Gap covers.)
 
-[ 0, 2, 11], # A F#
+#[ 0, 2, 11], # A F# - (Gap covers.)
 [ 0, 2], # A
 
 [ 0], # Just G (U)
@@ -376,7 +385,8 @@ module Thirds_chords
       All_thirds_chord_words.new( @thirds_length).each do |word|
         thirds = (1..@thirds_length).collect {bit = word & 1; word >>= 1; bit}
         note = @chord_beginning.last
-        chord = @chord_beginning + thirds.collect do |e|
+#        chord = @chord_beginning + thirds.collect do |e|
+        chord = thirds.collect do |e|
           case e
             when 0; note += 4 # Major third.
             when 1; note += 3 # Minor third.
@@ -428,6 +438,10 @@ module Gap
       @good_words.each {|e| yield e}
     end #def
 
+    def length
+      @good_words.length
+    end
+
     private
     def pick
       @all_words.reject do |w|
@@ -454,6 +468,10 @@ module Gap
     def each
       @good_words.each {|word| yield bits_to_positions( word)}
     end #def
+
+    def length
+      @good_words.length
+    end
 
     private
     def bits_to_positions( word)
@@ -523,6 +541,7 @@ module Print_something
 #-----------------------------
   class Mathematical_format
 # Here, do the chord-shortening loop.
+    @@count = 0
     def initialize( cb, h, tc)
       @chord_beginning = cb
       @have = h
@@ -530,13 +549,24 @@ module Print_something
     end
 
     def print_me
-      full_chord = @chord_beginning + @have.collect {|i| @thirds_chord.at( i)} + @thirds_chord.last
+      full_chord = @chord_beginning + @have.collect {|i| @thirds_chord.at( i)} + [@thirds_chord.last]
+      print 'full_chord '; p full_chord
       chord = full_chord.slice( 0...(v = valid_length( full_chord)))
+      print 'chord '; p chord
+      print 'v '; p v
+      print '@chord_beginning.length '; p @chord_beginning.length
+#        @@count += 1
       (v - @chord_beginning.length).times do
-        print Print_line.new( chord, @chord_beginning).to_s
+#        print Print_line.new( chord, @chord_beginning).to_s
+        @@count += 1
+        print '@@count '; p @@count
         chord.pop
       end #do
     end #def
+
+    def Mathematical_format.count
+      @@count
+    end
 
     private
     def valid_length( chord)
@@ -560,18 +590,27 @@ module Main
   class Main_do
     OCTAVE_LENGTH = 12
     def run
-      Chord_begin::Chord_beginnings.new.each do |chord_begin|
+#      chord_begin = [ 0, 11, 13, 19]
+      chord_begin = [ 0]
+#      Chord_begin::Chord_beginnings.new.each do |chord_begin|
+        print 'chord_begin '; p chord_begin
         max_thirds_length = OCTAVE_LENGTH - chord_begin.length
-
-        all_thirds_chords = All_thirds_chords.new( chord_begin, max_thirds_length)
+        all_thirds_chords = Thirds_chords::
+        All_thirds_chords.new(              chord_begin, max_thirds_length)
         gap_patterns = Gap::Gap_constellation_array.new( max_thirds_length - 1) # The last place is not properly a gap.
+        print 'gap_patterns.length '; p gap_patterns.length
+#        thirds_chord = [0, 11, 13, 19]
         all_thirds_chords.each do |thirds_chord|
-          have = (0...max_thirds_length - 1).to_a
+          print 'thirds_chord '; p thirds_chord
+#          have = (0...max_thirds_length - 1).to_a
+          have = (0..7).to_a
 #          gap_patterns.each do |have|
+            print 'have '; p have
             Print_something::Mathematical_format.new( chord_begin, have, thirds_chord).print_me
-#          end #do
-        end #do
-      end #do
+          end #do
+#        end #do
+#      end #do
+      print 'Mathematical_format.count '; p Print_something::Mathematical_format.count
     end #def
   end #class
 #-----------------------------
