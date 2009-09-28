@@ -131,14 +131,14 @@ nog count
 2 216
 3 8
 all 1024
-439 node.dump "nog: 3 i: [0,1,3,3,3] hn: 10"
-823 node.dump "nog: 3 i: [0,3,1,3,3] hn: 10"
-871 node.dump "nog: 3 i: [0,3,3,1,3] hn: 10"
-877 node.dump "nog: 3 i: [0,3,3,3,1] hn: 10"
-878 node.dump "nog: 3 i: [0,3,3,3] hn: 9"
-879 node.dump "nog: 3 i: [0,3,3,4] hn: 10"
-887 node.dump "nog: 3 i: [0,3,4,3] hn: 10"
-951 node.dump "nog: 3 i: [0,4,3,3] hn: 10"
+439 leaf.dump "nog: 3 i: [0,1,3,3,3] hn: 10"
+823 leaf.dump "nog: 3 i: [0,3,1,3,3] hn: 10"
+871 leaf.dump "nog: 3 i: [0,3,3,1,3] hn: 10"
+877 leaf.dump "nog: 3 i: [0,3,3,3,1] hn: 10"
+878 leaf.dump "nog: 3 i: [0,3,3,3] hn: 9"
+879 leaf.dump "nog: 3 i: [0,3,3,4] hn: 10"
+887 leaf.dump "nog: 3 i: [0,3,4,3] hn: 10"
+951 leaf.dump "nog: 3 i: [0,4,3,3] hn: 10"
 
 CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 MINIMUM_GAP_INTERVAL 9
@@ -384,6 +384,24 @@ empty_ones.length  759
 sum_length 1289
 sum_length.to_f/@fill_chords.length  0.62939453125
 sum  1289
+
+@most_significant_bit_value.to_s( 2) "100000000000"
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 14
+@@max_major_seconds_cluster 2
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 351
+empty_ones.length  1752
+@fill_chords.length 2048
+sum_length 296
+sum_length.to_f/@fill_chords.length  0.14453125
+sum  296
 =end
 require 'main'
 Main::Program.new( note_space_width = 12).run
