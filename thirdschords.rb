@@ -932,10 +932,9 @@ MINIMUM_GAP_INTERVAL 9
       @@processing_node
     end #def
 
-    def initialize( p, i) # Return the *first* object made (because of unwinding the stack).
-        @parent = p
-        @intervals = i
-      @absolutes = intervals_to_absolutes( @intervals)
+    def initialize( p, a) # Return the *first* object made (because of unwinding the stack).
+          @parent = p
+          @absolutes = a
       @have_notes = absolutes_to_have_notes( @absolutes)
 #print '@have_notes '; p @have_notes
 #     alert 'new called wrongly' if caller != Node.make_new_node_with_branch_and_return_its_leaf
@@ -953,25 +952,32 @@ MINIMUM_GAP_INTERVAL 9
 
     private
     def absolutes_to_intervals( absolutes)
-
+      previous  = absolutes.first
+      intervals = absolutes.collect {|e| result = e - previous; previous = e; result}
     end
 
+    private
+    def intervals
+      absolutes_to_intervals( @absolutes)
+    end
+
+=begin
     private
     def intervals_to_absolutes( intervals)
       running_sum = 0
       absolutes = intervals.collect {|e| running_sum += e}
     end
+=end
 
     private
     def step_down_branch
       until @candidate_intervals_index >= CANDIDATE_INTERVALS.length
         interval = CANDIDATE_INTERVALS.at( @candidate_intervals_index)
         @candidate_intervals_index += 1
-        try_intervals = @intervals.clone.push( interval)
-        try_absolutes = intervals_to_absolutes( try_intervals)
-        next if anything_bad( try_intervals, try_absolutes)
+        try_absolutes = @absolutes.clone.push( @absolutes.last + interval)
+        next if anything_bad( try_absolutes)
 # Assume the first interval is insufficiently large to be a gap.
-        node = Node.make_new_node_with_branch_and_return_its_leaf( parent = self, try_intervals)
+        node = Node.make_new_node_with_branch_and_return_its_leaf( parent = self, try_absolutes)
         break
       end #until
 # Assume that before this (self) node was created, it was checked for anything bad.
@@ -992,41 +998,22 @@ MINIMUM_GAP_INTERVAL 9
       return create_sibling if @candidate_intervals_index > CANDIDATE_INTERVALS.length
       interval = CANDIDATE_INTERVALS.at( @candidate_intervals_index)
       @candidate_intervals_index += 1
-      try_intervals = @intervals.clone.push( interval)
-      try_absolutes = intervals_to_absolutes( try_intervals)
-      return create_next_child if anything_bad( try_intervals, try_absolutes)
-      Node.make_new_node_with_branch_and_return_its_leaf( parent = self, try_intervals)
+      try_absolutes = @absolutes.clone.push( @absolutes.last + interval)
+      return create_next_child if anything_bad( try_absolutes)
+      Node.make_new_node_with_branch_and_return_its_leaf( parent = self, try_absolutes)
     end #def
 
     private
-    def anything_bad( try_intervals, try_absolutes)
-        highest = highest_note + try_intervals.last
-#     try_absolutes = intervals_to_absolutes( try_intervals)
+    def anything_bad( try_absolutes)
+      last_interval = (highest = try_absolutes.last) - try_absolutes.at( -2)
       highest > MAX_HIGHEST_NOTE ||
-        (try_intervals.last >= MINIMUM_GAP_INTERVAL && number_of_gaps + 1 > MAX_GAPS) ||
-        @have_notes.at( highest % Harmony::OCTAVE) ||
-        count_an_interval( try_absolutes, Harmony::MINOR_SECOND) > MAX_MINOR_SECONDS ||
-        count_an_interval( try_absolutes, Harmony::TRITONE) > MAX_TRITONES ||
-        count_an_interval( try_absolutes, Harmony::MINOR_NINTH) > MAX_MINOR_NINTHS ||
+          (last_interval >= MINIMUM_GAP_INTERVAL && number_of_gaps + 1 > MAX_GAPS) ||
+          @have_notes.at( highest % Harmony::OCTAVE) ||
+          count_an_interval( try_absolutes, Harmony::MINOR_SECOND) > MAX_MINOR_SECONDS ||
+          count_an_interval( try_absolutes, Harmony::TRITONE) > MAX_TRITONES ||
+          count_an_interval( try_absolutes, Harmony::MINOR_NINTH) > MAX_MINOR_NINTHS ||
       false
     end #def
-
-=begin
-    private
-    def count_an_interval_old( intervals, interval_to_count)
-      absolutes = intervals_to_absolutes( intervals)
-      count = 0
-      (0...absolutes.length).each do |left_index|
-        left = absolutes.at( left_index)
-        (left_index + 1...absolutes.length).each do |right_index|
-          difference = absolutes.at( right_index) - left
-          count += 1 if difference == interval_to_count
-          break if difference >= interval_to_count # Assume absolutes are sorted.
-        end #each right_index
-      end #each left_index
-      count
-    end #def
-=end
 
     private
     def count_an_interval( absolutes, interval_to_count)
@@ -1042,14 +1029,17 @@ MINIMUM_GAP_INTERVAL 9
       count
     end #def
 
+=begin
     private
     def highest_note
       @absolutes.last
     end
+=end
 
     private
     def number_of_gaps
-      @intervals.find_all {|e| e >= MINIMUM_GAP_INTERVAL}.length
+      intervals = absolutes_to_intervals( @absolutes)
+      intervals.find_all {|e| e >= MINIMUM_GAP_INTERVAL}.length
     end
 
     public
@@ -1064,9 +1054,9 @@ MINIMUM_GAP_INTERVAL 9
       ' ' +
       'j9: ' + count_an_interval( @absolutes, Harmony::MAJOR_NINTH).to_s + 
       ' ' +
-      'hn: ' + highest_note.to_s +
+      'hn: ' + (highest_note = @absolutes.last).to_s +
       ' ' +
-      'i: [' + @intervals.join(',') + ']' +
+      'i: [' + intervals.join(',') + ']' +
       ''
     end
 
@@ -1078,17 +1068,14 @@ MINIMUM_GAP_INTERVAL 9
   end #class
 #-----------------------------
   class Tree
-# A virtual tree, using depth-first traversal; only a single branch exists at any one time.
+# A virtual tree, using depth-first traversal; only a single branch exists at any time.
     def initialize
-      beginning = [0]
-      intervals = beginning.inject( nil) {|memo, e| memo.nil? ? [e] : memo.push( e - memo.last)}
-      @first_leaf = Node.make_new_node_with_branch_and_return_its_leaf( parent = nil, intervals)
-    end #def
+      @first_leaf = Node.make_new_node_with_branch_and_return_its_leaf( parent = nil, absolutes = [0])
+    end
 
     def each
-# Because of depth-first traversal, never need to access child nodes, here.
+# Here, automatic, depth-first traversal means never explicitly navigating downward to child nodes.
       node = @first_leaf
-#     undef @first_leaf # Allow eventual garbage collection of first branch.
       until node.nil?
         yield node
         node = node.create_sibling
