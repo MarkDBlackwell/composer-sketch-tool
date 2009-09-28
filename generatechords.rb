@@ -61,7 +61,8 @@ module GenerateChords
     end
 
     def second_note
-      @absolutes.at( 1)
+      result = @absolutes.at( 1)
+      result.nil? ? 0 : result
     end
 
     def breadth
@@ -234,7 +235,7 @@ module GenerateChords
 # The lowest max_highest_note which fills all the chords is 35, or 39
 # The augmented chord filler takes 41 half-steps.
 #     @@max_highest_note = @@candidate_intervals.last + @@note_space.major_seventh
-      @@max_highest_note = 39 # 2 14 24 28 30 35 36 38 41 44 
+      @@max_highest_note = 14 # 2 24 28 30 35 36 38 39 41 44 
       '@@candidate_intervals '       + @@candidate_intervals.      inspect + "\n" +
       '@@minimum_gap_interval '      + @@minimum_gap_interval.     inspect + "\n" +
       '@@max_gaps '                  + @@max_gaps.                 inspect + "\n" +
