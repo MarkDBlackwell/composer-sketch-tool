@@ -84,7 +84,7 @@ Keep the good ones.
 Keep and apply to all the thirds-length (=11) chords.
 
 Processing one from each length, counted:
-sorted_b.collect {|e| e.length} [1, 2, 7, 26, 29, 13, 1]
+sorted_beginnings.collect {|e| e.length} [1, 2, 7, 26, 29, 13, 1]
 gap_patterns.length 351
 chord_begin [0]
 diff 2931732
@@ -642,32 +642,24 @@ module Main
       diff = 0
 #     print "Main::Main_do#run:\n"
 #     chord_begin = [ 0, 5]
-#     Chord_begin::Chord_beginnings.new.each do |chord_begin|
 # Sort beginnings by length.
-#     tagged = Chord_begin::Chord_beginnings.new.collect {|a| [a.length, a]}
-#     beginnings.each {|a| [a.length, []]}.sort! {|b|, b.first}
-#     sorted = lengths.collect {|e|, [e, []]}
-
       b = Chord_begin::Chord_beginnings.new
       lengths = b.collect {|e| e.length}.sort!.uniq!
-      sorted_b = lengths.collect {[]}
-#     print 'sorted_b '; p sorted_b
-      b.each {|e| sorted_b[ lengths.index( e.length)].concat( [e])}
-      print 'sorted_b.collect {|e| e.length} '; p sorted_b.collect {|e| e.length}
-#     i = 6
-      lengths.each_index do |i|
+      sorted_beginnings = lengths.collect {[]}
+#     print 'sorted_beginnings '; p sorted_beginnings
+      b.each {|e| sorted_beginnings[ lengths.index( e.length)].concat( [e])}
+      print 'sorted_beginnings.collect {|e| e.length} '; p sorted_beginnings.collect {|e| e.length}
+      i = 1
+#     lengths.each_index do |i|
         max_thirds_length = OCTAVE_LENGTH - lengths.at( i)
         gap_patterns = Gap::Gap_constellation_array.new( max_thirds_length - 1) # The last place is not properly a gap.
         print 'gap_patterns.length '; p gap_patterns.length
-#       sorted_b.at( i).each do |chord_begin|
-        chord_begin = sorted_b.at( i).first
+        thirds_chords = Thirds_chords::All_thirds_chords.new( max_thirds_length)
+        chord_begin = sorted_beginnings.at( i).first
+#       sorted_beginnings.at( i).each do |chord_begin|
           print 'chord_begin '; p chord_begin
-#         max_thirds_length = OCTAVE_LENGTH - chord_begin.length
-#         gap_patterns = Gap::Gap_constellation_array.new( max_thirds_length - 1) # The last place is not properly a gap.
-#         print 'gap_patterns.length '; p gap_patterns.length
-
 #         thirds_chord = [4, 8, 11, 15, 18, 22, 26, 29, 33, 37]
-          Thirds_chords::All_thirds_chords.new( max_thirds_length).each do |thirds_chord|
+          thirds_chords.each do |thirds_chord|
 #           print 'thirds_chord '; p thirds_chord
 #           print 'thirds_chord.length '; p thirds_chord.length
 #           have = (0...max_thirds_length - 1).to_a
@@ -678,10 +670,10 @@ module Main
             end #do have
           end #do thirds_chord
 #       end #do chord_begin
-      diff = Print_something::Mathematical_format.count - diff
-      print 'diff '; p diff
-      diff = Print_something::Mathematical_format.count
-      end #do i
+        diff = Print_something::Mathematical_format.count - diff
+        print 'diff '; p diff
+        diff = Print_something::Mathematical_format.count
+#     end #do i
       print 'Mathematical_format.count '; p Print_something::Mathematical_format.count
     end #def
   end #class
