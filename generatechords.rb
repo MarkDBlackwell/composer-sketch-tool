@@ -231,8 +231,10 @@ module GenerateChords
 # The augmented chord filler takes 41 half-steps.
 #     @@max_highest_note = @@candidate_intervals.last + @@note_space.major_seventh
 #      @@max_highest_note = 24 # 2 14 28 30 35 36 38 39 41 44 
-      @@max_highest_note = 41 # 2 14 24 28 30 35 36 38 39 44 
-#      @@max_gaps = 3
+#      @@max_highest_note = 41 # 2 14 24 28 30 35 36 38 39 44 
+      @@max_highest_note = 2 # 14 24 28 30 35 36 38 39 41 44 
+#      @@max_highest_note = 14 # 2 24 28 30 35 36 38 39 41 44 
+#     @@max_gaps = 3
       @@max_gaps = 1000
       @@max_minor_secondths = 0
       @@minimum_gap_interval = @@note_space.half_octave
