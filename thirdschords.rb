@@ -122,156 +122,6 @@ extension_lengths 11
 @@categorized_extensions.collect {|a| a.length} [12800, 51616, 89792, 118584, 131988, 166738, 101012, 37342, 8020, 914, 42]
 =end
 #=============================
-module Bit
-  SINGLE_BIT = 1
-  BIT_STATES = 2
-  BIT_VALUE_0 = 0
-  BIT_VALUE_1 = 1
-end #module
-#=============================
-module Necklace
-#-----------------------------
-  class Normalized_chord
-    def initialize( chord)
-      @value = '' # Is stub.
-    end
-
-    def to_s
-      @value
-    end
-  end #class
-end #module
-#=============================
-module Third
-#-----------------------------
-  class All_chords
-    include Enumerable
-    def initialize( w)
-      @width = w
-      @thirds_relative_chords = Array.new
-      have = Array.new( Harmony::OCTAVE)
-      (0...Bit::BIT_STATES ** @width).each do |word|
-        thirds = (0...@width).collect {bit_value = word & Bit::SINGLE_BIT; word >>= Bit::SINGLE_BIT; bit_value}
-        have.fill( false)
-        note = 0
-        relative_chord = thirds.collect do |third|
-          case third
-            when Bit::BIT_VALUE_0; note += Harmony::MAJOR_THIRD
-            when Bit::BIT_VALUE_1; note += Harmony::MINOR_THIRD
-          end #case
-          next if have.at( note % Harmony::OCTAVE) # Skip this third's note.
-          have[ note % Harmony::OCTAVE] = true
-          note
-        end #do third
-        relative_chord.compact! # Remove nil's from next's.
-        @thirds_relative_chords.push( relative_chord) unless @thirds_relative_chords.include?( relative_chord)
-      end #do word
-    end #def
-
-    def each
-      @thirds_relative_chords.each {|e| yield e}
-    end
-
-    def each_index
-      @thirds_relative_chords.each_index {|i| yield i}
-    end
-
-    def length
-      @thirds_relative_chords.length
-    end
-
-    def width
-      @width
-    end
-
-  end #class
-end #module
-#=============================
-module Gap
-  MAX_GAPS = 5
-#-----------------------------
-  class All_constellation_words
-    include Enumerable
-    def initialize( n)
-#     raise NoMethodError.new( 'All_constellation_words is an abstract class and cannot be instantiated') if self.class == All_constellation_words
-#print 'All_constellation_words self.class '; p self.class
-      @number_of_bits = n
-      @length = Bit::BIT_STATES ** @number_of_bits
-    end
-
-    def each
-      (@length - 1).downto( 0) {|word| yield word}
-    end
-  end #class
-#-----------------------------
-  class All_constellations
-    EXCESSIVE_TOGETHER = 0b1111 # Least significant several bits.
-    include Enumerable
-    def initialize( w)
-      @width = w
-      @good_words = pick
-    end
-
-    def each
-      @good_words.each {|e| yield e}
-    end
-
-    def length
-      @good_words.length
-    end
-
-    def width
-      @width
-    end
-
-    private
-    def pick
-      All_constellation_words.new( @width).reject do |word|
-        count_gaps = 0
-        word_bad = false
-        @width.times do
-          count_gaps += 1 if Bit::BIT_VALUE_0 == word & Bit::SINGLE_BIT # Least significant bit.
-          word_bad = true if count_gaps > MAX_GAPS || 0 == word & EXCESSIVE_TOGETHER
-          break if word_bad # Checking later bits won't fix this bad word.
-          word >>= Bit::SINGLE_BIT
-        end #do times
-        word_bad
-      end #do word
-    end #def
-
-  end #class
-#-----------------------------
-  class All_constellation_positions
-    include Enumerable
-    def initialize( g)
-      @good_words = g
-      @positions = @good_words.collect {|word| bits_to_positions( word)}
-    end
-
-    def each
-#print "All_constellation_positions#each called\n"
-      @positions.each {|e| yield e}
-    end
-
-    def each_index
-#     @good_words.length.times {|i| yield i}
-      @positions.each_index {|i| yield i}
-    end
-
-    def length
-#     @good_words.length
-      @positions.length
-    end
-
-    private
-    def bits_to_positions( word)
-      word <<= Bit::SINGLE_BIT
-      (0...@good_words.width).collect {|i| Bit::BIT_VALUE_1 == Bit::SINGLE_BIT & (word >>= Bit::SINGLE_BIT) ? i : nil}.compact # Zero-based; test least significant first.
-    end
-
-  end #class
-end #module
-#=============================
 module Harmony
   NOTE_NAMES = %w{G Ab A Bb B C C# D Eb E F F#}
   MINOR_SECOND = 1
@@ -1032,19 +882,233 @@ print '@@count '; p @@count
   end #class
 end #module
 #=============================
+module Gap
+  MAX_GAPS = 5
+#-----------------------------
+  class All_constellation_words
+    include Enumerable
+    def initialize( n)
+#     raise NoMethodError.new( 'All_constellation_words is an abstract class and cannot be instantiated') if self.class == All_constellation_words
+#print 'All_constellation_words self.class '; p self.class
+      @number_of_bits = n
+      @length = Bit::BIT_STATES ** @number_of_bits
+    end
+
+    def each
+      (@length - 1).downto( 0) {|word| yield word}
+    end
+  end #class
+#-----------------------------
+  class All_constellations
+    EXCESSIVE_TOGETHER = 0b1111 # Least significant several bits.
+    include Enumerable
+    def initialize( w)
+      @width = w
+      @good_words = pick
+    end
+
+    def each
+      @good_words.each {|e| yield e}
+    end
+
+    def length
+      @good_words.length
+    end
+
+    def width
+      @width
+    end
+
+    private
+    def pick
+      All_constellation_words.new( @width).reject do |word|
+        count_gaps = 0
+        word_bad = false
+        @width.times do
+          count_gaps += 1 if Bit::BIT_VALUE_0 == word & Bit::SINGLE_BIT # Least significant bit.
+          word_bad = true if count_gaps > MAX_GAPS || 0 == word & EXCESSIVE_TOGETHER
+          break if word_bad # Checking later bits won't fix this bad word.
+          word >>= Bit::SINGLE_BIT
+        end #do times
+        word_bad
+      end #do word
+    end #def
+
+  end #class
+#-----------------------------
+  class All_constellation_positions
+    include Enumerable
+    def initialize( g)
+      @good_words = g
+      @positions = @good_words.collect {|word| bits_to_positions( word)}
+    end
+
+    def each
+#print "All_constellation_positions#each called\n"
+      @positions.each {|e| yield e}
+    end
+
+    def each_index
+#     @good_words.length.times {|i| yield i}
+      @positions.each_index {|i| yield i}
+    end
+
+    def length
+#     @good_words.length
+      @positions.length
+    end
+
+    private
+    def bits_to_positions( word)
+      word <<= Bit::SINGLE_BIT
+      (0...@good_words.width).collect {|i| Bit::BIT_VALUE_1 == Bit::SINGLE_BIT & (word >>= Bit::SINGLE_BIT) ? i : nil}.compact # Zero-based; test least significant first.
+    end
+
+  end #class
+end #module
+#=============================
+module Third
+#-----------------------------
+  class All_chords
+    include Enumerable
+    def initialize( w)
+      @width = w
+      @thirds_relative_chords = Array.new
+      have = Array.new( Harmony::OCTAVE)
+      (0...Bit::BIT_STATES ** @width).each do |word|
+        thirds = (0...@width).collect {bit_value = word & Bit::SINGLE_BIT; word >>= Bit::SINGLE_BIT; bit_value}
+        have.fill( false)
+        note = 0
+        relative_chord = thirds.collect do |third|
+          case third
+            when Bit::BIT_VALUE_0; note += Harmony::MAJOR_THIRD
+            when Bit::BIT_VALUE_1; note += Harmony::MINOR_THIRD
+          end #case
+          next if have.at( note % Harmony::OCTAVE) # Skip this third's note.
+          have[ note % Harmony::OCTAVE] = true
+          note
+        end #do third
+        relative_chord.compact! # Remove nil's from next's.
+        @thirds_relative_chords.push( relative_chord) unless @thirds_relative_chords.include?( relative_chord)
+      end #do word
+    end #def
+
+    def each
+      @thirds_relative_chords.each {|e| yield e}
+    end
+
+    def each_index
+      @thirds_relative_chords.each_index {|i| yield i}
+    end
+
+    def length
+      @thirds_relative_chords.length
+    end
+
+    def width
+      @width
+    end
+
+  end #class
+end #module
+#=============================
+module Bit
+  SINGLE_BIT = 1
+  BIT_STATES = 2
+  BIT_VALUE_0 = 0
+  BIT_VALUE_1 = 1
+end #module
+#=============================
+module Necklace
+#-----------------------------
+  class All_words
+    include Enumerable
+    def initialize( n)
+          @note_space_size = n
+      @length = Bit::BIT_STATES ** @note_space_size
+    end
+
+    def each
+      @length.times {|word| yield word + 1}
+    end
+
+    def width
+      @note_space_size
+    end
+
+  end #class
+#-----------------------------
+  class Good_words
+    include Enumerable
+    def initialize( a)
+          @all_words = a
+      @width = @all_words.width
+      @most_significant_bit_value = Bit::BIT_VALUE_1 << (@width - 1)
+      @good_words = pick
+    end
+
+    public
+    def each
+      @good_words.each {|word| yield word}
+    end
+
+    private
+    def pick
+      @all_words.collect {|word| normalize( word)}.sort!.uniq!
+    end #def
+
+    private
+    def normalize( word)
+      (1..@width).collect do
+        least_significant_bit_was_set = Bit::BIT_VALUE_1 == word & Bit::SINGLE_BIT
+        word >>= Bit::SINGLE_BIT
+        word += @most_significant_bit_value if least_significant_bit_was_set
+        word
+      end.max
+    end
+
+  end #class
+#-----------------------------
+  class Chord
+    def initialize( wo, wi)
+          @word = wo
+          @width = wi
+      @most_significant_bit_value = Bit::BIT_VALUE_1 << (@width - 1)
+    end
+
+    def to_s
+      word = @word
+      bit = @most_significant_bit_value
+      chord = '[' + (0...@width).
+      find_all {bit_set = bit & word == bit; word <<= Bit::SINGLE_BIT; bit_set}.join( ',') +
+      ']'
+    end
+
+  end #class
+#-----------------------------
+  class Chords
+    def initialize
+      all = Necklace::All_words.new( Harmony::OCTAVE)
+      good = Necklace::Good_words.new( all)
+      @chords = good.collect {|word| Necklace::Chord.new( word, Harmony::OCTAVE)}
+      @chords.each {|chord| print chord.to_s, "\n"}
+    end
+  end #class
+end #module
+#=============================
 module Main
 #-----------------------------
   class Run
     def initialize
 #     Harmony::Chord_beginning.chord_class = Harmony::Chord
 #     Harmony::Chord_beginning.chord_class = Harmony::Chord_accumulate
-#      Harmony::Chord_beginning.chord_class = Harmony::Chord_print
-#      Harmony::Chord_beginning_categories.new.handle
-#      Harmony2::Granularity.new.walk( Harmony::Chord_beginning_categories.new)
-      Harmony2::Granularity.new.walk
+#     Harmony::Chord_beginning.chord_class = Harmony::Chord_print
+#     Harmony::Chord_beginning_categories.new.handle
+#     Harmony2::Granularity.new.walk( Harmony::Chord_beginning_categories.new)
+#     Harmony2::Granularity.new.walk
+      Necklace::Chords.new
     end
   end #class
 end #module
 #=============================
 Main::Run.new
-
