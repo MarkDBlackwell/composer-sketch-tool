@@ -232,6 +232,11 @@ module GenerateChords
     end
 
     public
+    def NodeDecorator.initial
+      NodeDecorator.new( [0]) # G2, by itself.
+    end
+
+    public
     def step_out_branch_leftward( node)
 #p 'in GenerateChords::NodeDecorator#step_out_branch_leftward'
       until @candidate_intervals_index >= @@candidate_intervals.length
@@ -273,7 +278,7 @@ module GenerateChords
       absolutes.last > @@max_highest_note ||
       any_duplicates?( absolutes, @@note_space_width) ||
       count_space( absolutes, @@minimum_gap_interval) > @@max_gaps ||
-      count_interval( absolutes, @@note_space.minor_second) > @@max_minor_secondths ||
+      count_interval( absolutes, @@note_space.a_little) > @@max_minor_secondths ||
       count_interval( absolutes, @@note_space.octave_and_a_little ) > @@max_minor_ninths ||
       major_seconds_cluster_too_long?( absolutes_to_intervals( absolutes)) ||
       out_of_order?( absolutes)
@@ -311,7 +316,7 @@ module GenerateChords
 #p 'in GenerateChords::NodeDecorator#dump'
       'm9: ' + count_interval( @absolutes, @@note_space.octave_and_a_little).to_s + 
       ' ' +
-      'm2: ' + count_interval( @absolutes, @@note_space.minor_second).to_s + 
+      'm2: ' + count_interval( @absolutes, @@note_space.a_little).to_s + 
       ' ' +
       'tt: ' + count_interval( @absolutes, @@note_space.half_octave).to_s + 
       ' ' +
@@ -344,19 +349,10 @@ module GenerateChords
   end #class NodeDecorator
 #-----------------------------
   class TreeDecorator
-    attr_reader :first_leaf
-    def initialize
-#p 'in GenerateChords::TreeDecorator#initialize'
-      @first_leaf = GeneratedPrunedOrderedPostOrderNaryTree::Node.make_branch_and_return_leaf(
-      parent = nil, NodeDecorator.new( absolutes = [0])) # G2, by itself.
-    end
-  end #class TreeDecorator
-#-----------------------------
-  class WalkerDecorator
     attr_reader :fill_chords,
                 :fixed
     def initialize( n)
-#p 'in GenerateChords::WalkerDecorator#initialize'
+#p 'in GenerateChords::TreeDecorator#initialize'
           @note_space = n
 # The first bit of this index always would have the same value, '1', for the note, G2, so drop that bit.
       @fill_chords = Array.new( Bit::BIT_STATES ** (@note_space.width - Bit::BIT_WIDTH)) {[]}
@@ -367,13 +363,13 @@ module GenerateChords
     end
 
     def walk( counts)
-#p 'in GenerateChords::WalkerDecorator#walk'
+#p 'in GenerateChords::TreeDecorator#walk'
 # Maybe use Return keyword.
       [@fill_chords, counts]
     end
 
     def handle( node)
-#p 'in GenerateChords::WalkerDecorator#handle'
+#p 'in GenerateChords::TreeDecorator#handle'
 #print 'node.node_decorator.dump '; p node.node_decorator.dump
 # Add node to necklace root.
       c = Chord.new( node.node_decorator.absolutes)
@@ -393,5 +389,5 @@ module GenerateChords
       end #unless
     end #def
 
-  end #class WalkerDecorator
+  end #class TreeDecorator
 end #module GenerateChords
