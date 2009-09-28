@@ -402,6 +402,91 @@ empty_ones.length  1752
 sum_length 296
 sum_length.to_f/@fill_chords.length  0.14453125
 sum  296
+
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 35
+@@max_major_seconds_cluster 2
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+182239empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+
+@@candidate_intervals [3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 1000
+@@max_minor_secondths 0
+@@max_minor_ninths 0
+@@max_highest_note 38
+@@max_major_seconds_cluster 2
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+23630empty_ones.length  9
+@fill_chords.length 2048
+sum_length 2039
+sum_length.to_f/@fill_chords.length  0.99560546875
+sum  2039
+
+@@candidate_intervals [3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 1000
+@@max_minor_secondths 0
+@@max_minor_ninths 0
+@@max_highest_note 44
+@@max_major_seconds_cluster 2
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+95061empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+
+@@candidate_intervals [3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 1000
+@@max_minor_secondths 0
+@@max_minor_ninths 0
+@@max_highest_note 44
+@@max_major_seconds_cluster 2
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+95061empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+
+@@candidate_intervals [3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 1000
+@@max_minor_secondths 0
+@@max_minor_ninths 0
+@@max_highest_note 39
+@@max_major_seconds_cluster 2
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+60184empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
 =end
 require 'main'
 Main::Program.new( note_space_width = 12).run
