@@ -487,6 +487,16 @@ count_roots 2048
 sum_length 2048
 sum_length.to_f/@fill_chords.length  1.0
 sum  2048
+
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
 =end
 require 'main'
 Main::Program.new( note_space_width = 12).run
