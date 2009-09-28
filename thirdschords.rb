@@ -86,28 +86,48 @@ Keep and apply to all the thirds-length (=11) chords.
 Processing one from each length, counted:
 sorted_beginnings.collect {|e| e.length} [1, 2, 7, 26, 29, 13, 1]
 gap_patterns.length 351
-chord_begin [0]
+beginning [0]
 diff 2931732
 gap_patterns.length 198
-chord_begin [0, 5]
+beginning [0, 5]
 diff 520313
 gap_patterns.length 107
-chord_begin [0, 10, 15]
+beginning [0, 10, 15]
 diff 118281
 gap_patterns.length 56
-chord_begin [0, 11, 13, 15]
+beginning [0, 11, 13, 15]
 diff 27448
 gap_patterns.length 29
-chord_begin [0, 9, 11, 19, 20]
+beginning [0, 9, 11, 19, 20]
 diff 2770
 gap_patterns.length 15
-chord_begin [0, 9, 11, 19, 20, 22]
+beginning [0, 9, 11, 19, 20, 22]
 diff 1364
 gap_patterns.length 8
-chord_begin [0, 7, 9, 11, 15, 20, 22]
+beginning [0, 7, 9, 11, 15, 20, 22]
 diff 316
-Bottom.count 3602224
+Handle_all_format_lengths.count 3602224
 =end
+#=============================
+module Bit
+  SINGLE_BIT = 1
+  BIT_STATES = 2
+  BIT_VALUE_0 = 0
+  BIT_VALUE_1 = 1
+end #module
+#=============================
+module Necklace
+#-----------------------------
+  class Normalized_chord
+    def initialize( chord)
+      @value = '' # Is stub.
+    end
+
+    def to_s
+      @value
+    end
+  end #class
+end #module
 #=============================
 module Harmony
   NOTE_NAMES = %w{G Ab A Bb B C C# D Eb E F F#}
@@ -177,7 +197,7 @@ module Harmony
  [ 0, 6, 9, 14, 16], # C# E A B (U)
  [ 0, 6, 9, 14], # C# E A (U)
  [ 0, 6, 9, 11], # C# E F# (U)
-
+#------------------------------
  [ 0, 6, 8, 10], # C# Eb F (U)
  [ 0, 6, 8], # C# Eb (U)
 #[ 0, 6], # C# (U) - (Gap covers.)
@@ -232,7 +252,7 @@ module Harmony
  [ 0, 4, 11, 13, 15], # B F# Ab Bb (U)
  [ 0, 4, 11, 13], # B F# Ab (U)
 #[ 0, 4, 11], # B F# (U) - (Gap covers.)
-
+#------------------------------
  [ 0, 4, 10, 13, 15], # B F Ab Bb (U)
 #[ 0, 4, 10], # B F (U) - (Gap covers.)
 #-----4--9---------------------B E
@@ -267,7 +287,7 @@ module Harmony
  [ 0, 3, 8, 11, 13], # Bb Eb F# Ab
  [ 0, 3, 8, 10], # Bb Eb F
  [ 0, 3, 8], # Bb Eb
-
+#------------------------------
 #[ 0, 3, 7, 13], # Bb D Ab - (Gap covers.)
  [ 0, 3, 7, 11, 13], # Bb D F# Ab
  [ 0, 3, 7, 9], # Bb D E
@@ -275,7 +295,7 @@ module Harmony
 #-----2------------------------A
 #[ 0, 2, 11], # A F# - (Gap covers.)
  [ 0, 2], # A
-
+#------------------------------
  [ 0], # Just G (U)
 #[ 0, 3], [ 0, 4], # Test of the 'do not need this chord' message functionality.
 ]
@@ -342,7 +362,7 @@ module Harmony
   class Chord_beginnings
     include Enumerable
     def initialize
-      @chord_beginnings = partly_generable? ? [] : BEGINNINGS
+      @chord_beginnings = part_is_generable? ? [] : BEGINNINGS
     end
 
     def each
@@ -350,7 +370,7 @@ module Harmony
     end
 
     private
-    def partly_generable?
+    def part_is_generable?
       result = false
       thirds =[ MINOR_THIRD, MAJOR_THIRD]
       BEGINNINGS.each do |cb|
@@ -358,6 +378,62 @@ module Harmony
           thirds.include?( last_interval = cb.last - cb[    cb.length -  2])
       end
       result
+    end
+  end #class
+#-----------------------------
+  class Detail_line
+    def initialize( cb, ch)
+      @chord_beginning = cb
+      @chord = ch
+    end
+    def to_s
+      '[' + @chord_beginning.join(',') + ']' +
+      ' - ' +
+      '(' +
+      'm9-' + @chord.pairings_count( MINOR_NINTH).to_s +
+      ' ' +
+      'j9-' + @chord.pairings_count( MAJOR_NINTH).to_s +
+      ' ' +
+      't-' + @chord.pairings_count( TRITONE).to_s +
+      ' ' +
+      'g-' + @chord.gaps_count.to_s +
+      ' ' +
+      's-' + @chord.breadth.to_s + # Span.
+      ' ' +
+      'd-' + ((100 * @chord.notes_per_octave).round / 100.0).to_s + # Density
+      ')' +
+      ' - ' +
+      '(' + @chord.missing.to_s + ')' +
+      ' - ' +
+      '[' + Necklace::Normalized_chord.new( @chord).to_s + ']' +
+      ' - ' +
+      @chord.to_s +
+      "\n"
+    end
+    def Detail_line.heading
+      "\n" +
+      '[' + 'beginning' + ']' +
+      ' - ' +
+      '(' +
+      'm9-' + 'minor_ninths' +
+      ' ' +
+      'j9-' + 'major_ninths' +
+      ' ' +
+      't-' + 'tritones' +
+      ' ' +
+      'g-' + 'gaps' +
+      ' ' +
+      's-' + 'span' +
+      ' ' +
+      'd-' + 'density' +
+      ')' +
+      ' - ' +
+      '(' + 'missing notes' + ')' +
+      ' - ' +
+      '[' + 'normal form' + ']' +
+      ' - ' +
+      'chord' +
+      "\n"
     end
   end #class
 #-----------------------------
@@ -372,45 +448,27 @@ module Harmony
   end #class
 end #module
 #=============================
-module Necklace
-#-----------------------------
-  class Normalized_chord
-    def initialize( chord)
-      @value = '' # Is stub.
-    end
-
-    def to_s
-      @value
-    end
-  end #class
-end #module
-#=============================
-module Thirds
+module Third
 #-----------------------------
   class All_chords
-    SINGLE_BIT = 1
-    BIT_STATES = 2
-    BIT_VALUE_0 = 0
-    BIT_VALUE_1 = 1
-
     include Enumerable
     def initialize( tl)
        @thirds_length = tl
     end
 
     def each_index
-      (0...BIT_STATES ** @thirds_length).each {|i| yield i}
+      (0...Bit::BIT_STATES ** @thirds_length).each {|i| yield i}
     end
 
 #   private
     def each
-      (0...BIT_STATES ** @thirds_length).each do |word|
-        thirds = (0...@thirds_length).collect {bit_value = word & SINGLE_BIT; word >>= SINGLE_BIT; bit_value}
+      (0...Bit::BIT_STATES ** @thirds_length).each do |word|
+        thirds = (0...@thirds_length).collect {bit_value = word & Bit::SINGLE_BIT; word >>= Bit::SINGLE_BIT; bit_value}
         note = 0
         relative_chord = thirds.collect do |third|
           case third
-            when BIT_VALUE_0; note += Harmony::MAJOR_THIRD
-            when BIT_VALUE_1; note += Harmony::MINOR_THIRD
+            when Bit::BIT_VALUE_0; note += Harmony::MAJOR_THIRD
+            when Bit::BIT_VALUE_1; note += Harmony::MINOR_THIRD
           end #case
           note
         end #do third
@@ -422,10 +480,6 @@ module Thirds
 end #module
 #=============================
 module Gap
-  SINGLE_BIT = 1
-  BIT_STATES = 2
-  BIT_VALUE_0 = 0
-  BIT_VALUE_1 = 1
 #-----------------------------
   class Constellation_words
     include Enumerable
@@ -433,7 +487,7 @@ module Gap
       @number_of_bits = n
     end
     def each
-      (BIT_STATES ** @number_of_bits - 1).downto( 0) {|word| yield word}
+      (Bit::BIT_STATES ** @number_of_bits - 1).downto( 0) {|word| yield word}
     end
   end #class
 #-----------------------------
@@ -464,11 +518,11 @@ module Gap
         count_gaps = 0
         word_bad = false
         @width.times do
-          count_gaps += 1 if BIT_VALUE_0 == word & SINGLE_BIT # Least significant.
+          count_gaps += 1 if Bit::BIT_VALUE_0 == word & Bit::SINGLE_BIT # Least significant.
           word_bad = true if count_gaps > MAX_GAPS ||
                              0 == word & EXCESSIVE_TOGETHER # Least significant several bits.
           break if word_bad
-          word >>= SINGLE_BIT
+          word >>= Bit::SINGLE_BIT
         end #do times
         word_bad
       end #do word
@@ -495,75 +549,16 @@ module Gap
 
     private
     def bits_to_positions( word)
-      word <<= SINGLE_BIT
-      (0...@good_words.width).collect {|i| BIT_VALUE_1 == SINGLE_BIT & (word >>= SINGLE_BIT) ? i : nil}.compact # Test least significant first.
+      word <<= Bit::SINGLE_BIT
+      (0...@good_words.width).collect {|i| Bit::BIT_VALUE_1 == Bit::SINGLE_BIT & (word >>= Bit::SINGLE_BIT) ? i : nil}.compact # Test least significant first.
     end
 
   end #class
 end #module
 #=============================
-module Print_something
-#-----------------------------
-  class Print_line
-    def initialize( cb, ch)
-      @chord_beginning = cb
-      @chord = ch
-    end
-    def to_s
-      '[' + @chord_beginning.join(',') + ']' +
-      ' - ' +
-      '(' +
-      'm9-' + @chord.pairings_count( Harmony::MINOR_NINTH).to_s +
-      ' ' +
-      'j9-' + @chord.pairings_count( Harmony::MAJOR_NINTH).to_s +
-      ' ' +
-      't-' + @chord.pairings_count( Harmony::TRITONE).to_s +
-      ' ' +
-      'g-' + @chord.gaps_count.to_s +
-      ' ' +
-      's-' + @chord.breadth.to_s + # Span.
-      ' ' +
-      'd-' + ((100 * @chord.notes_per_octave).round / 100.0).to_s + # Density
-      ')' +
-      ' - ' +
-      '(' + @chord.missing.to_s + ')' +
-      ' - ' +
-      '[' + Necklace::Normalized_chord.new( @chord).to_s + ']' +
-      ' - ' +
-      @chord.to_s +
-      "\n"
-    end
-    def Print_line.heading
-      "\n" +
-      '[' + 'begin' + ']' +
-      ' - ' +
-      '(' +
-      'm9-' + 'minor_ninths' +
-      ' ' +
-      'j9-' + 'major_ninths' +
-      ' ' +
-      't-' + 'tritones' +
-      ' ' +
-      'g-' + 'gaps' +
-      ' ' +
-      's-' + 'span' +
-      ' ' +
-      'd-' + 'density' +
-      ')' +
-      ' - ' +
-      '(' + 'missing notes' + ')' +
-      ' - ' +
-      '[' + 'normal form' + ']' +
-      ' - ' +
-      'chord' +
-      "\n"
-    end
-  end #class
-end #module
-#=============================
 module Math_format
 #-----------------------------
-  class Bottom
+  class Handle_all_format_lengths
     @@count = 0
 
     def initialize( cb, re)
@@ -575,11 +570,9 @@ module Math_format
       @chord_beginning.each {|note| @chord_beginning_have[ note % Harmony::OCTAVE] = true}
     end
 
-    def print_all_lengths
-# Here, do the loop to check all shortenings of the chord.
-#     print "Math_format::Bottom#print_some:\n"
+    def print_them
+#     print "Math_format::Handle_all_format_lengths#print_some:\n"
 #     print '@chord_beginning.length '; p @chord_beginning.length
-# Assume extension is internally valid (has no note repetitions).
       extension = @relative_extension.collect {|relative_note| relative_note + @chord_beginning_last}
       chord = @chord_beginning.clone
       (0...extension.length).each do |i|
@@ -587,78 +580,84 @@ module Math_format
         chord.push( extension.at( i))
 #       print 'chord '; p chord
 #       print 'chord.length '; p chord.length
-        print Print_something::Print_line.new( @chord_beginning, Harmony::Chord.new( chord)).to_s
+        print Harmony::Detail_line.new( @chord_beginning, Harmony::Chord.new( chord)).to_s
         @@count += 1
 #       print '@@count '; p @@count
       end #do i
 #     print '@@count '; p @@count
     end #def
 
-    def Bottom.count
+    def Handle_all_format_lengths.count
       @@count
     end
   end #class
 #-----------------------------
-  class Top
-    def sort_beginnings_by_length
-      b = Harmony::Chord_beginnings.new
-      lengths = [] if (lengths = b.collect {|e| e.length}.sort!.uniq!).nil?
-      sorted_beginnings = Array.new( lengths.length) {[]}
-      b.each {|e| sorted_beginnings[ lengths.index( e.length)].concat( [e])}
-#     print 'sorted_beginnings '; p sorted_beginnings
-      print 'sorted_beginnings.collect {|e| e.length} '
-      p      sorted_beginnings.collect {|e| e.length}
-      print Print_something::Print_line.heading
-      [sorted_beginnings, lengths]
+  class Handle_extension
+    def initialize( b, e)
+      @beginning = b
+      @extension = e
+    end
+
+    def print_them
+#     print '@extension '; p @extension
+      Math_format::Handle_all_format_lengths.new( @beginning, @extension).print_them
     end #def
+  end #class
+#-----------------------------
+  class Handle_beginning
+    def initialize( b, e)
+      @beginning = b
+      @extensions = e
+    end
 
-    def run
-#     print "Main::Top#run:\n"
-      sorted_beginnings, lengths = sort_beginnings_by_length
-      diff = 0
-      begin_length_index = 6
-#     (6...lengths.length).each do |begin_length_index|
-#     lengths.each_index do |begin_length_index|
-        max_thirds_length = Harmony::OCTAVE - lengths.at( begin_length_index)
-        gap_patterns = Gap::Constellation_positions.new( 
-                       Gap::Constellations.new( max_thirds_length - 1)) # The last place is not properly a gap.
-        print 'gap_patterns.length '; p gap_patterns.length
-        thirds_chords = Thirds::All_chords.new( max_thirds_length)
+    def print_them
+      print '@beginning '; p @beginning
+      print Harmony::Detail_line.heading
+      @extensions.each do |extension|
+        Handle_extension.new( @beginning, extension).print_them
+#       print "Main::-#-:\n"
+      end #do extension
+    end #def
+  end #class
+#-----------------------------
+  class Handle_category
+    def initialize( d, blc)
+      @diff = d
+      @beginning_category = blc
+    end
 
-        extensions = intersect( thirds_chords, gap_patterns)
+    def print_them
+        max_thirds_length = Harmony::OCTAVE - @beginning_category.beginnings.first.length
+        extensions = make_internally_valid_no_note_repetitions( intersection(
+        Third::All_chords.new(   max_thirds_length), 
+        Gap::Constellation_positions.new( 
+        Gap::Constellations.new( max_thirds_length - 1)))) # The last place is not properly a gap.
 #       print 'extensions '; p extensions
-
-#       sorted_beginnings.at( begin_length_index).each do |chord_begin|
-        [sorted_beginnings.at( begin_length_index).first].each do |chord_begin|
-          print 'chord_begin '; p chord_begin
-          extensions.each do |extension|
-#           print 'extension '; p extension
-            Math_format::Bottom.new( chord_begin, extension).print_all_lengths
-#           print "Main::Top#run:\n"
-          end #do extension
-        end #do chord_begin
-        diff = Math_format::Bottom.count - diff
-        print 'diff '; p diff
-        diff = Math_format::Bottom.count
-#     end #do begin_length_index
-      print 'Bottom.count '; p Math_format::Bottom.count
+#       @beginning_category.beginnings.each do |beginning|
+        [@beginning_category.beginnings.first].each do |beginning|
+          Handle_beginning.new( beginning, extensions).print_them
+        end #do beginning
+        @diff = Math_format::Handle_all_format_lengths.count - @diff
+        print '@diff '; p @diff
+        @diff = Math_format::Handle_all_format_lengths.count
     end #def
 
     private
-    def intersect( thirds_chords, gap_patterns)
-      result = []
-      thirds_chords.each do |thirds_chord|
+    def intersection( thirds_chords, gap_patterns)
+      thirds_chords.inject( []) do |memo, thirds_chord|
 #       print 'thirds_chord '; p thirds_chord
 #       print 'thirds_chord.length '; p thirds_chord.length
-#       have = (0...max_thirds_length - 1).to_a
-        gap_patterns.each do |have|
-#         print 'have '; p have
-          extension = have.collect {|i| thirds_chord.at( i)}.push( thirds_chord.last)
-          extension.slice!( valid_length( extension)..-1)
-          result.push( extension)
-        end #do have
-      end #do thirds_chord
-      result
+#       positive_pattern = (0...max_thirds_length - 1).to_a
+        memo.concat( gap_patterns.collect do |positive_pattern|
+#         print 'positive_pattern ';
+#         p      positive_pattern
+          positive_pattern.collect {|i| thirds_chord.at( i)}.push( thirds_chord.last)
+        end) #do positive_pattern
+      end #do memo, thirds_chord
+    end #def
+
+    def make_internally_valid_no_note_repetitions( extensions)
+      extensions.collect {|e| e.first( valid_length( e))}
     end #def
 
     def valid_length( chord)
@@ -674,9 +673,94 @@ module Math_format
       result
     end #def
   end #class
+#-----------------------------
+  class Beginning_category
+    attr_reader :beginnings,
+                :index,
+                :beginning_length
+
+    def initialize( b, i, bl)
+      @beginnings = b
+      @index = i
+      @beginning_length = bl
+    end
+
+    def Beginning_category.better_beginning_categories
+      @@better_beginning_categories
+    end
+
+    def Beginning_category.beginning_categories
+      @@beginning_categories
+    end
+
+    def Beginning_category.sorted_beginnings
+      @@sorted_beginnings
+    end
+
+    def Beginning_category.setup
+      @@beginning_categories = []
+      beginnings = Harmony::Chord_beginnings.new
+      @@beginning_categories = beginnings.collect {|e| e.length}.sort!.uniq! # Categorized by length.
+#     print '@@beginning_categories '; p @@beginning_categories
+      @@beginning_categories = [] if @@beginning_categories.nil? # Protect against an empty array.
+      @@sorted_beginnings = beginnings.inject( Array.new( @@beginning_categories.length) {[]}) do |memo, e|
+        memo[ @@beginning_categories.index( e.length)].concat( [e]); memo
+      end #do memo, e
+
+      @@better_beginning_categories = (0...@@sorted_beginnings.length).inject( []) do |memo, i| memo.push(
+        Beginning_category.new( @@sorted_beginnings.at( i), i, @@beginning_categories.at( i)))
+      end #do memo, i
+
+      @@better_beginning_categories.each do |e|
+        print 'e.beginnings.length '; p e.beginnings.length
+#       print 'e.index '; p e.index
+#       print 'e.beginning_length '; p e.beginning_length
+      end
+
+#     print '@@sorted_beginnings '; p @@sorted_beginnings
+      print '@@sorted_beginnings.collect {|e| e.length} '
+      p      @@sorted_beginnings.collect {|e| e.length}
+      nil
+    end #def
+
+ #   def each
+ #     @@beginning_categories.each {|e| yield e}
+ #  end
+
+    private
+    def Beginning_category.sort_beginnings_by_length
+    end #def
+
+  end #class
+#-----------------------------
+  class Top
+    def run
+#     print "Main::Top#run:\n"
+      diff = 0
+      Beginning_category.setup
+      beginning_categories = Beginning_category.beginning_categories
+#     beginning_categories.each_index do |category_index|
+#     category_index = 6
+      (6...beginning_categories.length).each do |category_index|
+        beginning_category = Beginning_category.better_beginning_categories.last
+        Handle_category.new( 
+        diff,
+        beginning_category).print_them
+      end #do
+      print         'Handle_all_format_lengths.count '
+      p Math_format::Handle_all_format_lengths.count
+    end #def
+
+  end #class
 end #module
 #=============================
 module Main
 #-----------------------------
-  Math_format::Top.new.run
+  class Run
+    def initialize
+      Math_format::Top.new.run
+    end
+  end #class
 end #module
+#=============================
+Main::Run.new
