@@ -52,8 +52,10 @@ end #class TimedTrack
       @harmony = TimedTrack.new( TRACK_0, @song)
       @song.tracks << ( @harmony)
       @harmony.instrument = GM_PATCH_NAME_ACOUSTIC_GRAND_PIANO
-#     @velocity = 63
-      @velocity = 42
+#      @velocity = 127
+#      @velocity = 63
+      @velocity = 52
+#      @velocity = 42
       beats_per_minute = 100
       correcting_factor = # By observation in RealPlayer.
       ((35 * 60) + 37.0) / ((42 * 60) + 42.0) 
@@ -69,7 +71,9 @@ end #class TimedTrack
     end
 
     def Play.handle_necklace( necklace, necklace_number)
-print "#{necklace_number}: #{necklace.word.to_s( Bit::BINARY)} - #{necklace.expansion}: #{necklace.note_names} (not #{necklace.missing}).\n"
+     s = necklace.missing
+     s = 'none' if s.empty?
+print "\n#{necklace_number}: #{necklace.word.to_s( Bit::BINARY)} - #{necklace.expansion} not #{s} #{necklace.note_names}\n"
 #      @harmony.events << MIDI::MetaEvent.new( MIDI::META_SEQ_NAME, 
 #                                    'A-random-Ruby-composition')
 #                                    'necklace ' +
@@ -79,17 +83,23 @@ print "#{necklace_number}: #{necklace.word.to_s( Bit::BINARY)} - #{necklace.expa
       @clock += @clock_eighth
     end
 
-    def Play.handle_chord( note_space, absolutes, root_number, chord_name)
+    def Play.handle_chord( note_space, absolutes, root_number, chord_name, transposition)
       width = note_space.width
       names = note_space.note_names
       notes = absolutes.collect {|e| names.at( e % width)}.join(' ')
-print "#{Play.clock_string()} #{root_number}-#{chord_name} #{absolutes.inspect} #{notes}\n"
+#print "#{Play.clock_string()} #{root_number}-#{chord_name} #{absolutes.inspect} #{notes}\n"
+print "#{Play.clock_string()} #{root_number}-#{chord_name} #{absolutes} #{notes}\n"
+      absolutes.unshift( -width) if absolutes.length >= 2 && absolutes.at( 1) <= (width.to_f / 3.0).ceil
+      offset = (transposition % width) + 4 # Remove some boominess by setting the lowest root to B2.
+      absolutes = absolutes.collect {|e| e + offset}
       @harmony.add_notes(absolutes, @velocity, 'half')
       @clock += @clock_half
     end
 
     def Play.tear_down
-      open('thirdsout.mid', 'w') { |f| @song.write( f) }
+      f = open('thirdsout.mid', 'w')
+      @song.write( f)
+      f.close
     end
 
     def Play.clock_string
