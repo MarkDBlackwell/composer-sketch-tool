@@ -935,8 +935,8 @@ MINIMUM_GAP_INTERVAL 9
     def initialize( p, i) # Return the *first* object made (because of unwinding the stack).
         @parent = p
         @intervals = i
-      @absolutes = @intervals.inject( nil) {|memo, e| memo.nil? ? [ e] : memo.push( memo.last + e)}
-      @have_notes = set_up_have_notes( @absolutes)
+      @absolutes = intervals_to_absolutes( @intervals)
+      @have_notes = absolutes_to_have_notes( @absolutes)
 #print '@have_notes '; p @have_notes
 #     alert 'new called wrongly' if caller != Node.make_new_node_with_branch_and_return_its_leaf
       @candidate_intervals_index = 0 # A value of CANDIDATE_INTERVALS.length has a special meaning.
@@ -945,29 +945,36 @@ MINIMUM_GAP_INTERVAL 9
     end
 
     private
-    def set_up_have_notes( absolutes)
+    def absolutes_to_have_notes( absolutes)
       have_notes = Array.new( Harmony::OCTAVE).fill( false)
       absolutes.each {|e| have_notes[ e % Harmony::OCTAVE] = true}
       have_notes
     end
 
     private
+    def absolutes_to_intervals( absolutes)
+
+    end
+
+    private
+    def intervals_to_absolutes( intervals)
+      running_sum = 0
+      absolutes = intervals.collect {|e| running_sum += e}
+    end
+
+    private
     def step_down_branch
-#if [0, 4, 4, 3, 4, 4] == @intervals.slice( 0..5)
-#print '@intervals '; p @intervals
-#end
       until @candidate_intervals_index >= CANDIDATE_INTERVALS.length
         interval = CANDIDATE_INTERVALS.at( @candidate_intervals_index)
         @candidate_intervals_index += 1
         try_intervals = @intervals.clone.push( interval)
-#if [0, 4, 4, 3, 4, 4] == try_intervals.slice( 0..5)
-#print 'try_intervals '; p try_intervals
-#end
-        next if anything_bad( try_intervals)
-# Assume the first is insufficiently large to be a gap.
+        try_absolutes = intervals_to_absolutes( try_intervals)
+        next if anything_bad( try_intervals, try_absolutes)
+# Assume the first interval is insufficiently large to be a gap.
         node = Node.make_new_node_with_branch_and_return_its_leaf( parent = self, try_intervals)
         break
       end #until
+# Assume that before this (self) node was created, it was checked for anything bad.
       @@processing_node = self if @candidate_intervals_index >= CANDIDATE_INTERVALS.length
       @@processing_node
     end #def
@@ -980,83 +987,58 @@ MINIMUM_GAP_INTERVAL 9
 
     protected
     def create_next_child # At parent level.
-#if [0, 4, 4, 3, 4, 4] == @intervals.slice( 0..5)
-#print '@intervals '; p @intervals
-#end
 # The special meaning of 'CANDIDATE_INTERVALS.length == @candidate_intervals_index' shows in the following line:
       (@candidate_intervals_index += 1; return @@processing_node = self) if CANDIDATE_INTERVALS.length == @candidate_intervals_index
       return create_sibling if @candidate_intervals_index > CANDIDATE_INTERVALS.length
       interval = CANDIDATE_INTERVALS.at( @candidate_intervals_index)
       @candidate_intervals_index += 1
       try_intervals = @intervals.clone.push( interval)
-      return create_next_child if anything_bad( try_intervals)
+      try_absolutes = intervals_to_absolutes( try_intervals)
+      return create_next_child if anything_bad( try_intervals, try_absolutes)
       Node.make_new_node_with_branch_and_return_its_leaf( parent = self, try_intervals)
     end #def
 
     private
-    def anything_bad( try_intervals)
+    def anything_bad( try_intervals, try_absolutes)
         highest = highest_note + try_intervals.last
-# Why doesn't this get to even try try_intervals [0, 4, 4, 3, 4, 4, 3]?
-#if [0, 4, 4, 3, 4, 4] == try_intervals.slice( 0..5)
-#print 'try_intervals '; p try_intervals
-#end
+#     try_absolutes = intervals_to_absolutes( try_intervals)
       highest > MAX_HIGHEST_NOTE ||
-      (try_intervals.last >= MINIMUM_GAP_INTERVAL && number_of_gaps + 1 > MAX_GAPS) ||
-      @have_notes.at( highest % Harmony::OCTAVE) ||
-      count_an_interval( try_intervals, Harmony::MINOR_SECOND) > MAX_MINOR_SECONDS ||
-      count_an_interval( try_intervals, Harmony::TRITONE) > MAX_TRITONES ||
-      count_an_interval( try_intervals, Harmony::MINOR_NINTH) > MAX_MINOR_NINTHS ||
+        (try_intervals.last >= MINIMUM_GAP_INTERVAL && number_of_gaps + 1 > MAX_GAPS) ||
+        @have_notes.at( highest % Harmony::OCTAVE) ||
+        count_an_interval( try_absolutes, Harmony::MINOR_SECOND) > MAX_MINOR_SECONDS ||
+        count_an_interval( try_absolutes, Harmony::TRITONE) > MAX_TRITONES ||
+        count_an_interval( try_absolutes, Harmony::MINOR_NINTH) > MAX_MINOR_NINTHS ||
       false
     end #def
 
 =begin
     private
     def count_an_interval_old( intervals, interval_to_count)
-      count = 0
-      (0...intervals.length).each do |start_index|
-        sum = 0
-        (start_index + 1...intervals.length).each do |i|
-          sum += intervals.at( i)
-          count += 1 if sum == interval_to_count
-          break if sum >= interval_to_count
-        end #each i
-      end #each start_index
-print 'count '; p count
-      count
-    end #def
-=end
-
-    private
-    def count_an_interval( intervals, interval_to_count)
-      running_sum = 0
-      absolutes = intervals.collect {|e| running_sum += e}.sort!
+      absolutes = intervals_to_absolutes( intervals)
       count = 0
       (0...absolutes.length).each do |left_index|
         left = absolutes.at( left_index)
         (left_index + 1...absolutes.length).each do |right_index|
           difference = absolutes.at( right_index) - left
           count += 1 if difference == interval_to_count
-          break if difference >= interval_to_count
+          break if difference >= interval_to_count # Assume absolutes are sorted.
         end #each right_index
       end #each left_index
       count
     end #def
+=end
 
     private
-    def each_pair_combination_bad( array, inside_proc)
-      a = array
-      (0...a.length - 1).each {|k| inside_proc.call( self); (k + 1...a.length).each {|i| yield i}}
-    end #def
-
-    private
-    def count_an_interval_bad( intervals, interval_to_count)
+    def count_an_interval( absolutes, interval_to_count)
       count = 0
-      sum = nil; each_pair_combination_bad( intervals, Proc.new {sum = 0}) do |i|
-        sum += intervals.at( i)
-        count += 1 if sum == interval_to_count
-        break if sum >= interval_to_count
-      end #each_pair_combination
-print 'count '; p count
+      (0...absolutes.length).each do |left_index|
+        left = absolutes.at( left_index)
+        (left_index + 1...absolutes.length).each do |right_index|
+          difference = absolutes.at( right_index) - left
+          count += 1 if difference == interval_to_count
+          break if difference >= interval_to_count # Assume absolutes are sorted.
+        end #each right_index
+      end #each left_index
       count
     end #def
 
@@ -1072,15 +1054,15 @@ print 'count '; p count
 
     public
     def dump
-      'm9: ' + count_an_interval( @intervals, Harmony::MINOR_NINTH).to_s + 
+      'm9: ' + count_an_interval( @absolutes, Harmony::MINOR_NINTH).to_s + 
       ' ' +
-      'm2: ' + count_an_interval( @intervals, Harmony::MINOR_SECOND).to_s + 
+      'm2: ' + count_an_interval( @absolutes, Harmony::MINOR_SECOND).to_s + 
       ' ' +
-      'tt: ' + count_an_interval( @intervals, Harmony::TRITONE).to_s + 
+      'tt: ' + count_an_interval( @absolutes, Harmony::TRITONE).to_s + 
       ' ' +
       'ng: ' + number_of_gaps.to_s +
       ' ' +
-      'j9: ' + count_an_interval( @intervals, Harmony::MAJOR_NINTH).to_s + 
+      'j9: ' + count_an_interval( @absolutes, Harmony::MAJOR_NINTH).to_s + 
       ' ' +
       'hn: ' + highest_note.to_s +
       ' ' +
