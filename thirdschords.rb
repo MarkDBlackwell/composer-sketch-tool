@@ -106,7 +106,7 @@ diff 1364
 gap_patterns.length 8
 beginning [0, 7, 9, 11, 15, 20, 22]
 diff 316
-Handle_all_format_lengths.count 3602224
+Handle_extension.count 3602224
 =end
 #=============================
 module Bit
@@ -336,6 +336,12 @@ module Harmony
     def pairings_count( interval)
       @value.inject( 0) {|memo, low| memo + @value.find_all {|high| low + interval == high}.length}
     end
+
+    def handle( cb)
+        @chord_beginning = cb
+        print Harmony::Detail_line.new( @chord_beginning, self).to_s
+    end
+
 =begin
     def +( a)
       Chord.new( @value + a.value)
@@ -557,51 +563,50 @@ module Gap
 end #module
 #=============================
 module Math_format
+=begin
 #-----------------------------
-  class Handle_all_format_lengths
-    @@count = 0
+  class Handle_chord
+    def initialize( c)
+      @chord = c
+    end
 
+    def print_it( cb)
+        @chord_beginning = cb
+        print Harmony::Detail_line.new( @chord_beginning, @chord).to_s
+    end
+  end #class
+=end
+#-----------------------------
+  class Handle_extension
+@@count = 0
     def initialize( cb, re)
       @chord_beginning = cb
       @relative_extension = re
-      @chord_beginning_last =
-      @chord_beginning.last
-      @chord_beginning_have = Array.new( Harmony::OCTAVE, false) # Start by assuming that @chord_beginning has no notes.
-      @chord_beginning.each {|note| @chord_beginning_have[ note % Harmony::OCTAVE] = true}
     end
 
-    def print_them
-#     print "Math_format::Handle_all_format_lengths#print_some:\n"
-#     print '@chord_beginning.length '; p @chord_beginning.length
+    def handle_format_lengths
+#print '@relative_extension '; p @relative_extension
+#print '@chord_beginning.length '; p @chord_beginning.length
+      @chord_beginning_last = @chord_beginning.last
+      @chord_beginning_have = @chord_beginning.inject( Array.new( Harmony::OCTAVE, false) # Start by assuming that @chord_beginning has no notes.
+      ) {|memo, note| memo[ note % Harmony::OCTAVE] = true; memo}
       extension = @relative_extension.collect {|relative_note| relative_note + @chord_beginning_last}
       chord = @chord_beginning.clone
       (0...extension.length).each do |i|
         break if @chord_beginning_have.at( extension.at( i) % Harmony::OCTAVE) # Have this note.
         chord.push( extension.at( i))
-#       print 'chord '; p chord
-#       print 'chord.length '; p chord.length
-        print Harmony::Detail_line.new( @chord_beginning, Harmony::Chord.new( chord)).to_s
-        @@count += 1
-#       print '@@count '; p @@count
+#print 'chord '; p chord
+#print 'chord.length '; p chord.length
+        Harmony::Chord.new( chord).handle( @chord_beginning)
+@@count += 1
+#print '@@count '; p @@count
       end #do i
-#     print '@@count '; p @@count
+#print '@@count '; p @@count
     end #def
 
-    def Handle_all_format_lengths.count
-      @@count
-    end
-  end #class
-#-----------------------------
-  class Handle_extension
-    def initialize( b, e)
-      @beginning = b
-      @extension = e
-    end
-
-    def print_them
-#     print '@extension '; p @extension
-      Math_format::Handle_all_format_lengths.new( @beginning, @extension).print_them
-    end #def
+def Handle_extension.count
+@@count
+end
   end #class
 #-----------------------------
   class Handle_beginning
@@ -610,47 +615,54 @@ module Math_format
       @extensions = e
     end
 
-    def print_them
-      print '@beginning '; p @beginning
-      print Harmony::Detail_line.heading
+    def handle_extensions
+print '@beginning '; p @beginning
+print Harmony::Detail_line.heading
       @extensions.each do |extension|
-        Handle_extension.new( @beginning, extension).print_them
-#       print "Main::-#-:\n"
+        Handle_extension.new( @beginning, extension).handle_format_lengths
       end #do extension
     end #def
   end #class
+=begin
 #-----------------------------
   class Handle_category
-    def initialize( d, blc)
-      @diff = d
-      @beginning_category = blc
+    def initialize
     end
 
-    def print_them
-      max_thirds_length = Harmony::OCTAVE - @beginning_category.beginnings.first.length
+  end #class
+=end
+#-----------------------------
+  class Beginning_category
+    attr_reader :beginnings
+
+    def initialize( b)
+      @beginnings = b
+    end
+
+    def handle( diff)
+      max_thirds_length = Harmony::OCTAVE - @beginnings.first.length
       extensions = make_internally_valid_no_note_repetitions( intersection(
       Third::All_chords.new(   max_thirds_length), 
       Gap::Constellation_positions.new( 
       Gap::Constellations.new( max_thirds_length - 1)))) # The last place is not properly a gap.
-#     print 'extensions '; p extensions
-#     @beginning_category.beginnings.each do |beginning|
-      [@beginning_category.beginnings.first].each do |beginning|
-        Handle_beginning.new( beginning, extensions).print_them
-      end #do beginning
-      @diff = Math_format::Handle_all_format_lengths.count - @diff
-      print '@diff '; p @diff
-      @diff = Math_format::Handle_all_format_lengths.count
+#print 'extensions '; p extensions
+#      @beginnings.each do |beginning|
+      [@beginnings.first].each {|beginning|
+        Handle_beginning.new( beginning, extensions).handle_extensions}
+diff = Handle_extension.count - diff
+print 'diff '; p diff
+diff = Handle_extension.count
+      diff
     end #def
 
     private
     def intersection( thirds_chords, gap_patterns)
       thirds_chords.inject( []) do |memo, thirds_chord|
-#       print 'thirds_chord '; p thirds_chord
-#       print 'thirds_chord.length '; p thirds_chord.length
+#print 'thirds_chord '; p thirds_chord
+#print 'thirds_chord.length '; p thirds_chord.length
 #       positive_pattern = (0...max_thirds_length - 1).to_a
         memo.concat( gap_patterns.collect do |positive_pattern|
-#         print 'positive_pattern ';
-#         p      positive_pattern
+#print 'positive_pattern '; p positive_pattern
           positive_pattern.collect {|i| thirds_chord.at( i)}.push( thirds_chord.last)
         end) #do positive_pattern
       end #do memo, thirds_chord
@@ -674,72 +686,34 @@ module Math_format
     end #def
   end #class
 #-----------------------------
-  class Beginning_category
-    attr_reader :beginnings,
-                :index,
-                :beginning_length
+  class Beginning_categories
 
-    def initialize( b)
-      @beginnings = b
-    end
-
-#    def Beginning_category.sorted_beginnings
-#      @@sorted_beginnings
-#    end
-
-    def Beginning_category.setup
-      categories = []
-      beginnings = Harmony::Chord_beginnings.new
-      categories = beginnings.collect {|e| e.length}.sort!.uniq! # Categorized by length.
-#     print 'categories '; p categories
-      categories = [] if categories.nil? # Protect against an empty array.
-      sorted_beginnings = beginnings.inject( Array.new( categories.length) {[]}) do |memo, e|
-        memo[ categories.index( e.length)].concat( [e]); memo
-      end #do memo, e
-
-      @@beginning_categories = (0...categories.length).inject( []) do |memo, i| memo.push(
-        Beginning_category.new( []))
-      end #do memo, i
-
-      @@beginning_categories = (0...categories.length).inject( []) do |memo, i| memo.push(
-        Beginning_category.new( sorted_beginnings.at( i)))
-      end #do memo, i
-
-      @@beginning_categories.each do |e|
-        print 'e.beginnings.length '; p e.beginnings.length
-#       print 'e.index '; p e.index
-#       print 'e.beginning_length '; p e.beginning_length
-      end
-#     print 'sorted_beginnings '; p sorted_beginnings
-      print 'sorted_beginnings.collect {|e| e.length} '
-      p      sorted_beginnings.collect {|e| e.length}
+    def initialize
+      length_categories = (beginnings = Harmony::Chord_beginnings.new).
+      collect {|a| a.length}.sort!.uniq!
+#print 'categorized_by_length '; p categorized_by_length
+      length_categories = [] if length_categories.nil?
+      categorized_beginnings = beginnings.inject( Array.new( length_categories.length
+      ) {[]}) {|memo, a| memo[ length_categories.index( a.length)].concat( [a]); memo}
+#print 'categorized_beginnings '; p categorized_beginnings
+print 'categorized_beginnings.collect {|a| a.length} '; p categorized_beginnings.collect {|a| a.length}
+      @beginning_categories = (0...length_categories.length).inject( []) {|memo, i|
+      memo.push( Beginning_category.new( categorized_beginnings.at( i)))}
+#@beginning_categories.each {|a| print 'a.beginnings.length '; p a.beginnings.length}
     end #def
 
-    def Beginning_category.each
-      (6...@@beginning_categories.length).each do |i|
-        yield @@beginning_categories.at( i)
-      end #do
+    def each
+      (6...@beginning_categories.length).each {|i| yield @beginning_categories.at( i)}
     end
-
-    private
-    def push( a)
-      @beginnings.push( a)
-    end #def
-
   end #class
 #-----------------------------
   class Top
     def run
-#     print "Main::Top#run:\n"
-      diff = 0
-      Beginning_category.setup
-      Beginning_category.each do |beginning_category|
-        diff = Handle_category.new( diff, beginning_category).print_them
-      end #do
-      print         'Handle_all_format_lengths.count '
-      p Math_format::Handle_all_format_lengths.count
+diff = 0
+      Beginning_categories.new.each {|beginning_category| diff = beginning_category.
+      handle( diff)}
+print 'Handle_extension.count '; p Math_format::Handle_extension.count
     end #def
-
   end #class
 end #module
 #=============================
