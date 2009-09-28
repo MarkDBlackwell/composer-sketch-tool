@@ -418,6 +418,9 @@ module Harmony
       @value = v
     end
 
+    def accumulate_unique( beginning)
+    end
+
     def breadth
       @value.last
     end
@@ -532,20 +535,11 @@ end
 =end
   end #class
 #-----------------------------
-  class Chord_print < Chord
-    def handle( beginning)
-      super
-      print format_it( beginning)
-    end
-  end #class
-#-----------------------------
-#  class Chord_accumulate < Chord
-#    def handle( beginning)
-#      super
-#    end
-#  end #class
-#-----------------------------
   class Chord_beginning
+    def Chord_beginning.chord_class=( cc)
+      @@chord = cc
+    end
+
     def initialize( b)
       @beginning = b
 #print '@beginning '; p @beginning
@@ -571,15 +565,10 @@ end
         chord.push( note)
 #print 'chord '; p chord
 #print 'chord.length '; p chord.length
-        @@chord_subclass.new( chord).handle( @beginning)
+        @@chord.new( chord).handle( @beginning)
       end #do i
-#print '@@chord_subclass.detail_count '; p @@chord_subclass.detail_count
+#print '@@chord.detail_count '; p @@chord.detail_count
     end #def
-
-    public
-    def Chord_beginning.chord_subclass=( cs)
-      @@chord_subclass = cs
-    end
   end #class
 #-----------------------------
   class Chord_beginnings
@@ -683,14 +672,27 @@ print 'Chord.detail_count '; p Chord.detail_count
       NOTE_NAMES.at( @value % OCTAVE)
     end
   end #class
+#-----------------------------
+  class Chord_print < Chord
+    def handle( beginning); super
+      print format_it( beginning)
+    end
+  end #class
+#-----------------------------
+  class Chord_accumulate < Chord
+    def handle( beginning); super
+      accumulate_unique( beginning)
+    end
+  end #class
 end #module
 #=============================
 module Main
 #-----------------------------
   class Run
     def initialize
-#     Harmony::Chord_beginning.chord_subclass = Harmony::Chord
-      Harmony::Chord_beginning.chord_subclass = Harmony::Chord_print
+#     Harmony::Chord_beginning.chord_class = Harmony::Chord
+#     Harmony::Chord_beginning.chord_class = Harmony::Chord_accumulate
+      Harmony::Chord_beginning.chord_class = Harmony::Chord_print
       Harmony::Chord_beginning_categories.new.handle
     end
   end #class
