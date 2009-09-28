@@ -497,6 +497,67 @@ empty_ones.length  0
 sum_length 2048
 sum_length.to_f/@fill_chords.length  1.0
 sum  2048
+
+@@candidate_intervals [3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26]
+@@max_highest_note 14
+@@minimum_gap_interval 6
+@@max_gaps 1000
+@@max_minor_secondths 0
+@@max_minor_ninths 0
+@@max_major_seconds_cluster 2
+method "treewise"
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+82empty_ones.length  1966
+@fill_chords.length 2048
+sum_length 82
+sum_length.to_f/@fill_chords.length  0.0400390625
+sum  82
+
+@@candidate_intervals [3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26]
+@@max_highest_note 44
+@@minimum_gap_interval 6
+@@max_gaps 1000
+@@max_minor_secondths 0
+@@max_tritones 0
+@@max_minor_ninths 0
+@@max_major_seconds_cluster 2
+method "treewise"
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+86224empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+intervals_used [0, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 20, 21, 22, 25]
+highest_note 41
+
+@@candidate_intervals [3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 20, 21, 22, 25]
+@@max_highest_note 41
+@@minimum_gap_interval 6
+@@max_gaps 1000
+@@max_minor_secondths 0
+@@max_tritones 0
+@@max_minor_ninths 0
+@@max_major_seconds_cluster 2
+method "treewise"
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+41117empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+"111111111111, MSB to LSB, is G F# F E Eb D C# C B Bb A Ab"
+intervals_used [0, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 20, 21, 22, 25]
+highest_note 41
 =end
 require 'main'
 Main::Program.new( note_space_width = 12).run
