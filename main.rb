@@ -18,14 +18,20 @@ module Main
 #@note_space.necklaces.each {|necklace| print 'necklace.to_s ', necklace.to_s, "\n"}
 #     @select_necklaces_indices = (0...@note_space.necklaces.length).to_a
 #     @select_necklaces_indices = [0, 1, 69, 280]
-#     @select_necklaces_indices = [1]
+#     @select_necklaces_indices = [5, 10, 11, 12, 13, 14]
+     @select_necklaces_indices = [1]
+#     @select_necklaces_indices = [0]
 #     @select_necklaces_indices = [33]
 #     @select_necklaces_indices = [69]
 #     @select_necklaces_indices = [350]
-      @select_necklaces_indices = [] # Empty means, 'Use all the notes.'
-      make_fill_chords()
-      add_fill_chords_to_necklaces( @fill_chords)
-      dump()
+#      @select_necklaces_indices = [] # Empty means, 'Use all the notes.'
+#      make_fill_chords()
+      @fill_chords = []
+#      add_fill_chords_to_necklaces( @fill_chords)
+      n = necklaces_file_name = 'necklaces-12-0.txt' #Note space width, consonance scheme number.
+#      save_necklaces( n)
+      retrieve_necklaces( n)
+#      dump()
       play()
     end #def
 
@@ -158,6 +164,35 @@ module Main
       print @tree_decorator.fixed
     end
 
+    def save_necklaces( necklaces_file_name)
+      f = File.new( necklaces_file_name, 'w') # IO.open'ing a block didn't work!
+      f.print( YAML::dump( @note_space.necklaces))
+      f.close
+    end
+
+    def retrieve_necklaces( necklaces_file_name)
+      f = File.new( necklaces_file_name, 'r')
+      @note_space.load_necklaces( f)
+      f.close
+#      a = necklaces_file.readlines
+#      a = necklaces_yaml = necklaces_file.readlines
+#      print a, "\n"
+#      s1 = @note_space.necklaces.inspect.split(' ')
+#      necklaces_file.rewind
+#      ruby_object = YAML::load( necklaces_file)
+#      s2 = ruby_object.inspect.split(' ')
+#      print s2
+#      print 's1.length '; p s1.length
+#      print 's2.length '; p s2.length
+#      diff = (0...s1.length).reject {|i| s1.at( i).eql?( s2.at( i))}
+#      print 's1.eql?( s2) '; p s1.eql?( s2)
+#      diff.each do |i|
+#        print "#{i}:\n", "#{s1.at( i)}\n", "#{s2.at( i)}\n\n"
+#      end #each e
+#      necklaces_file.close
+#      end #open
+    end
+
     def dump
 #p 'in Main::Program#dump'
       print 'method '; p @method
@@ -191,12 +226,12 @@ print 'count_roots '; p count_roots
           end #each array2
         end #each chord_array
       end #each necklace
-
+#-
       print @counts_dump
       empty_ones = []
       sum = 0
       sum_length = 0
-
+#-
       @fill_chords.each_with_index do |e, i|
 #      (0...0).each_with_index do |e, i|
         empty_ones.push( i) if e.empty?
@@ -207,7 +242,7 @@ print 'count_roots '; p count_roots
         next if thing.empty?
 #print i + 2048, ' ', i, ' ', i.to_s( 2), ' '; p thing
       end #each_with_index e, i
-
+#-
       @fill_chords.each_with_index do |e, i|
 #      (0...0).each_with_index do |e, i|
 #        thing = e.collect {|a| a.absolutes}
@@ -228,7 +263,7 @@ print 'count_roots '; p count_roots
           @note_space.third_octave_and_a_little].collect {|interval| count_interval( chord.absolutes, interval).to_s}.join(' '),"]\n"
         end #each chord
       end #each_with_index e, i
-
+#-
      #print 'empty_ones  '; p empty_ones
       print 'empty_ones.length  '; p empty_ones.length
       print '@fill_chords.length '; p @fill_chords.length
@@ -248,11 +283,11 @@ print 'count_roots '; p count_roots
       unless @select_necklaces_indices.empty?
 print '@select_necklaces_indices '; p @select_necklaces_indices
       end
-print "Table of Necklaces:\n"
-print "'111111111111' (MSB to LSB) means:\n"
+print "\nTable of Necklaces: '111111111111' (MSB to LSB) means:\n"
 print "G F# F E Eb D C# C B Bb A Ab, 0,1,2,3,4,5,6,7,8,9,10,11, [0,11,10,9,8,7,6,5,4,3,2,1].\n"
-print "\nNecklace_number: Binary_string - Notes not Missing_notes.\n"
-print "MIDI_time Root_number-Chord_name [Absolute_notes] Note_letter_names\n"
+print "Necklace: binary - notes 'not' silent letters\n"
+print "MIDI_time inversion - name [absolute] letters\n"
+      transposition = 0
       (0...(@select_necklaces_indices.empty? ? @note_space.necklaces : @select_necklaces_indices).
       length).each do |necklace_index|
         necklace_number = @select_necklaces_indices.empty? ? necklace_index : @select_necklaces_indices.at( necklace_index)
@@ -279,7 +314,12 @@ print "MIDI_time Root_number-Chord_name [Absolute_notes] Note_letter_names\n"
             intervals_used += absolutes_to_intervals( chord.absolutes)
             intervals_used.sort!.uniq!
             highest_note = chord.absolutes.last if chord.absolutes.last > highest_note
-            HarmonyMidi::Play.handle_chord( @note_space, chord.absolutes, necklace.root_numbers.at( i), get_chord_name( chord.absolutes))
+            HarmonyMidi::Play.handle_chord( @note_space, chord.absolutes, necklace.root_numbers.at( i), get_chord_name( chord.absolutes), transposition)
+            if 0 == transposition % 7
+              transposition -= 4
+            else
+              transposition -= 3
+            end #if
           end #each chord
         end #downto i
       end #each necklace_index
