@@ -1,4 +1,5 @@
 require 'chordutilities'
+#require 'generatedprunedorderedpostordernarytree'
 require 'generatechords'
 require 'generatenotespace'
 module Main
@@ -14,11 +15,12 @@ module Main
     def run
 #@note_space.necklaces.each {|necklace| print 'necklace.to_s ', necklace.to_s, "\n"}
 #p 'in Main::Program#run before GenerateChords::Walker.new'
-      @walker_new = GenerateChords::Walker.new( @note_space, GenerateChords::WalkerDecorator)
+      @walker_decorator = GenerateChords::WalkerDecorator.new( @note_space)
+      @walker = GeneratedPrunedOrderedPostOrderNaryTree::Walker.new( @walker_decorator,
+          GenerateChords::TreeDecorator.new)
 #p 'in Main::Program#run before GenerateChords::Walker#walk'
-      @walker_fixed_dump = @walker_new.fixed
       dump_fixed()
-      @fill_chords, @counts_dump = @walker_new.walk
+      @fill_chords, @counts_dump = @walker.walk
 #p 'in Main::Program#run after GenerateChords::Walker#walk'
       add_fill_chords_to_necklaces( @fill_chords)
       dump()
@@ -40,7 +42,7 @@ module Main
     end #def
 
     def dump_fixed
-      print @walker_fixed_dump
+      print @walker_decorator.fixed
     end
 
     def dump
