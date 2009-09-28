@@ -11,21 +11,6 @@ module ChordUtilities
     have_note[    note % length] = true; already}
   end #def
 
-=begin
-  def count_interval_fortranish( absolutes, interval)
-    count = 0
-    (0...absolutes.length).each do |left_index|
-      left = absolutes.at( left_index)
-      (left_index + 1...absolutes.length).each do |right_index|
-        difference = absolutes.at( right_index) - left
-        count += 1 if difference == interval
-        break if difference >= interval # Assume absolutes are sorted.
-      end #each right_index
-    end #each left_index
-    count
-  end #def
-=end
-
   def count_interval( absolutes, interval)
     absolutes.inject( 0) {|memo, low| memo + absolutes.find_all {|high| high - low == interval}.length}
   end
