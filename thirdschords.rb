@@ -571,10 +571,11 @@ module Print_something
   class Mathematical_format
 # Here, do the loop to get all lengths of the chord.
     @@count = 0
-    def initialize( cb, h, tc)
+    def initialize( cb, h, tc, re)
       @chord_beginning = cb
       @have = h
       @thirds_chord = tc
+      @relative_extension = re
       @octave = Harmony::NOTE_NAMES.length
       @chord_beginning_have = Array.new( @octave, false) # Start by assuming that @chord_beginning has no notes.
       @chord_beginning.each {|note| @chord_beginning_have[ note % @octave] = true}
@@ -584,19 +585,13 @@ module Print_something
     def print_some
 #     print "Print_something::Mathematical_format#print_some:\n"
 #     print '@chord_beginning.length '; p @chord_beginning.length
-# Temporarily here, make thirds_chords internally valid (no note repetitions).
-      relative_extension = @have.collect {|i| @thirds_chord.at( i)}.push( @thirds_chord.last)
-      valid = valid_length( relative_extension)
-#     print 'valid '; p valid
-      relative_extension.slice!( valid..-1)
+### Temporarily here, make thirds_chords internally valid (no note repetitions).
+##      relative_extension = @have.collect {|i| @thirds_chord.at( i)}.push( @thirds_chord.last)
+##      valid = valid_length( relative_extension)
+###     print 'valid '; p valid
+##      relative_extension.slice!( valid..-1)
 
-      extension = relative_extension.collect {|e| e + @chord_beginning_last}
-#     full_chord = @chord_beginning + extension
-#     print 'full_chord '; p full_chord
-#     print 'full_chord.length '; p full_chord.length
-#     chord = full_chord.slice( 0...(v = valid_length( full_chord)))
-#     print 'v '; p v
-#     (v - @chord_beginning.length).times do
+      extension = @relative_extension.collect {|e| e + @chord_beginning_last}
       chord = @chord_beginning.clone
       (0...extension.length).each do |i|
 # Assume extension is internally valid (has no note repetitions).
@@ -609,28 +604,12 @@ module Print_something
         @@count += 1
 #       print '@@count '; p @@count
       end #do i
-#     end #do (v - @chord_beginning.length)
 #     print '@@count '; p @@count
     end #def
 
     def Mathematical_format.count
       @@count
     end
-
-    private
-    def valid_length( chord)
-      octave = Harmony::NOTE_NAMES.length
-      have = Array.new( octave, false)
-      result = chord.length # Start by assuming the chord is all valid.
-      chord.each_with_index do |note, i|
-        if have.at( note % octave)
-          result = i
-          break
-        end #if
-        have[ note % octave] = true
-      end #do
-      result
-    end #def
   end #class
 end #module
 #=============================
@@ -649,7 +628,7 @@ module Main
 #     print 'sorted_beginnings '; p sorted_beginnings
       b.each {|e| sorted_beginnings[ lengths.index( e.length)].concat( [e])}
       print 'sorted_beginnings.collect {|e| e.length} '; p sorted_beginnings.collect {|e| e.length}
-      i = 1
+      i = 5
 #     lengths.each_index do |i|
         max_thirds_length = OCTAVE_LENGTH - lengths.at( i)
         gap_patterns = Gap::Gap_constellation_array.new( max_thirds_length - 1) # The last place is not properly a gap.
@@ -665,7 +644,13 @@ module Main
 #           have = (0...max_thirds_length - 1).to_a
            gap_patterns.each do |have|
 #             print 'have '; p have
-              Print_something::Mathematical_format.new( chord_begin, have, thirds_chord).print_some
+
+              relative_extension = have.collect {|i| thirds_chord.at( i)}.push( thirds_chord.last)
+              valid = valid_length( relative_extension)
+#             print 'valid '; p valid
+              relative_extension.slice!( valid..-1)
+
+              Print_something::Mathematical_format.new( chord_begin, have, thirds_chord, relative_extension).print_some
 #             print "Main::Main_do#run:\n"
             end #do have
           end #do thirds_chord
@@ -675,6 +660,21 @@ module Main
         diff = Print_something::Mathematical_format.count
 #     end #do i
       print 'Mathematical_format.count '; p Print_something::Mathematical_format.count
+    end #def
+
+    private
+    def valid_length( chord)
+      octave = Harmony::NOTE_NAMES.length
+      have = Array.new( octave, false)
+      result = chord.length # Start by assuming the chord is all valid.
+      chord.each_with_index do |note, i|
+        if have.at( note % octave)
+          result = i
+          break
+        end #if
+        have[ note % octave] = true
+      end #do
+      result
     end #def
   end #class
 #-----------------------------
