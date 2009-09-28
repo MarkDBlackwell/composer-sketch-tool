@@ -82,6 +82,31 @@ Generate gap words (10 bits = thirds_length - 1).
 Shift through, checking 4-bit groupings and 1-bits.
 Keep the good ones.
 Keep and apply to all the thirds-length (=11) chords.
+
+Processing one from each length, counted:
+sorted_b.collect {|e| e.length} [1, 2, 7, 26, 29, 13, 1]
+gap_patterns.length 351
+chord_begin [0]
+diff 2931732
+gap_patterns.length 198
+chord_begin [0, 5]
+diff 520313
+gap_patterns.length 107
+chord_begin [0, 10, 15]
+diff 118281
+gap_patterns.length 56
+chord_begin [0, 11, 13, 15]
+diff 27448
+gap_patterns.length 29
+chord_begin [0, 9, 11, 19, 20]
+diff 2770
+gap_patterns.length 15
+chord_begin [0, 9, 11, 19, 20, 22]
+diff 1364
+gap_patterns.length 8
+chord_begin [0, 7, 9, 11, 15, 20, 22]
+diff 316
+Mathematical_format.count 3602224
 =end
 #=============================
 module Harmony
@@ -340,6 +365,7 @@ module Chord_begin
 [ 0], # Just G (U)
 #[ 0, 3], [ 0, 4], # Test of the 'do not need this chord' message functionality.
 ]
+    include Enumerable
     def initialize
       @chord_beginnings = partly_generable? ? [] : CHORD_BEGINNINGS
     end
@@ -543,6 +569,7 @@ module Print_something
 =end
 #-----------------------------
   class Mathematical_format
+# Here, do the loop to get all lengths of the chord.
     @@count = 0
     def initialize( cb, h, tc)
       @chord_beginning = cb
@@ -551,34 +578,39 @@ module Print_something
       @octave = Harmony::NOTE_NAMES.length
       @chord_beginning_have = Array.new( @octave, false) # Start by assuming that @chord_beginning has no notes.
       @chord_beginning.each {|note| @chord_beginning_have[ note % @octave] = true}
+      @chord_beginning_last = @chord_beginning.last
     end
 
     def print_some
-# Here, do the loop to get all lengths of the chord.
-      print "Print_something::Mathematical_format#print_me:\n"
-      print '@chord_beginning.length '; p @chord_beginning.length
-      relative = @chord_beginning.last
-      extension = @have.collect {|i| @thirds_chord.at( i)}.push( @thirds_chord.last).
-      collect! {|e| e + relative}
-      full_chord = @chord_beginning + extension
-      print 'full_chord '; p full_chord
-      print 'full_chord.length '; p full_chord.length
+#     print "Print_something::Mathematical_format#print_some:\n"
+#     print '@chord_beginning.length '; p @chord_beginning.length
+# Temporarily here, make thirds_chords internally valid (no note repetitions).
+      relative_extension = @have.collect {|i| @thirds_chord.at( i)}.push( @thirds_chord.last)
+      valid = valid_length( relative_extension)
+#     print 'valid '; p valid
+      relative_extension.slice!( valid..-1)
+
+      extension = relative_extension.collect {|e| e + @chord_beginning_last}
+#     full_chord = @chord_beginning + extension
+#     print 'full_chord '; p full_chord
+#     print 'full_chord.length '; p full_chord.length
 #     chord = full_chord.slice( 0...(v = valid_length( full_chord)))
 #     print 'v '; p v
 #     (v - @chord_beginning.length).times do
       chord = @chord_beginning.clone
       (0...extension.length).each do |i|
-# Note: elsewhere must make thirds_chords internally valid (no note repetitions).
+# Assume extension is internally valid (has no note repetitions).
         have_this_note = @chord_beginning_have.at( extension.at( i) % @octave)
         break if have_this_note
         chord.push( extension.at( i))
-        print 'chord '; p chord
-        print 'chord.length '; p chord.length
+#       print 'chord '; p chord
+#       print 'chord.length '; p chord.length
 #       print Print_line.new( chord, @chord_beginning).to_s
         @@count += 1
 #       print '@@count '; p @@count
-      end #do
-#     end #do
+      end #do i
+#     end #do (v - @chord_beginning.length)
+#     print '@@count '; p @@count
     end #def
 
     def Mathematical_format.count
@@ -599,20 +631,6 @@ module Print_something
       end #do
       result
     end #def
-
-    def valid_note?( chord, try_note)
-      octave = Harmony::NOTE_NAMES.length
-      have = Array.new( octave, false)
-      result = chord.length # Start by assuming the note is valid.
-      chord.each_with_index do |note, i|
-        if have.at( note % octave)
-          result = i
-          break
-        end #if
-        have[ note % octave] = true
-      end #do
-      result
-    end #def
   end #class
 end #module
 #=============================
@@ -621,24 +639,49 @@ module Main
   class Main_do
     OCTAVE_LENGTH = 12
     def run
-      print "Main::Main_do#run:\n"
-      chord_begin = [ 0, 5]
+      diff = 0
+#     print "Main::Main_do#run:\n"
+#     chord_begin = [ 0, 5]
 #     Chord_begin::Chord_beginnings.new.each do |chord_begin|
-        print 'chord_begin '; p chord_begin
-        max_thirds_length = OCTAVE_LENGTH - chord_begin.length
+# Sort beginnings by length.
+#     tagged = Chord_begin::Chord_beginnings.new.collect {|a| [a.length, a]}
+#     beginnings.each {|a| [a.length, []]}.sort! {|b|, b.first}
+#     sorted = lengths.collect {|e|, [e, []]}
+
+      b = Chord_begin::Chord_beginnings.new
+      lengths = b.collect {|e| e.length}.sort!.uniq!
+      sorted_b = lengths.collect {[]}
+#     print 'sorted_b '; p sorted_b
+      b.each {|e| sorted_b[ lengths.index( e.length)].concat( [e])}
+      print 'sorted_b.collect {|e| e.length} '; p sorted_b.collect {|e| e.length}
+#     i = 6
+      lengths.each_index do |i|
+        max_thirds_length = OCTAVE_LENGTH - lengths.at( i)
         gap_patterns = Gap::Gap_constellation_array.new( max_thirds_length - 1) # The last place is not properly a gap.
         print 'gap_patterns.length '; p gap_patterns.length
-        thirds_chord = [4, 8, 11, 15, 18, 22, 26, 29, 33, 37]
-#       Thirds_chords::All_thirds_chords.new( max_thirds_length).each do |thirds_chord|
-          print 'thirds_chord '; p thirds_chord
-          have = (0...max_thirds_length - 1).to_a
-#         gap_patterns.each do |have|
-            print 'have '; p have
-            Print_something::Mathematical_format.new( chord_begin, have, thirds_chord).print_some
-            print "Main::Main_do#run:\n"
-#         end #do have
-#       end #do thirds_chord
-#     end #do chord_begin
+#       sorted_b.at( i).each do |chord_begin|
+        chord_begin = sorted_b.at( i).first
+          print 'chord_begin '; p chord_begin
+#         max_thirds_length = OCTAVE_LENGTH - chord_begin.length
+#         gap_patterns = Gap::Gap_constellation_array.new( max_thirds_length - 1) # The last place is not properly a gap.
+#         print 'gap_patterns.length '; p gap_patterns.length
+
+#         thirds_chord = [4, 8, 11, 15, 18, 22, 26, 29, 33, 37]
+          Thirds_chords::All_thirds_chords.new( max_thirds_length).each do |thirds_chord|
+#           print 'thirds_chord '; p thirds_chord
+#           print 'thirds_chord.length '; p thirds_chord.length
+#           have = (0...max_thirds_length - 1).to_a
+           gap_patterns.each do |have|
+#             print 'have '; p have
+              Print_something::Mathematical_format.new( chord_begin, have, thirds_chord).print_some
+#             print "Main::Main_do#run:\n"
+            end #do have
+          end #do thirds_chord
+#       end #do chord_begin
+      diff = Print_something::Mathematical_format.count - diff
+      print 'diff '; p diff
+      diff = Print_something::Mathematical_format.count
+      end #do i
       print 'Mathematical_format.count '; p Print_something::Mathematical_format.count
     end #def
   end #class
