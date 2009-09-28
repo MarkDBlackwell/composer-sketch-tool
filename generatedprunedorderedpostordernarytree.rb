@@ -25,6 +25,8 @@ http://sourcemaking.com/design_patterns/visitor
 I would like to make this work for more than one tree at once, and the Node class variables 
 are messing this up. Intuition tells me I need a metaclass, singleton class, prototype, or the
 like.
+
+Maybe the solution is to use class instance variables.
 =end
 #=========================
 module GeneratedPrunedOrderedPostOrderNaryTree
@@ -38,14 +40,15 @@ module GeneratedPrunedOrderedPostOrderNaryTree
           @parent = p
       (@node_decorator = n).step_out_branch_leftward( self)
 # By unwinding the stack, the method, 'initialize' unhelpfully returns not the leaf but the 
-# *first* object made, so instead track the leaf by the variable, @@processing_node.
+# *first* object made, so instead track the leaf by the class variable, @@processing_node.
     end
 
     public
+# Maybe change to aliasing 'new'.
     def Node.make_branch_and_return_leaf( *args)
 #p 'in GeneratedPrunedOrderedPostOrderNaryTree::Node.make_branch_and_return_leaf'
       new( *args)
-      @@processing_node
+      Node.leaf()
     end
 
     public
@@ -55,22 +58,20 @@ module GeneratedPrunedOrderedPostOrderNaryTree
     end
 
     public
-    def Node.processing_node=( a)
-#p 'in GeneratedPrunedOrderedPostOrderNaryTree::Node.processing_node='
-      @@processing_node = a
-    end
-
-    public
-    def Node.processing_node
-#p 'in GeneratedPrunedOrderedPostOrderNaryTree::Node.processing_node'
-      @@processing_node
-    end
-
-    public
     def create_sibling
 #p 'in GeneratedPrunedOrderedPostOrderNaryTree::Node#create_sibling'
       return nil if @parent.nil?
-      @parent.node_decorator.parent_create_next_child( @parent)
+      @parent.node_decorator.in_parent_create_next_child( @parent)
+    end
+
+    public
+    def Node.capture_leaf( p)
+      @@processing_node = p
+    end
+
+    public
+    def Node.leaf
+      @@processing_node
     end
 
     public
