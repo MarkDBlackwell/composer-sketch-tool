@@ -14,19 +14,93 @@ module Main
     end
 
     def run
+#p 'in Main::Program#run'
 #@note_space.necklaces.each {|necklace| print 'necklace.to_s ', necklace.to_s, "\n"}
-#p 'in Main::Program#run before GenerateChords::Tree.new'
-      @tree_decorator = GenerateChords::TreeDecorator.new( @note_space)
-      @tree = GeneratedPrunedOrderedPostOrderNaryTree::Tree.new( @tree_decorator,
-      GenerateChords::LeafDecorator.initial())
-#p 'in Main::Program#run before GenerateChords::Tree#walk'
-      dump_fixed()
-      @fill_chords, @counts_dump = @tree.walk
-#p 'in Main::Program#run after GenerateChords::Tree#walk'
+      make_fill_chords()
       add_fill_chords_to_necklaces( @fill_chords)
       dump()
       play()
     end #def
+
+    def make_fill_chords
+      @counts_dump = ''
+# The first bit of this index always would have the same value, '1', for the note, G2, so drop that bit.
+      @fill_chords = Array.new( Bit::BIT_STATES ** (@note_space.width - Bit::BIT_WIDTH)) {[]}
+      GenerateChords::Word.              set_fixed( @note_space)
+      GenerateChords::Chord.             set_fixed( @note_space)
+      thirds_chords = make_thirds_chords()
+      thirds_chords.each do |e|
+        c = GenerateChords::Chord.new( e)
+        these = @fill_chords.at( c.fill_word)
+        if these.empty?
+          these.push( c)
+#print 'c.fill_word.to_s( 2)'; p c.fill_word.to_s( 2)
+          next
+        end #if
+        bested = (0...these.length).find_all {|i| c > these.at( i)}
+        unless bested.nil? || bested.empty?
+          bested.each {|i| these.delete_at( i)} # Later, try changing this to assigning nil and compact!'ing.
+          these.push( c)
+        end #unless
+      end #do e
+    end #def
+
+    def make_thirds_chords
+      width = @note_space.width
+      full_length = 13 # G2 is added.
+      words = (0...Bit::BIT_STATES ** width).to_a
+      thirds_chords = []
+      make_full_thirds_chords().each do |thirds_chord|
+        pattern_chords = words.collect do |word|
+          chord = thirds_chord.clone
+          w = word << Bit::BIT_WIDTH # Start before first.
+          (1...full_length).each do |i|
+            w >>= Bit::BIT_WIDTH
+            if Bit::BIT_VALUE_0 == (w & Bit::SINGLE_BIT)
+#print 'w.to_s( 2) '; p w.to_s( 2)
+              chord[ i] = nil
+            end
+          end #each i
+          chord.compact!
+#print 'chord '; p chord
+          chord
+        end #collect word
+        thirds_chords.concat( pattern_chords)
+      end #each thirds_chord
+      thirds_chords
+    end #def
+
+    def make_full_thirds_chords
+      width = 4
+#     words = (0...Bit::BIT_STATES ** width).to_a
+      words = [0, 1, 3, 7, 15]
+      all_chords = []
+      [[[4, 4, 3], [4, 3, 4]], [[4, 3, 4], [3, 4, 4]], [[4, 4, 3],[3, 4, 4]]].each do |pair|
+        pattern, altered_pattern = pair
+        chords = words.collect do |word|
+          w = word << Bit::BIT_WIDTH # Start before first.
+          intervals = (0...width).collect do
+            w >>= Bit::BIT_WIDTH
+            (1 == w & Bit::SINGLE_BIT) ? pattern : altered_pattern
+          end #collect
+          intervals_to_absolutes( intervals.reverse!.flatten!)
+        end #collect word
+        all_chords.concat( chords)
+      end #each pair
+      all_chords
+    end
+
+    def make_fill_chords_treewise
+#p 'in Main::Program#make_fill_chords'
+#p 'in Main::Program#make_fill_chords before GenerateChords::TreeDecorator.new'
+      @tree_decorator = GenerateChords::TreeDecorator.new( @note_space)
+      @tree = GeneratedPrunedOrderedPostOrderNaryTree::Tree.new( @tree_decorator,
+      GenerateChords::LeafDecorator.initial())
+      dump_fixed()
+#p 'in Main::Program#make_fill_chords before GenerateChords::Tree#walk'
+      @fill_chords, @counts_dump = @tree.walk
+#p 'in Main::Program#run after GenerateChords::Tree#walk'
+    end
 
     def add_fill_chords_to_necklaces( fill_chords)
 #p 'in Main::Program#add_fill_chords_to_necklaces'
@@ -134,8 +208,9 @@ print 'count_roots '; p count_roots
 # TO-DO: Count rooted chords in necklaces: should be 2048.
 # E.g., @note_space.necklaces.each do |e|
       HarmonyMidi::Play.set_up()
-p 'MSB to LSB, G F# F E Eb D C# C B Bb A Ab'
-      @note_space.necklaces.each_with_index do |necklace, necklace_number|
+p '111111111111, MSB to LSB, is G F# F E Eb D C# C B Bb A Ab'
+      @note_space.necklaces.each_with_index do |necklace, necklace_number_off|
+        necklace_number = necklace_number_off.succ
 #print 'necklace.word.to_s( 2) '; p necklace.word.to_s( 2)
 #print 'necklace.word '; p necklace.word
 #print 'necklace.root_words '; p necklace.root_words
@@ -149,11 +224,11 @@ p 'MSB to LSB, G F# F E Eb D C# C B Bb A Ab'
           array = chords.compact
 #print 'array.inspect '; p array.inspect
           next if array.nil? || array.empty?
-          (had_pause = true; HarmonyMidi::Play.handle_necklace( necklace, necklace_number)) unless had_pause
+          (had_pause = true; HarmonyMidi::Play.handle_necklace( necklace, necklace_number, '')) unless had_pause
           array.each do |chord|
 #print 'chord.absolutes '; p chord.absolutes
 #print 'chord.inspect '; p chord.inspect
-            HarmonyMidi::Play.handle_chord( chord.absolutes, necklace.root_numbers.at( i))
+            HarmonyMidi::Play.handle_chord( chord.absolutes, necklace.root_numbers.at( i), '')
           end #each chord
         end #each_with_index chords, i
       end #each_with_index necklace, necklace_number
