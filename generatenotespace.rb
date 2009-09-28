@@ -1,3 +1,4 @@
+require 'yaml'
 require 'bit'
 require 'chordutilities'
 module GenerateNoteSpace
@@ -17,7 +18,10 @@ module GenerateNoteSpace
   end #class NecklaceWords
 #-----------------------------
   class Necklace
-    attr_reader :root_numbers,
+    attr_reader :expansion,
+                :missing,
+                :note_names,
+                :root_numbers,
                 :root_words,
                 :roots,
                 :word
@@ -35,28 +39,33 @@ this rightward shift of four bits, G is the root of the new rooted chord, and I 
 # When I get Ruby 1.9, use Zip into Struc (if not in 1.8).
       @root_words = []
       @root_numbers = []
+      expansion_numbers = []
       circle = @word
-      high_bit = 0 != circle & @@most_significant_bit_value # Start before first.
-      circle &= ~@@most_significant_bit_value
-      circle <<= Bit::BIT_WIDTH
-      circle |= Bit::BIT_VALUE_1 if high_bit
-      (0...@@width).each do |rooted_chord_number|
-        low_bit = circle & Bit::SINGLE_BIT == Bit::BIT_VALUE_1
-        circle >>= Bit::BIT_WIDTH
-        if low_bit
-          circle |= @@most_significant_bit_value
-          break if rooted_chord_number > 0 && circle == @word # Have symmetry.
-          @root_words.push( circle)
-          @root_numbers.push( rooted_chord_number)
+      symmetrical = false
+      (0...@@width).each do |note|
+        if @@most_significant_bit_value == circle & @@most_significant_bit_value
+          expansion_numbers.push( note)        
+          unless symmetrical
+            @root_words.push( circle)
+            @root_numbers.push( note)
+          end #unless
         end #if
-      end #each rooted_chord_number
-#     @roots = Array.new( @@width, nil)
+        high_bit = 0 != circle & @@most_significant_bit_value
+        circle &= ~@@most_significant_bit_value
+        circle <<= Bit::BIT_WIDTH
+        circle |= Bit::BIT_VALUE_1 if high_bit
+        symmetrical |= circle == @word
+      end #each note
+      @expansion = expansion_numbers.join(',')
+      @missing = (0...@@width).reject {|e| expansion_numbers.include?( e)}.join(',')
+      @note_names = expansion_numbers.collect {|e| @@note_names.at( (@@width - e) % @@width)}.join(' ')
       @roots = Array.new( @root_words.length, nil)
     end
 
     def Necklace.set_fixed( note_space)
       @@width = note_space.width
       @@most_significant_bit_value = note_space.most_significant_bit_value
+      @@note_names = note_space.note_names
     end
 
     def add_rooted_chord( unnormalized_word, chords)
@@ -70,7 +79,7 @@ this rightward shift of four bits, G is the root of the new rooted chord, and I 
     end #def
 
     def to_s
-#     '[' + (0...@@width).reject {|i| @roots.at( i).nil?}.join( ',') + ']'
+#     '[' + (0...@@width).reject {|i| @roots.at( i).nil?}.join(',') + ']'
       @word.to_s( 2)
     end
 
@@ -132,8 +141,8 @@ this rightward shift of four bits, G is the root of the new rooted chord, and I 
     :octave_and_a_little, :major_ninth, :minor_tenth, :major_tenth, :octave_and_a_half,
     :minor_sixteenth, :major_sixteenth, :minor_seventeenth, :two_and_a_third_octaves
 
-    def initialize( length)
-      if 12 == length 
+    def initialize( width)
+      if 12 == width
         @a_little, @two_littles = 1, 2
         @minor_third, @major_third = 3, 4
         @third_octave_and_a_little, @half_octave, @fifth = 5, 6, 7
@@ -144,13 +153,17 @@ this rightward shift of four bits, G is the root of the new rooted chord, and I 
         @octave_and_a_half = 18
         @minor_sixteenth, @major_sixteenth = 25, 26
         @minor_seventeenth, @two_and_a_third_octaves = 27, 28
-
         @note_names = %w{G Ab A Bb B C C# D Eb E F F#}
         @width = @octave = @note_names.length
         @most_significant_bit_value = Bit::BIT_VALUE_1 << (@width - Bit::BIT_WIDTH)
 #print '@most_significant_bit_value.to_s( 2) '; p @most_significant_bit_value.to_s( 2)
         @necklaces = Necklaces.new( self)
       end # if
-    end
+    end #def
+
+    def load_necklaces( io_object)
+        @necklaces = YAML::load( io_object)
+    end #def
+
   end #class NoteSpace
 end #module GenerateNoteSpace
