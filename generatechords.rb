@@ -237,13 +237,19 @@ module GenerateChords
     end
 
     public
+    def next_candidate_interval
+      return nil if @candidate_intervals_index >= @@candidate_intervals.length
+      @@candidate_intervals.at(( @candidate_intervals_index += 1) - 1)
+    end
+
+    public
     def step_out_branch_leftward( node)
 #p 'in GenerateChords::NodeDecorator#step_out_branch_leftward'
       until @candidate_intervals_index >= @@candidate_intervals.length
         absolutes = absolutes_for_child()
         @candidate_intervals_index += 1
         next if anything_bad?( absolutes)
-        @@node_class.make_branch_and_return_leaf( parent = node, NodeDecorator.new( absolutes))
+        @@node_class.new( parent = node, NodeDecorator.new( absolutes))
         break
       end #until
 # Assume that before this node (node) was created, it was checked for anything bad.
@@ -267,7 +273,7 @@ module GenerateChords
         if anything_bad?( absolutes)
           in_parent_create_next_child( parent)
         else
-          @@node_class.make_branch_and_return_leaf( parent, NodeDecorator.new( absolutes))
+          @@node_class.new( parent, NodeDecorator.new( absolutes))
         end
       end
     end #def
