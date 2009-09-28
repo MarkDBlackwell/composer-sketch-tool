@@ -280,6 +280,7 @@ module Harmony
   MAJOR_THIRD = 4
   TRITONE = 6
   MAJOR_SIXTH = 9
+  MINOR_SEVENTH = 10
   OCTAVE = NOTE_NAMES.length
   MINOR_NINTH = 13
   MAJOR_NINTH = 14
@@ -820,135 +821,103 @@ all 1024
 887 node.dump "nog: 3 i: [0,3,4,3] hn: 10"
 951 node.dump "nog: 3 i: [0,4,3,3] hn: 10"
 #-----------------------------
-Protecting against even one minor ninth:
-CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MINIMUM_GAP_INTERVAL 6
-MAX_GAPS 2
-MAX_HIGHEST_NOTE 48
-@@count 43884
-
 CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 MINIMUM_GAP_INTERVAL 9
-MAX_GAPS 2
-MAX_HIGHEST_NOTE 36
-@@count 66049
-
-CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MINIMUM_GAP_INTERVAL 9
-MAX_GAPS 2
-MAX_HIGHEST_NOTE 40
-@@count 126531
-
-CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MINIMUM_GAP_INTERVAL 9
-MAX_GAPS 2
-MAX_HIGHEST_NOTE 44
-@@count 268652
-
-CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MINIMUM_GAP_INTERVAL 9
-MAX_GAPS 2
-MAX_HIGHEST_NOTE 48
-@@count 456685
-
-CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MINIMUM_GAP_INTERVAL 9
-MAX_GAPS 2
-MAX_HIGHEST_NOTE 14
-...
-@@count 2303
-
-CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MINIMUM_GAP_INTERVAL 9
-MAX_GAPS 2
-MAX_MINOR_NINTHS 1
-MAX_MINOR_SECONDS 1
-MAX_TRITONES 2
 MAX_HIGHEST_NOTE 24
-@@count 3866
-
-CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MINIMUM_GAP_INTERVAL 9
 MAX_GAPS 2
-MAX_MINOR_NINTHS 1
-MAX_MINOR_SECONDS 1
-MAX_TRITONES 2
-MAX_HIGHEST_NOTE 36
-@@count 190551
-
-Removed a counting error:
-CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MINIMUM_GAP_INTERVAL 9
-MAX_GAPS 2
-MAX_MINOR_SECONDS 1
-MAX_TRITONES 2
-MAX_MINOR_NINTHS 1
-MAX_HIGHEST_NOTE 24
-@@count 6473
-
-Removed an error in @@processing_node setting.
-Removed an error in @candidate_intervals_index incrementation.
-CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MINIMUM_GAP_INTERVAL 9
-MAX_GAPS 2
-MAX_MINOR_SECONDS 1
-MAX_TRITONES 2
-MAX_MINOR_NINTHS 1
-MAX_HIGHEST_NOTE 24
-@@count 23045
-
-CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MINIMUM_GAP_INTERVAL 9
-MAX_GAPS 2
-MAX_MINOR_SECONDS 0
-MAX_TRITONES 2
-MAX_MINOR_NINTHS 0
-MAX_HIGHEST_NOTE 24
-@@count 2268
-
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
 @@count 2324
+
 CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-MAX_GAPS 2
-MAX_HIGHEST_NOTE 24
-MAX_MINOR_NINTHS 0
-MAX_MINOR_SECONDS 0
-MAX_TRITONES 2000
 MINIMUM_GAP_INTERVAL 9
+MAX_HIGHEST_NOTE 36
+MAX_GAPS 2
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 58181
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 9
+MAX_HIGHEST_NOTE 48
+MAX_GAPS 2
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 530446
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 10
+MAX_HIGHEST_NOTE 24
+MAX_GAPS 2
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 2324
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 10
+MAX_HIGHEST_NOTE 36
+MAX_GAPS 2
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 58425
+
 =end
   CANDIDATE_INTERVALS = (Harmony::MINOR_SECOND...Harmony::OCTAVE).to_a; print 'CANDIDATE_INTERVALS '; p CANDIDATE_INTERVALS
   MINIMUM_GAP_INTERVAL = Harmony::MAJOR_SIXTH; print 'MINIMUM_GAP_INTERVAL '; p MINIMUM_GAP_INTERVAL
-  MAX_GAPS = 2; print 'MAX_GAPS '; p MAX_GAPS
-  MAX_MINOR_SECONDS = 0; print 'MAX_MINOR_SECONDS '; p MAX_MINOR_SECONDS
-  MAX_TRITONES = 2000; print 'MAX_TRITONES '; p MAX_TRITONES
-  MAX_MINOR_NINTHS = 0; print 'MAX_MINOR_NINTHS '; p MAX_MINOR_NINTHS
+#  MINIMUM_GAP_INTERVAL = Harmony::MINOR_SEVENTH; print 'MINIMUM_GAP_INTERVAL '; p MINIMUM_GAP_INTERVAL
   MAX_HIGHEST_NOTE = 24; print 'MAX_HIGHEST_NOTE '; p MAX_HIGHEST_NOTE
+  MAX_GAPS = 2; print 'MAX_GAPS '; p MAX_GAPS
+  MAX_MINOR_SECOND = 0; print 'MAX_MINOR_SECOND '; p MAX_MINOR_SECOND
+  MAX_MINOR_NINTH = 0; print 'MAX_MINOR_NINTH '; p MAX_MINOR_NINTH
 
 #-----------------------------
   class Node
     private_class_method :new
     public
-    def Node.make_new_node_with_branch_and_return_its_leaf( *args)
+    def Node.make_branch_and_return_leaf( *args)
       node = new( *args)
       @@processing_node
     end #def
 
-    def initialize( p, a) # Return the *first* object made (because of unwinding the stack).
-          @parent = p
-          @absolutes = a
-      @have_notes = absolutes_to_have_notes( @absolutes)
-#print '@have_notes '; p @have_notes
-#     alert 'new called wrongly' if caller != Node.make_new_node_with_branch_and_return_its_leaf
-      @candidate_intervals_index = 0 # A value of CANDIDATE_INTERVALS.length has a special meaning.
+    def initialize( p, a) # Returns the *first* object made, by unwinding the stack.
+      @parent = p
+      @absolutes = a
+# A value of CANDIDATE_INTERVALS.length has a special meaning; see parent_create_next_child, below.
+      @candidate_intervals_index = 0
 #print 'self.dump '; p self.dump
-      step_down_branch
-    end
+      step_down_branch_tending_left
+    end #def
 
     private
-    def absolutes_to_have_notes( absolutes)
-      have_notes = Array.new( Harmony::OCTAVE).fill( false)
-      absolutes.each {|e| have_notes[ e % Harmony::OCTAVE] = true}
-      have_notes
+    def step_down_branch_tending_left
+      until @candidate_intervals_index >= CANDIDATE_INTERVALS.length
+        next_on_branch_absolutes = child_absolutes
+        @candidate_intervals_index += 1
+        next if anything_bad?( next_on_branch_absolutes)
+        Node.make_branch_and_return_leaf( parent = self, next_on_branch_absolutes)
+        break
+      end #until
+# Assume that before this node (self) was created, it was checked for anything bad.
+      @@processing_node = self if @candidate_intervals_index >= CANDIDATE_INTERVALS.length
+      @@processing_node
+    end #def
+
+    public
+    def create_sibling
+      return nil if @parent.nil?
+      @parent.parent_create_next_child
     end
+
+    protected
+    def parent_create_next_child
+      return create_sibling if @candidate_intervals_index > CANDIDATE_INTERVALS.length
+# The special meaning of @candidate_intervals_index at CANDIDATE_INTERVALS.length is used here:
+      (@candidate_intervals_index += 1; return @@processing_node = self) if CANDIDATE_INTERVALS.length == @candidate_intervals_index
+      next_absolutes = child_absolutes
+      @candidate_intervals_index += 1
+      return parent_create_next_child if anything_bad?( next_absolutes)
+      Node.make_branch_and_return_leaf( parent = self, next_absolutes)
+    end #def
 
     private
     def absolutes_to_intervals( absolutes)
@@ -957,106 +926,66 @@ MINIMUM_GAP_INTERVAL 9
     end
 
     private
-    def intervals
-      absolutes_to_intervals( @absolutes)
+    def any_duplicates?( absolutes)
+      have_note = Array.new( Harmony::OCTAVE).fill( false)
+      absolutes.any? {|e| already = have_note.at( e % Harmony::OCTAVE)
+                                    have_note[    e % Harmony::OCTAVE] = true; already}
     end
-
-=begin
-    private
-    def intervals_to_absolutes( intervals)
-      running_sum = 0
-      absolutes = intervals.collect {|e| running_sum += e}
-    end
-=end
 
     private
-    def step_down_branch
-      until @candidate_intervals_index >= CANDIDATE_INTERVALS.length
-        interval = CANDIDATE_INTERVALS.at( @candidate_intervals_index)
-        @candidate_intervals_index += 1
-        try_absolutes = @absolutes.clone.push( @absolutes.last + interval)
-        next if anything_bad( try_absolutes)
-# Assume the first interval is insufficiently large to be a gap.
-        node = Node.make_new_node_with_branch_and_return_its_leaf( parent = self, try_absolutes)
-        break
-      end #until
-# Assume that before this (self) node was created, it was checked for anything bad.
-      @@processing_node = self if @candidate_intervals_index >= CANDIDATE_INTERVALS.length
-      @@processing_node
-    end #def
-
-    public
-    def create_sibling
-      return nil if @parent.nil?
-      @parent.create_next_child
-    end
-
-    protected
-    def create_next_child # At parent level.
-# The special meaning of 'CANDIDATE_INTERVALS.length == @candidate_intervals_index' shows in the following line:
-      (@candidate_intervals_index += 1; return @@processing_node = self) if CANDIDATE_INTERVALS.length == @candidate_intervals_index
-      return create_sibling if @candidate_intervals_index > CANDIDATE_INTERVALS.length
-      interval = CANDIDATE_INTERVALS.at( @candidate_intervals_index)
-      @candidate_intervals_index += 1
-      try_absolutes = @absolutes.clone.push( @absolutes.last + interval)
-      return create_next_child if anything_bad( try_absolutes)
-      Node.make_new_node_with_branch_and_return_its_leaf( parent = self, try_absolutes)
+    def anything_bad?( absolutes)
+      absolutes.last > MAX_HIGHEST_NOTE ||
+          any_duplicates?( absolutes) ||
+          count_gaps( absolutes) > MAX_GAPS ||
+          count_interval( absolutes, Harmony::MINOR_SECOND) > MAX_MINOR_SECOND ||
+          count_interval( absolutes, Harmony::MINOR_NINTH) > MAX_MINOR_NINTH ||
+          out_of_order?( absolutes)
     end #def
 
     private
-    def anything_bad( try_absolutes)
-      last_interval = (highest = try_absolutes.last) - try_absolutes.at( -2)
-      highest > MAX_HIGHEST_NOTE ||
-          (last_interval >= MINIMUM_GAP_INTERVAL && number_of_gaps + 1 > MAX_GAPS) ||
-          @have_notes.at( highest % Harmony::OCTAVE) ||
-          count_an_interval( try_absolutes, Harmony::MINOR_SECOND) > MAX_MINOR_SECONDS ||
-          count_an_interval( try_absolutes, Harmony::TRITONE) > MAX_TRITONES ||
-          count_an_interval( try_absolutes, Harmony::MINOR_NINTH) > MAX_MINOR_NINTHS ||
-      false
-    end #def
+    def child_absolutes
+      @absolutes.clone.push( @absolutes.last + CANDIDATE_INTERVALS.at( @candidate_intervals_index))
+    end
 
     private
-    def count_an_interval( absolutes, interval_to_count)
+    def count_gaps( absolutes)
+      absolutes_to_intervals( absolutes).find_all {|e| e >= MINIMUM_GAP_INTERVAL}.length
+    end
+
+    private
+    def count_interval( absolutes, interval)
       count = 0
       (0...absolutes.length).each do |left_index|
         left = absolutes.at( left_index)
         (left_index + 1...absolutes.length).each do |right_index|
           difference = absolutes.at( right_index) - left
-          count += 1 if difference == interval_to_count
-          break if difference >= interval_to_count # Assume absolutes are sorted.
+          count += 1 if difference == interval
+          break if difference >= interval # Assume absolutes are sorted.
         end #each right_index
       end #each left_index
       count
     end #def
 
-=begin
     private
-    def highest_note
-      @absolutes.last
-    end
-=end
-
-    private
-    def number_of_gaps
-      intervals = absolutes_to_intervals( @absolutes)
-      intervals.find_all {|e| e >= MINIMUM_GAP_INTERVAL}.length
+    def out_of_order?( absolutes)
+      absolutes.sort != absolutes
     end
 
     public
     def dump
-      'm9: ' + count_an_interval( @absolutes, Harmony::MINOR_NINTH).to_s + 
+      'm9: ' + count_interval( @absolutes, Harmony::MINOR_NINTH).to_s + 
       ' ' +
-      'm2: ' + count_an_interval( @absolutes, Harmony::MINOR_SECOND).to_s + 
+      'm2: ' + count_interval( @absolutes, Harmony::MINOR_SECOND).to_s + 
       ' ' +
-      'tt: ' + count_an_interval( @absolutes, Harmony::TRITONE).to_s + 
+      'tt: ' + count_interval( @absolutes, Harmony::TRITONE).to_s + 
       ' ' +
-      'ng: ' + number_of_gaps.to_s +
+      'ng: ' + count_gaps( @absolutes).to_s +
       ' ' +
-      'j9: ' + count_an_interval( @absolutes, Harmony::MAJOR_NINTH).to_s + 
+      'j9: ' + count_interval( @absolutes, Harmony::MAJOR_NINTH).to_s + 
       ' ' +
       'hn: ' + (highest_note = @absolutes.last).to_s +
       ' ' +
-      'i: [' + intervals.join(',') + ']' +
+      'i: [' + absolutes_to_intervals( @absolutes).join(',') + ']' +
       ''
     end
 
@@ -1070,7 +999,7 @@ MINIMUM_GAP_INTERVAL 9
   class Tree
 # A virtual tree, using depth-first traversal; only a single branch exists at any time.
     def initialize
-      @first_leaf = Node.make_new_node_with_branch_and_return_its_leaf( parent = nil, absolutes = [0])
+      @first_leaf = Node.make_branch_and_return_leaf( parent = nil, absolutes = [0])
     end
 
     def each
@@ -1098,7 +1027,7 @@ print '@@count '; p @@count
     def handle( node)
 @@count += 1
 #print 'node.dump '; p node.dump
-p node.dump
+#p node.dump
     end
   end #class
 end #module
