@@ -340,6 +340,21 @@ sum_length 1289
 sum_length.to_f/@fill_chords.length  0.62939453125
 sum  1289
 
+@most_significant_bit_value.to_s( 2) "100000000000"
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 24
+@@max_major_seconds_cluster 2
+@@count 7352
+empty_ones.length  759
+@fill_chords.length 2048
+sum_length 1289
+sum_length.to_f/@fill_chords.length  0.62939453125
+sum  1289
+
 =end
 require 'main'
 Main::Program.new( note_space_length = 12).run
