@@ -1,7 +1,8 @@
+=begin
 all-chords.rb
 This is a Ruby program to create all the chords possible from the Western 12 tones, collapsing inversions and transpositions.
 Transposition is sliding in parallel the pitches of a whole chord.
-Inversion is selecting a different root note from among the chord notes.
+Inversion is selecting a different root note from among the chord notes, making it the lowest by octave movement.
 
 Following test-first development.
 Author: Mark D. Blackwell
@@ -17,8 +18,11 @@ Rotate the 12 bits, keeping the interpreted highest integer number.
 2**0 ... 2**9 2**10 2**11
 12 ... 3 2 1
 Ab ... F F# G
+The binary nuerical bits are G F# F E Eb D C# C B Bb A Ab = 2**11 ... 2**0.
+0,1,2 ... 11 is G F# F E Eb D C# C B Bb A Ab.
 
 Offer all chords to listener. Space in thirds.
+=end
 #------------------
 def format( n=note_space_size, a=an_array)
   a.collect {|e| format_one( n, e)}
@@ -26,6 +30,12 @@ end
 
 def format_one( n=note_space_size, a=an_array)
   chord =[]
+# Bits 0, 1, 2 ... 9, 10, 11 give 11, 10, 9 ... 2, 1, 0 for Ab A Bb ... F F# G, then the order is reversed.
+# Why not switch to using min and MSB to LSB 11, 10, 9 ... 2, 1, 0 for Ab A Bb ... F F# G?
+# To wit: max 110010 becomes 010011. Is it min? No: min is 001101. The sequence of necklaces would become different.
+# So, keeping MSB to LSB, 11, 10, 9 ... 2, 1, 0 is G F# F E Eb D C# C B Bb A Ab.
+
+
   (n - 1).downto( 0) do |note|
     chord.push( note) if a % 2 ==1
     a /=2
@@ -33,7 +43,7 @@ def format_one( n=note_space_size, a=an_array)
   chord.reverse.join( ',')
 end
 
-def generate_chords( n=note_space_size) #1 to 2**12 - 1 == 1, 2, 3
+def generate_chords( n=note_space_size) #1 to 2**12 - 1 is 1, 2, 3
   (1..2**n).to_a
 end
 
