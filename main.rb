@@ -1,8 +1,11 @@
+require 'chordutilities'
 require 'generatechords'
 require 'generatenotespace'
 module Main
 #-----------------------------
   class Program
+    include ChordUtilities
+
     def initialize( note_space_length)
       @note_space = GenerateNoteSpace::NoteSpace.new( note_space_length)
       @most_significant_bit_value = @note_space.most_significant_bit_value
@@ -11,7 +14,7 @@ module Main
     def run
 #@note_space.necklaces.each {|necklace| print 'necklace.to_s ', necklace.to_s, "\n"}
 #p 'in Main::Program#run before GenerateChords::Walker.new'
-      @walker_new = GenerateChords::Walker.new( @note_space)
+      @walker_new = GenerateChords::Walker.new( @note_space, GenerateChords::WalkerDecorator)
 #p 'in Main::Program#run before GenerateChords::Walker#walk'
       @walker_fixed_dump = @walker_new.fixed
       dump_fixed()
@@ -57,12 +60,12 @@ module Main
 #       thing.each {|e| print e.inspect, }
         e.each do |chord|
           print chord.absolutes.inspect, '[m9 tr ot j2 j17 4 br]:[', [
-          @@note_space.minor_ninth,
-          @@note_space.tritone,
-          @@note_space.octave_tritone,
-          @@note_space.major_second,
-          @@note_space.major_seventeenth,
-          @@note_space.fourth].collect {|interval| count_interval( chord.absolutes, interval).to_s}.join(' '),"]\n"
+          @note_space.minor_ninth,
+          @note_space.tritone,
+          @note_space.octave_tritone,
+          @note_space.major_second,
+          @note_space.major_seventeenth,
+          @note_space.fourth].collect {|interval| count_interval( chord.absolutes, interval).to_s}.join(' '),"]\n"
         end #each chord
       end #each_with_index e, i
 
