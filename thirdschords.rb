@@ -627,19 +627,19 @@ module Math_format
     end
 
     def print_them
-        max_thirds_length = Harmony::OCTAVE - @beginning_category.beginnings.first.length
-        extensions = make_internally_valid_no_note_repetitions( intersection(
-        Third::All_chords.new(   max_thirds_length), 
-        Gap::Constellation_positions.new( 
-        Gap::Constellations.new( max_thirds_length - 1)))) # The last place is not properly a gap.
-#       print 'extensions '; p extensions
-#       @beginning_category.beginnings.each do |beginning|
-        [@beginning_category.beginnings.first].each do |beginning|
-          Handle_beginning.new( beginning, extensions).print_them
-        end #do beginning
-        @diff = Math_format::Handle_all_format_lengths.count - @diff
-        print '@diff '; p @diff
-        @diff = Math_format::Handle_all_format_lengths.count
+      max_thirds_length = Harmony::OCTAVE - @beginning_category.beginnings.first.length
+      extensions = make_internally_valid_no_note_repetitions( intersection(
+      Third::All_chords.new(   max_thirds_length), 
+      Gap::Constellation_positions.new( 
+      Gap::Constellations.new( max_thirds_length - 1)))) # The last place is not properly a gap.
+#     print 'extensions '; p extensions
+#     @beginning_category.beginnings.each do |beginning|
+      [@beginning_category.beginnings.first].each do |beginning|
+        Handle_beginning.new( beginning, extensions).print_them
+      end #do beginning
+      @diff = Math_format::Handle_all_format_lengths.count - @diff
+      print '@diff '; p @diff
+      @diff = Math_format::Handle_all_format_lengths.count
     end #def
 
     private
@@ -679,56 +679,51 @@ module Math_format
                 :index,
                 :beginning_length
 
-    def initialize( b, i, bl)
+    def initialize( b)
       @beginnings = b
-      @index = i
-      @beginning_length = bl
     end
 
-    def Beginning_category.better_beginning_categories
-      @@better_beginning_categories
-    end
-
-    def Beginning_category.beginning_categories
-      @@beginning_categories
-    end
-
-    def Beginning_category.sorted_beginnings
-      @@sorted_beginnings
-    end
+#    def Beginning_category.sorted_beginnings
+#      @@sorted_beginnings
+#    end
 
     def Beginning_category.setup
-      @@beginning_categories = []
+      categories = []
       beginnings = Harmony::Chord_beginnings.new
-      @@beginning_categories = beginnings.collect {|e| e.length}.sort!.uniq! # Categorized by length.
-#     print '@@beginning_categories '; p @@beginning_categories
-      @@beginning_categories = [] if @@beginning_categories.nil? # Protect against an empty array.
-      @@sorted_beginnings = beginnings.inject( Array.new( @@beginning_categories.length) {[]}) do |memo, e|
-        memo[ @@beginning_categories.index( e.length)].concat( [e]); memo
+      categories = beginnings.collect {|e| e.length}.sort!.uniq! # Categorized by length.
+#     print 'categories '; p categories
+      categories = [] if categories.nil? # Protect against an empty array.
+      sorted_beginnings = beginnings.inject( Array.new( categories.length) {[]}) do |memo, e|
+        memo[ categories.index( e.length)].concat( [e]); memo
       end #do memo, e
 
-      @@better_beginning_categories = (0...@@sorted_beginnings.length).inject( []) do |memo, i| memo.push(
-        Beginning_category.new( @@sorted_beginnings.at( i), i, @@beginning_categories.at( i)))
+      @@beginning_categories = (0...categories.length).inject( []) do |memo, i| memo.push(
+        Beginning_category.new( []))
       end #do memo, i
 
-      @@better_beginning_categories.each do |e|
+      @@beginning_categories = (0...categories.length).inject( []) do |memo, i| memo.push(
+        Beginning_category.new( sorted_beginnings.at( i)))
+      end #do memo, i
+
+      @@beginning_categories.each do |e|
         print 'e.beginnings.length '; p e.beginnings.length
 #       print 'e.index '; p e.index
 #       print 'e.beginning_length '; p e.beginning_length
       end
-
-#     print '@@sorted_beginnings '; p @@sorted_beginnings
-      print '@@sorted_beginnings.collect {|e| e.length} '
-      p      @@sorted_beginnings.collect {|e| e.length}
-      nil
+#     print 'sorted_beginnings '; p sorted_beginnings
+      print 'sorted_beginnings.collect {|e| e.length} '
+      p      sorted_beginnings.collect {|e| e.length}
     end #def
 
- #   def each
- #     @@beginning_categories.each {|e| yield e}
- #  end
+    def Beginning_category.each
+      (6...@@beginning_categories.length).each do |i|
+        yield @@beginning_categories.at( i)
+      end #do
+    end
 
     private
-    def Beginning_category.sort_beginnings_by_length
+    def push( a)
+      @beginnings.push( a)
     end #def
 
   end #class
@@ -738,14 +733,8 @@ module Math_format
 #     print "Main::Top#run:\n"
       diff = 0
       Beginning_category.setup
-      beginning_categories = Beginning_category.beginning_categories
-#     beginning_categories.each_index do |category_index|
-#     category_index = 6
-      (6...beginning_categories.length).each do |category_index|
-        beginning_category = Beginning_category.better_beginning_categories.last
-        Handle_category.new( 
-        diff,
-        beginning_category).print_them
+      Beginning_category.each do |beginning_category|
+        diff = Handle_category.new( diff, beginning_category).print_them
       end #do
       print         'Handle_all_format_lengths.count '
       p Math_format::Handle_all_format_lengths.count
