@@ -69,7 +69,7 @@ end #class TimedTrack
     end
 
     def Play.handle_necklace( necklace, necklace_number)
-print "necklace #{necklace_number} #{necklace.word.to_s( 2)}\n"
+print "#{necklace_number}: #{necklace.word.to_s( Bit::BINARY)} - #{necklace.expansion}: #{necklace.note_names} (not #{necklace.missing}).\n"
 #      @harmony.events << MIDI::MetaEvent.new( MIDI::META_SEQ_NAME, 
 #                                    'A-random-Ruby-composition')
 #                                    'necklace ' +
@@ -79,8 +79,11 @@ print "necklace #{necklace_number} #{necklace.word.to_s( 2)}\n"
       @clock += @clock_eighth
     end
 
-    def Play.handle_chord( absolutes, root_number, chord_name)
-print "#{Play.clock_string()} root #{root_number} chord #{absolutes.inspect} #{chord_name}\n"
+    def Play.handle_chord( note_space, absolutes, root_number, chord_name)
+      width = note_space.width
+      names = note_space.note_names
+      notes = absolutes.collect {|e| names.at( e % width)}.join(' ')
+print "#{Play.clock_string()} #{root_number}-#{chord_name} #{absolutes.inspect} #{notes}\n"
       @harmony.add_notes(absolutes, @velocity, 'half')
       @clock += @clock_half
     end
