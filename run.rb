@@ -2,7 +2,7 @@
 Thirds Chords
 Author: Mark D. Blackwell.
 Date started writing: March 21, 2009.
-Date last modified: March 22, 2009.
+Date last modified: May 7, 2009.
 Copyright (c) 2009 Mark D. Blackwell.
 
 G B Eb(D) F# A C# F(E) Ab C E(Eb) (D-F): Bb
@@ -325,12 +325,21 @@ sum_length 2048
 sum_length.to_f/@fill_chords.length  1.0
 sum  2048
 
+@most_significant_bit_value.to_s( 2) "100000000000"
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 24
+@@max_major_seconds_cluster 2
+@@count 7352
+empty_ones.length  759
+@fill_chords.length 2048
+sum_length 1289
+sum_length.to_f/@fill_chords.length  0.62939453125
+sum  1289
+
 =end
-#require 'test/unit'
-#require 'bit'
-#require 'chordutilities'
-#require 'onebranchtree'
-#require 'generatechords'
-#require 'generatenotespace'
 require 'main'
 Main::Program.new( note_space_length = 12).run
