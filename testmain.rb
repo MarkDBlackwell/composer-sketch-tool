@@ -21,13 +21,13 @@ end #module Kernel
     end
 
     def test_2
-#      program = Main::Program.new( note_space_length = 2)
+#      program = Main::Program.new( note_space_width = 2)
 #      print s
 #      program.run
     end
 
     def test_12
-      program = Main::Program.new( note_space_length = 12)
+      program = Main::Program.new( note_space_width = 12)
 #      print s
       program.run
     end
