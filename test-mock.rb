@@ -3,27 +3,26 @@ require 'build'
 #load File.dirname(__FILE__) + '/example-program.rb'
 
 # A file for tests involving mocking out (monkeypatching) program classes.
-module Invoke
+module Invoke # Mock out some methods of some of the program's classes.
 #-----------------------------
-  class MyFile # Reopen a program's utility class.
+  class MyFile
     class << self
       attr_accessor :file_name, :method, :contents
     end
-    def self.open( f, m) # Mock out the class method.
+    def self.open( f, m) # Mock out a class method.
       @file_name = f
       @method = m
       yield self.new()
     end
-    def write( c) # Mock out the instance method.
+    def write( c)
       self.class.contents = c # Set the class's '@' variable.
     end
   end #class MyFile
 #-----------------------------
-  class MyLogger # Reopen a program's utility class.
+  class MyLogger
     class << self
       attr_accessor :file_name, :message
     end
-#    attr_accessor :file_name, :message
     def initialize( f)
       self.class.file_name = f
     end
@@ -34,19 +33,19 @@ module Invoke
 #-----------------------------
   class TestBuildSave < Test::Unit::TestCase
     def test_save_file_name
-      Invoke::SomeClass.new( 1).save() # Assume this uses MyFile to write.
+      SomeClass.new( 1).save() # Assume this uses MyFile to write.
       assert_equal( 'some-class-1.txt', MyFile.file_name)
       assert_equal( 'w', MyFile.method)
     end
     def test_save_contents
-      Invoke::SomeClass.new( 2).save()
+      SomeClass.new( 2).save()
       assert_equal( 'contents-2', MyFile.contents)
     end
   end #class TestBuildSave
 #-----------------------------
   class TestLoggerBuild < Test::Unit::TestCase
     def setup
-      Invoke::Build.new( 0) # Assume this uses MyLogger to log.
+      Build.new( 0) # Assume this uses MyLogger to log.
     end
     def test_log_file_name
       assert_equal( MyLogger.file_name, 'log/build.txt')
