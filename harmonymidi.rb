@@ -31,7 +31,7 @@ module HarmonyMidi
       offsets = [offsets] unless offsets.respond_to? :each
       offsets.each do |offset|
         event(MIDI::NoteOnEvent.new(@channel, PITCH_G2 + offset, velocity))
-      end   
+      end
       @time += @sequence.note_to_delta(duration)
       offsets.each do |offset|
         event(MIDI::NoteOffEvent.new(@channel, PITCH_G2 + offset, velocity))
@@ -40,7 +40,7 @@ module HarmonyMidi
     end
 
     private
-    def event(event)    
+    def event(event)
       @events << event
      event.time_from_start = @time
     end
@@ -58,7 +58,7 @@ end #class TimedTrack
 #      @velocity = 42
       beats_per_minute = 100
       correcting_factor = # By observation in RealPlayer.
-      ((35 * 60) + 37.0) / ((42 * 60) + 42.0) 
+      ((35 * 60) + 37.0) / ((42 * 60) + 42.0)
       seconds_per_beat = (60.0/beats_per_minute) * correcting_factor
       @harmony.events << MIDI::Tempo.new(MIDI::Tempo.bpm_to_mpq(beats_per_minute))
       @harmony.events << MIDI::MetaEvent.new(MIDI::META_SEQ_NAME, 'Thirdschords')
@@ -74,7 +74,7 @@ end #class TimedTrack
      s = necklace.missing
      s = 'none' if s.empty?
 print "\n#{necklace_number}: #{necklace.word.to_s( Bit::BINARY)} - #{necklace.expansion} not #{s} #{necklace.note_names}\n"
-#      @harmony.events << MIDI::MetaEvent.new( MIDI::META_SEQ_NAME, 
+#      @harmony.events << MIDI::MetaEvent.new( MIDI::META_SEQ_NAME,
 #                                    'A-random-Ruby-composition')
 #                                    'necklace ' +
 #                                     '')

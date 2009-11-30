@@ -1,0 +1,45 @@
+generated, ordered, n-ary, pruned, depth-first, tree
+GeneratedPrunedOrderedPostOrderNaryTree
+
+leaf-only
+depth-first
+post-order walk
+ordered
+http://en.wikipedia.org/w/index.php?title=Tree_(data_structure)&oldid=288111689
+each leaf contains its full description
+pruning
+infinite
+multiple edges (links)
+generated tree
+
+Interesting:
+http://forums.devarticles.com/c-c-help-52/non-recursive-tree-traversal-74033.html
+
+Similar-seeming algorithms:
+
+In algebraic combinatorics:
+
+'Sets enumerated by exploring a search space with a (lazy) tree or graph structure. extend the sage.combinat.backtrack library with other generic tools for constructing large sets whose elements can be enumerated by exploring a search space with a (lazy) tree or graph structure.' From:
+
+http://groups.google.com/group/sage-devel/browse_thread/thread/34befd1ebd2e9db
+Nicolas M. Thiéry "Isil" <nthi...@users.sf.net> http://Nicolas.Thiery.name/
+
+Sage is a free open-source  mathematics software system:
+
+http://www.sagemath.org/
+
+Sage-combinat is a collection of experimental patches (i.e. extensions) on top of Sage, developed by a community in algebraic combinatorics. Its main purpose is to improve Sage as an extensible toolbox for computer exploration. ... Just install Sage, and you will benefit from all the Sage-combinat development.
+
+http://wiki.sagemath.org/combinat/
+
+In logic:
+
+'Abstract. The E-KRHyper system is a model generator and theorem prover for first-order logic with equality.' -p.1 'generated depth-first, with E-KRHyper always working on a single branch. ...extends the working branch by attaching a child for each disjunct to its leaf node. One of the resulting branches is then selected as the new working branch.' -p.2 foll. From:
+
+http://www.uni-koblenz.de/~bpelzer/publications/PW07_CADE.pdf
+
+In bioinformatics:
+
+_Regulatory genomics_ by Eleazar Eskin, Chris Workman. 'Using Expression Data to Discover RNA and DNA Regulatory Sequence Motifs. 3. Algorithmic Approach. The core of the approach is an efficient algorithm for performing the search through IUPAC patterns. For each IUPAC pattern, we determine exactly which sequences contain instances of a given IUPAC pattern and once we obtain the instances, we can compute either the ... The algorithm for performing the search is a variant of the SPELLER algorithm described in Sagot, 1998[25]. ...The pattern trie corresponds to the space of IUPAC patterns. ... The pattern trie is traversed and constructed in a dept first manner. The pattern trie is a *virtual* trie, i.e., only a single branch of the tree from the root to the current node is stored in memory.' -p.68 foll. From:
+
+http://books.google.com/books?pg=PA69&lpg=PA69&dq=%22depth+first%22+%22single+branch%22&sig=J7hHARSsL43O5T673CMI1s30EtU&ei=PjYDSpeCMI2QmAfo1fzwBA&ct=result&id=ifZ1QiNawH0C&ots=st5A7_-eMQ&output=html

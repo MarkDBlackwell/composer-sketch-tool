@@ -150,8 +150,6 @@ module GenerateChords
       ' ' +
       't-' + 'tritones' +
       ' ' +
-      'g-' + 'gaps' +
-      ' ' +
       's-' + 'span' +
       ' ' +
       'd-' + 'density' +
@@ -223,21 +221,18 @@ module GenerateChords
 #     @@candidate_intervals = [3, 4] + [5] + (6..11).to_a + (14..23).to_a + (25..26).to_a
 #     @@candidate_intervals = [3, 4] + [5] + (7..11).to_a + (14..23).to_a + (25..26).to_a
       @@candidate_intervals = [3, 4] + [5] + (7..11).to_a + (14..18).to_a + (20..22).to_a + [25]
-#      @@note_space.octave_and_a_little, @@note_space.major_ninth, 
+#      @@note_space.octave_and_a_little, @@note_space.major_ninth,
 # These next two are necessary for certain sparse necklaces.
 #      @@note_space.minor_sixteenth, @@note_space.major_sixteenth]).sort!
 # The lowest max_highest_note with more than one chord per necklace is 14.
 # The lowest max_highest_note which fills all the chords is 35, or 39
 # The augmented chord filler takes 41 half-steps.
 #     @@max_highest_note = @@candidate_intervals.last + @@note_space.major_seventh
-#      @@max_highest_note = 24 # 2 14 28 30 35 36 38 39 41 44 
-#      @@max_highest_note = 41 # 2 14 24 28 30 35 36 38 39 44 
-      @@max_highest_note = 2 # 14 24 28 30 35 36 38 39 41 44 
-#      @@max_highest_note = 14 # 2 24 28 30 35 36 38 39 41 44 
-#     @@max_gaps = 3
-      @@max_gaps = 1000
+#      @@max_highest_note = 24 # 2 14 28 30 35 36 38 39 41 44
+#      @@max_highest_note = 41 # 2 14 24 28 30 35 36 38 39 44
+      @@max_highest_note = 2 # 14 24 28 30 35 36 38 39 41 44
+#      @@max_highest_note = 14 # 2 24 28 30 35 36 38 39 41 44
       @@max_minor_secondths = 0
-      @@minimum_gap_interval = @@note_space.half_octave
       @@max_tritones = 0
 #      @@max_minor_ninths = 1 # 0
       @@max_minor_ninths = 0
@@ -246,8 +241,6 @@ module GenerateChords
       @@note_space.two_littles)
       '@@candidate_intervals '       + @@candidate_intervals.      inspect + "\n" +
       '@@max_highest_note '          + @@max_highest_note.         inspect + "\n" +
-      '@@minimum_gap_interval '      + @@minimum_gap_interval.     inspect + "\n" +
-      '@@max_gaps '                  + @@max_gaps.                 inspect + "\n" +
       '@@max_minor_secondths '       + @@max_minor_secondths.      inspect + "\n" +
       '@@max_tritones '              + @@max_tritones.             inspect + "\n" +
       '@@max_minor_ninths '          + @@max_minor_ninths.         inspect + "\n" +
@@ -270,7 +263,6 @@ module GenerateChords
 #      count_interval( absolutes, @@note_space.a_little) > @@max_minor_secondths ||
       count_interval( absolutes, @@note_space.half_octave ) > @@max_tritones ||
       count_interval( absolutes, @@note_space.octave_and_a_little ) > @@max_minor_ninths ||
-#      count_space( absolutes, @@minimum_gap_interval) > @@max_gaps ||
 #      major_seconds_cluster_too_long?( absolutes_to_intervals( absolutes)) ||
 #      out_of_order?( absolutes) ||
       false
@@ -325,15 +317,13 @@ module GenerateChords
     private
     def dump
 #p 'in GenerateChords::LeafDecorator#dump'
-      'm9: ' + count_interval( @absolutes, @@note_space.octave_and_a_little).to_s + 
+      'm9: ' + count_interval( @absolutes, @@note_space.octave_and_a_little).to_s +
       ' ' +
-      'm2: ' + count_interval( @absolutes, @@note_space.a_little).to_s + 
+      'm2: ' + count_interval( @absolutes, @@note_space.a_little).to_s +
       ' ' +
-      'tt: ' + count_interval( @absolutes, @@note_space.half_octave).to_s + 
+      'tt: ' + count_interval( @absolutes, @@note_space.half_octave).to_s +
       ' ' +
-      'ng: ' + count_space(    @absolutes, @@minimum_gap_interval).to_s +
-      ' ' +
-      'j9: ' + count_interval( @absolutes, @@note_space.major_ninth).to_s + 
+      'j9: ' + count_interval( @absolutes, @@note_space.major_ninth).to_s +
       ' ' +
       'hn: ' + (highest_note = @absolutes.last).to_s +
       ' ' +

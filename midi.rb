@@ -26,7 +26,7 @@ class TimedTrack < MIDI::Track
     offsets = [offsets] unless offsets.respond_to? :each
     offsets.each do |offset|
       event(MIDI::NoteOnEvent.new(@channel, PITCH_G2 + offset, velocity))
-    end   
+    end
     @time += @sequence.note_to_delta(duration)
     offsets.each do |offset|
       event(MIDI::NoteOffEvent.new(@channel, PITCH_G2 + offset, velocity))
@@ -35,7 +35,7 @@ class TimedTrack < MIDI::Track
   end
 
   private
-  def event(event)    
+  def event(event)
     @events << event
    event.time_from_start = @time
   end
@@ -53,7 +53,7 @@ GM_PATCH_NAME_ACOUSTIC_GRAND_PIANO = 0
       @harmony.instrument = GM_PATCH_NAME_ACOUSTIC_GRAND_PIANO
       beats_per_minute = 100
       correcting_factor = # By observation in RealPlayer.
-      ((35 * 60) + 37.0) / ((42 * 60) + 42.0) 
+      ((35 * 60) + 37.0) / ((42 * 60) + 42.0)
       seconds_per_beat = (60.0/beats_per_minute) * correcting_factor
       @harmony.events << MIDI::Tempo.new(MIDI::Tempo.bpm_to_mpq(beats_per_minute))
       @harmony.events << MIDI::MetaEvent.new(MIDI::META_SEQ_NAME, 'Thirdschords')
@@ -67,7 +67,7 @@ GM_PATCH_NAME_ACOUSTIC_GRAND_PIANO = 0
 
     def Play.handle_necklace( necklace, necklace_number)
 print "necklace #{necklace_number} "; p necklace.word.to_s( 2)
-#      @harmony.events << MIDI::MetaEvent.new( MIDI::META_SEQ_NAME, 
+#      @harmony.events << MIDI::MetaEvent.new( MIDI::META_SEQ_NAME,
 #                                    'A-random-Ruby-composition')
 #                                    'necklace ' +
 #                                     '')

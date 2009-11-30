@@ -1,0 +1,475 @@
+Processing one from each length, counted:
+sorted_beginnings.collect {|e| e.length} [1, 2, 7, 26, 29, 13, 1]
+gap_patterns.length 351
+beginning [0]
+diff 2931732
+gap_patterns.length 198
+beginning [0, 5]
+diff 520313
+gap_patterns.length 107
+beginning [0, 10, 15]
+diff 118281
+gap_patterns.length 56
+beginning [0, 11, 13, 15]
+diff 27448
+gap_patterns.length 29
+beginning [0, 9, 11, 19, 20]
+diff 2770
+gap_patterns.length 15
+beginning [0, 9, 11, 19, 20, 22]
+diff 1364
+gap_patterns.length 8
+beginning [0, 7, 9, 11, 15, 20, 22]
+diff 316
+Chord.detail_count 3602224
+
+extensions.length 718848
+categorized_beginnings.collect {|a| a.length} [1, 2, 7, 26, 29, 13, 1]
+@beginnings.first.length 1
+extension_lengths 11
+@@extension_categories.collect {|a| a.length} [0, 0, 0, 0, 590, 2753, 3255, 2368, 1093, 315, 42]
+@@extension_categories.collect {|a| a.length} [0, 0, 0, 106, 964, 1681, 1684, 1041, 399, 74]
+@@extension_categories.collect {|a| a.length} [0, 0, 27, 300, 763, 984, 741, 348, 70]
+@@extension_categories.collect {|a| a.length} [0, 1, 44, 244, 471, 462, 291, 70]
+@@extension_categories.collect {|a| a.length} [0, 4, 48, 175, 228, 179, 72]
+@@extension_categories.collect {|a| a.length} [0, 3, 48, 94, 93, 42]
+@@extension_categories.collect {|a| a.length} [0, 11, 37, 48, 24]
+@@categorized_extensions.collect {|a| a.length} [12800, 51616, 89792, 118584, 131988, 166738, 101012, 37342, 8020, 914, 42]
+#-----------------------------
+CANDIDATE_INTERVALS (1..11).to_a
+MINIMUM_GAP_INTERVAL 3
+MAX_GAPS 3
+MAX_HIGHEST_NOTE 10
+nog count
+0 232
+1 568
+2 216
+3 8
+all 1024
+439 leaf.dump "nog: 3 i: [0,1,3,3,3] hn: 10"
+823 leaf.dump "nog: 3 i: [0,3,1,3,3] hn: 10"
+871 leaf.dump "nog: 3 i: [0,3,3,1,3] hn: 10"
+877 leaf.dump "nog: 3 i: [0,3,3,3,1] hn: 10"
+878 leaf.dump "nog: 3 i: [0,3,3,3] hn: 9"
+879 leaf.dump "nog: 3 i: [0,3,3,4] hn: 10"
+887 leaf.dump "nog: 3 i: [0,3,4,3] hn: 10"
+951 leaf.dump "nog: 3 i: [0,4,3,3] hn: 10"
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 9
+MAX_HIGHEST_NOTE 24
+MAX_GAPS 2
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 2324
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 9
+MAX_HIGHEST_NOTE 36
+MAX_GAPS 2
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 58181
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 9
+MAX_HIGHEST_NOTE 48
+MAX_GAPS 2
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 530446
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 10
+MAX_HIGHEST_NOTE 24
+MAX_GAPS 2
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 2324
+
+CANDIDATE_INTERVALS [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+MINIMUM_GAP_INTERVAL 10
+MAX_HIGHEST_NOTE 36
+MAX_GAPS 2
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 58425
+-----------------Major rewrite
+CANDIDATE_INTERVALS [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 25, 26]
+MINIMUM_GAP_INTERVAL 6
+MAX_HIGHEST_NOTE 35
+MAX_GAPS 3
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 65597
+empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+
+CANDIDATE_INTERVALS [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 25, 26]
+MINIMUM_GAP_INTERVAL 6
+MAX_HIGHEST_NOTE 35
+MAX_GAPS 3
+MAX_MINOR_SECOND 0
+MAX_MINOR_NINTH 0
+@@count 65597
+empty_ones.length  0
+@fill_chords.length 2048
+sum_length 65597
+sum_length.to_f/@fill_chords.length  32.02978515625
+sum  65597
+
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 44
+@@max_major_seconds_cluster 2
+@@count 953771
+empty_ones.length  0
+@fill_chords.length 2048
+sum_length 953771
+sum_length.to_f/@fill_chords.length  465.70849609375
+sum  953771
+went to 404 Mb;
+made 6697 chords for the last necklace.
+
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 24
+@@max_major_seconds_cluster 2
+@@count 7352
+empty_ones.length  759
+@fill_chords.length 2048
+sum_length 3756
+sum_length.to_f/@fill_chords.length  1.833984375
+sum  3756
+
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 30
+@@max_major_seconds_cluster 2
+@@count 49533
+empty_ones.length  64
+@fill_chords.length 2048
+sum_length 10058
+sum_length.to_f/@fill_chords.length  4.9111328125
+sum  10058
+
+@most_significant_bit_value.to_s( 2) "100000000000"
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 24
+@@max_major_seconds_cluster 2
+@@count 7352
+empty_ones.length  759
+@fill_chords.length 2048
+sum_length 1289
+sum_length.to_f/@fill_chords.length  0.62939453125
+sum  1289
+
+@most_significant_bit_value.to_s( 2) "100000000000"
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 30
+@@max_major_seconds_cluster 2
+@@count 49533
+empty_ones.length  64
+@fill_chords.length 2048
+sum_length 1984
+sum_length.to_f/@fill_chords.length  0.96875
+sum  1984
+
+@most_significant_bit_value.to_s( 2) "100000000000"
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 35
+@@max_major_seconds_cluster 2
+@@count 182239
+empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+
+@most_significant_bit_value.to_s( 2) "100000000000"
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 35
+@@max_major_seconds_cluster 2
+@@count 182239
+empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+
+@most_significant_bit_value.to_s( 2) "100000000000"
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 39
+@@max_major_seconds_cluster 2
+@@count 377055
+empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+
+@most_significant_bit_value.to_s( 2) "100000000000"
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 24
+@@max_major_seconds_cluster 2
+@@count 7352
+empty_ones.length  759
+@fill_chords.length 2048
+sum_length 1289
+sum_length.to_f/@fill_chords.length  0.62939453125
+sum  1289
+
+@most_significant_bit_value.to_s( 2) "100000000000"
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 24
+@@max_major_seconds_cluster 2
+@@count 7352
+empty_ones.length  759
+@fill_chords.length 2048
+sum_length 1289
+sum_length.to_f/@fill_chords.length  0.62939453125
+sum  1289
+
+@most_significant_bit_value.to_s( 2) "100000000000"
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 35
+@@max_major_seconds_cluster 2
+@@count 182239
+empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+
+@most_significant_bit_value.to_s( 2) "100000000000"
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 24
+@@max_major_seconds_cluster 2
+@@count 7352
+empty_ones.length  759
+@fill_chords.length 2048
+sum_length 1289
+sum_length.to_f/@fill_chords.length  0.62939453125
+sum  1289
+
+@most_significant_bit_value.to_s( 2) "100000000000"
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 14
+@@max_major_seconds_cluster 2
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 351
+empty_ones.length  1752
+@fill_chords.length 2048
+sum_length 296
+sum_length.to_f/@fill_chords.length  0.14453125
+sum  296
+
+@@candidate_intervals [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 3
+@@max_minor_secondths 0
+@@max_minor_ninths 1
+@@max_highest_note 35
+@@max_major_seconds_cluster 2
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+182239empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+
+@@candidate_intervals [3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 1000
+@@max_minor_secondths 0
+@@max_minor_ninths 0
+@@max_highest_note 38
+@@max_major_seconds_cluster 2
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+23630empty_ones.length  9
+@fill_chords.length 2048
+sum_length 2039
+sum_length.to_f/@fill_chords.length  0.99560546875
+sum  2039
+
+@@candidate_intervals [3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 1000
+@@max_minor_secondths 0
+@@max_minor_ninths 0
+@@max_highest_note 44
+@@max_major_seconds_cluster 2
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+95061empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+
+@@candidate_intervals [3, 4, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 1000
+@@max_minor_secondths 0
+@@max_minor_ninths 0
+@@max_highest_note 44
+@@max_major_seconds_cluster 2
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+95061empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+
+@@candidate_intervals [3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26]
+@@minimum_gap_interval 6
+@@max_gaps 1000
+@@max_minor_secondths 0
+@@max_minor_ninths 0
+@@max_highest_note 39
+@@max_major_seconds_cluster 2
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+60184empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+
+@@candidate_intervals [3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26]
+@@max_highest_note 14
+@@minimum_gap_interval 6
+@@max_gaps 1000
+@@max_minor_secondths 0
+@@max_minor_ninths 0
+@@max_major_seconds_cluster 2
+method "treewise"
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+82empty_ones.length  1966
+@fill_chords.length 2048
+sum_length 82
+sum_length.to_f/@fill_chords.length  0.0400390625
+sum  82
+
+@@candidate_intervals [3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26]
+@@max_highest_note 44
+@@minimum_gap_interval 6
+@@max_gaps 1000
+@@max_minor_secondths 0
+@@max_tritones 0
+@@max_minor_ninths 0
+@@max_major_seconds_cluster 2
+method "treewise"
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+86224empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+intervals_used [0, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 20, 21, 22, 25]
+highest_note 41
+
+@@candidate_intervals [3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 20, 21, 22, 25]
+@@max_highest_note 41
+@@minimum_gap_interval 6
+@@max_gaps 1000
+@@max_minor_secondths 0
+@@max_tritones 0
+@@max_minor_ninths 0
+@@max_major_seconds_cluster 2
+method "treewise"
+necklaces_length 351
+count_root_numbers 2048
+count_root_words 2048
+count_roots 2048
+41117empty_ones.length  0
+@fill_chords.length 2048
+sum_length 2048
+sum_length.to_f/@fill_chords.length  1.0
+sum  2048
+"111111111111, MSB to LSB, is G F# F E Eb D C# C B Bb A Ab"
+intervals_used [0, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 20, 21, 22, 25]
+highest_note 41

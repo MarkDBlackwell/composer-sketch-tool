@@ -574,15 +574,15 @@ module GenerateChords
     public
     def dump
 #p 'in GenerateChords::Node#dump'
-      'm9: ' + count_interval( @absolutes, @@note_space.minor_ninth).to_s + 
+      'm9: ' + count_interval( @absolutes, @@note_space.minor_ninth).to_s +
       ' ' +
-      'm2: ' + count_interval( @absolutes, @@note_space.minor_second).to_s + 
+      'm2: ' + count_interval( @absolutes, @@note_space.minor_second).to_s +
       ' ' +
-      'tt: ' + count_interval( @absolutes, @@note_space.tritone).to_s + 
+      'tt: ' + count_interval( @absolutes, @@note_space.tritone).to_s +
       ' ' +
       'ng: ' + count_space(    @absolutes, MINIMUM_GAP_INTERVAL).to_s +
       ' ' +
-      'j9: ' + count_interval( @absolutes, @@note_space.major_ninth).to_s + 
+      'j9: ' + count_interval( @absolutes, @@note_space.major_ninth).to_s +
       ' ' +
       'hn: ' + (highest_note = @absolutes.last).to_s +
       ' ' +

@@ -7,8 +7,8 @@ module GenerateNoteSpace
     include ChordUtilities
     include Enumerable
     def initialize( note_space)
-          width = note_space.width
-      @good_words = (1..Bit::BIT_STATES ** width).collect {|word| normalize( word, width)}.sort!.uniq!
+      w =           note_space.width
+      @good_words = (1..Bit::BIT_STATES ** w).collect {|word| normalize( word, w)}.sort!.uniq!
 #print '@good_words '; p @good_words
     end
 
@@ -31,9 +31,9 @@ module GenerateNoteSpace
 Any '1' bit can be a root.
 A normalized word has MSB to LSB, G F# F E Eb D C# C B Bb A Ab.
 The MSB is numbered 12, down to the LSB, which is numbered 1.
-Root numbers example: if the word is rotated circularly 4 bits to the right (then the word 
-is no longer normalized), B then becomes 12 and all notes' bit indices diminish by four. With 
-this rightward shift of four bits, G is the root of the new rooted chord, and I call it 
+Root numbers example: if the word is rotated circularly 4 bits to the right (then the word
+is no longer normalized), B then becomes 12 and all notes' bit indices diminish by four. With
+this rightward shift of four bits, G is the root of the new rooted chord, and I call it
 (rooted chord) number 4.
 =end
 # When I get Ruby 1.9, use Zip into Struc (if not in 1.8).
@@ -44,7 +44,7 @@ this rightward shift of four bits, G is the root of the new rooted chord, and I 
       symmetrical = false
       (0...@@width).each do |note|
         if @@most_significant_bit_value == circle & @@most_significant_bit_value
-          expansion_numbers.push( note)        
+          expansion_numbers.push( note)
           unless symmetrical
             @root_words.push( circle)
             @root_numbers.push( note)

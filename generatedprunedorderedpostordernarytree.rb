@@ -8,21 +8,21 @@ Name: Generated, pruned, post-order, ordered, n-ary tree.
 File: generatedprunedorderedpostordernarytree.rb
 Usage: require 'generatedprunedorderedpostordernarytree'
 
-A virtual tree, using depth-first traversal; only a single branch exists at any time. The 
-module, GeneratedPrunedOrderedPostOrderNaryTreeExample, is part of this. Previously used 
+A virtual tree, using depth-first traversal; only a single branch exists at any time. The
+module, GeneratedPrunedOrderedPostOrderNaryTreeExample, is part of this. Previously used
 the Template Method Design Pattern. See:
 http://sourcemaking.com/design_patterns/template_method
 
-Rather than specialized work being done in subclasses, converted this code to what seems to 
-be the Decorator Design Pattern. Now, the GeneratedPrunedOrderedPostOrderNaryTree classes 
-accept decoration (?) classes as arguments, the methods of which contain the user's 
+Rather than specialized work being done in subclasses, converted this code to what seems to
+be the Decorator Design Pattern. Now, the GeneratedPrunedOrderedPostOrderNaryTree classes
+accept decoration (?) classes as arguments, the methods of which contain the user's
 specialization code. See:
 http://sourcemaking.com/design_patterns/decorator
 
 Or maybe it should be the Visitor Design Pattern:
 http://sourcemaking.com/design_patterns/visitor
 
-I would like to make this work for more than one tree at once. The Leaf class variables 
+I would like to make this work for more than one tree at once. The Leaf class variables
 were messing that up. Changed to use class instance variables. Maybe it is good, now?
 =end
 #=========================
@@ -40,8 +40,8 @@ module GeneratedPrunedOrderedPostOrderNaryTree
     def Leaf.new( *args)
 #p 'in GeneratedPrunedOrderedPostOrderNaryTree::Leaf.new'
       Leaf.old_new( *args)
-# By unwinding the stack, methods, 'Leaf.old_new' and 'initialize' unhelpfully return not the 
-# leaf but the *first* node made, so we instead remember the leaf in the class instance 
+# By unwinding the stack, methods, 'Leaf.old_new' and 'initialize' unhelpfully return not the
+# leaf but the *first* node made, so we instead remember the leaf in the class instance
 # variable, 'processing_leaf'.
       Leaf.processing_leaf
     end
