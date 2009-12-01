@@ -19,29 +19,9 @@ module InvokeUtilities
     end
 #-----------------------------
   class MyFile
-    def initialize( file_name, method)
-      @file = File.new( file_name, method)
-    end
-
-    def self.open( file_name, method)
-      file = self.new( file_name, method)
-      return file unless block_given?
-      result = yield file # IO.open'ing a block didn't work!
-      file.close
-      result
+    def self.open( file_name, method, &block)
+      File.  open( file_name, method, &block)
     end #def
-
-    def write( s)
-      @file.write( s)
-    end
-
-    def print( s)
-      @file.write( s)
-    end
-
-    def close
-      @file.close()
-    end
   end #class MyFile
 #-----------------------------
   class MyLogger < Logger

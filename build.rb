@@ -20,48 +20,37 @@ require 'generatenotespace'
 require 'harmonymidi'
 module Invoke
 #-----------------------------
-  class SomeClass # TO DO: Move code from this into the Build class.
-    def initialize( v)
-      @variation = v.to_s
-    end
-    def save
-      file_name = 'some-class-' + @variation + '.txt'
-      contents = 'contents-' + @variation
-      MyFile.open( file_name, 'w') {|file| file.write contents}
-    end
-  end
-#-----------------------------
   class Build
     include InvokeUtilities
     include ChordUtilities
 
-    def initialize( note_space_width)
+    def initialize( n)
+      @note_space_width = n
       @logger = MyLogger.new( 'log/build.txt')
       @logger.debug 'in Invoke::Build#initialize'
-      @file_name_chords    =    'chords-' + note_space_width.to_s + '.txt'
-      @file_name_necklaces = 'necklaces-' + note_space_width.to_s + '.txt'
-      return if note_space_width <= 0
-      @note_space = GenerateNoteSpace::NoteSpace.new( note_space_width)
-      @most_significant_bit_value = @note_space.most_significant_bit_value
-      build_fill_chords()
-      save_chords()
-#      @fill_chords = []
-      add_fill_chords_to_necklaces( @fill_chords)
-      save_necklaces()
+      suffix = @note_space_width.to_s + '.txt'
+      @file_name_chords    = 'marshal/chords-'    + suffix
+      @file_name_necklaces = 'marshal/necklaces-' + suffix
+      if @note_space_width >= 1
+        @note_space = GenerateNoteSpace::NoteSpace.new( @note_space_width)
+        @most_significant_bit_value = @note_space.most_significant_bit_value
+        build_fill_chords()
+#        @fill_chords = []
+        add_fill_chords_to_necklaces( @fill_chords)
+        save_chords()
+        save_necklaces()
+      end
     end #def
 
     def save_chords
-      notespacechords = 'contents-N'
-#      f = MyFile.open( @file_name_chords, 'w') {|f| f.print( YAML::dump( @note_space.chords))}
-      f = MyFile.new( @file_name_chords, 'w') # IO.open'ing a block didn't work!
-      f.print( notespacechords)
-      f.close()
+      chords = 'contents-' + @note_space_width.to_s
+      MyFile.open( @file_name_chords, 'w') {|f| f.print( chords)}
     end
 
     def save_necklaces
-      f = File.new( @file_name_necklaces, 'w') # IO.open'ing a block didn't work!
-      f.print( YAML::dump( @note_space.necklaces))
-      f.close
+      necklaces = 'contents-' + @note_space_width.to_s
+      MyFile.open( @file_name_necklaces, 'w') {|f| f.print( necklaces)}
+#      f.print( YAML::dump( @note_space.necklaces)) # IO.open'ing a block didn't work! ???
     end
 
     def select
