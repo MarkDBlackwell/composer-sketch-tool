@@ -38,37 +38,29 @@ module Invoke
     def initialize( note_space_width)
       @logger = MyLogger.new( 'log/build.txt')
       @logger.debug 'in Invoke::Build#initialize'
-      set_file_names( note_space_width)
+      @file_name_chords    =    'chords-' + note_space_width.to_s + '.txt'
+      @file_name_necklaces = 'necklaces-' + note_space_width.to_s + '.txt'
       return if note_space_width <= 0
       @note_space = GenerateNoteSpace::NoteSpace.new( note_space_width)
       @most_significant_bit_value = @note_space.most_significant_bit_value
       build_fill_chords()
+      save_chords()
 #      @fill_chords = []
       add_fill_chords_to_necklaces( @fill_chords)
-      save_chords()
       save_necklaces()
     end #def
 
-    def set_file_names( note_space_width)
-      @chords_file_name    =    'chords-' + @note_space_width.to_s + '-0.txt'
-      @necklaces_file_name = 'necklaces-' + @note_space_width.to_s + '-0.txt'
+    def save_chords
+      notespacechords = 'contents-N'
+#      f = MyFile.open( @file_name_chords, 'w') {|f| f.print( YAML::dump( @note_space.chords))}
+      f = MyFile.new( @file_name_chords, 'w') # IO.open'ing a block didn't work!
+      f.print( notespacechords)
+      f.close()
     end
 
-    def load_it( note_space_width)
-      set_file_names( note_space_width)
-      load_chords()
-      load_necklaces()
-    end
-
-    def load_chords
-      f = File.new( @chords_file_name, 'r')
-      @note_space.load_chords( f)
-      f.close
-    end
-
-    def load_necklaces
-      f = File.new( @necklaces_file_name, 'r')
-      @note_space.load_necklaces( f)
+    def save_necklaces
+      f = File.new( @file_name_necklaces, 'w') # IO.open'ing a block didn't work!
+      f.print( YAML::dump( @note_space.necklaces))
       f.close
     end
 

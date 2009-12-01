@@ -10,7 +10,7 @@ module Invoke
 
     def initialize( note_space_width)
 #p 'in Invoke::Play#initialize'
-      load_it( note_space_width)
+      load_all( note_space_width)
     end
 
     def run
