@@ -44,12 +44,16 @@ module Invoke
 
     def save_chords
       chords = 'contents-' + @note_space_width.to_s
-      MyFile.open( @file_name_chords, 'w') {|f| f.print( chords)}
+      f = MyFile.new( @file_name_chords, 'w')
+      f.print( chords)
+      f.close
     end
 
     def save_necklaces
       necklaces = 'contents-' + @note_space_width.to_s
-      MyFile.open( @file_name_necklaces, 'w') {|f| f.print( necklaces)}
+      f = MyFile.new( @file_name_necklaces, 'w')
+      f.print( necklaces)
+      f.close
 #      f.print( YAML::dump( @note_space.necklaces)) # IO.open'ing a block didn't work! ???
     end
 
