@@ -14,6 +14,9 @@ Spec::Rake::SpecTask.new( :spec) do |t|
   t.pattern = 'test/*_spec.rb'
   t.rcov = false
 #  t.ruby_opts = [ '-w'] # Not use '-w', because it: [1] already is set for tests; [2] produces warnings in Rspec code.
+# Http://blog.davidchelimsky.net/2009/09/15/rspec-129rc1-and-rspec-rails-129rc1-have-been-released/ mentions
+# that Rspec version 1.2.9 "supports require ’spec_helper'", but it is not yet automatically loaded.
+# Here-repeated options allow difference from the 'spec' command.
   t.spec_opts = [ '--require load_path_fix', '--color', '--format nested']
   t.verbose = false
   t.warning = false # Not use 'true', because it produces warnings in Rspec code.
