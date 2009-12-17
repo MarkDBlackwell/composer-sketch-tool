@@ -1,5 +1,4 @@
 require 'spec'
-require 'spec/test/unit' # Enable Rspec to run test/unit tests, if any.
 require 'build'
 #-----------------------------
 describe "MyFile" do
