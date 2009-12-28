@@ -1,0 +1,5 @@
+mkfifo spike-test-fifo-named-pipe-pipe
+cat < spike-test-fifo-named-pipe-pipe &
+sleep 2
+echo "hello" | cat > spike-test-fifo-named-pipe-pipe
+rm spike-test-fifo-named-pipe-pipe
