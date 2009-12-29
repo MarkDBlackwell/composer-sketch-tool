@@ -1,16 +1,27 @@
+----------
+HOW TO PROCEED: AN EXPLORATION
 Not use CRC (Class (name), Responsibilities, (class) Collaborators) cards. 
-Code invariant tests in the code classes if useful.
-Convert bit pattern into chord system name.
-Extend composition by one chord.
+Code invariants-tests in the code classes, if useful.
+Extend a composition by one chord.
 Save and edit compositions.
-Rhythm scheme: - - (- -) is three units.
-Unit test to refactor what I already have?
+In the rhythm scheme, '|- -(- -)|' is a measure of time equally subdivided into three units.
+Perhaps write unit tests to refactor my (already at the start) existing code?
 ----------
 USER STORIES
-A Unix tool program to convert note patterns to tonic chord names.
-A Unix tool program to convert a note number and a tonic chord name into a note chord name, e.g., 'Fm'.
-A Unix tool program to convert MIDI into a stream of bass notes and note patterns.
-A Unix tool program to convert MIDI into a stream of has-sound tokens ('X') and rhythm indications (parentheses, bars, etc.) or lines with implicit X's between them.
-Read MIDI and print chord names in measures.
-A Unix tool to convert the - - (- -) rhythm scheme into quarter notes, etc. Use Gnu music writer notation?
-A Unix tool to convert chord names into another system of chord names: "Mozart" and Jazz standard.
+A program to translate MIDI into a lead sheet, being a stream of rhythm indicators from the '|- -(- -)|' scheme and note chord names.
+
+A program to translate a stream of rhythm indicators from the '|- -(- -)|' scheme and note chord names into quarter notes, etc. (possibly) in Gnu music writer notation.
+
+basschordname2notechordname - a Unix tool program to translate a stream of bass notes and tonic chord names into note chord names, e.g., 'Fm'.
+
+chordname2jazz - a Unix tool to translate a stream of chord names into a Jazz standard chord name system.
+
+chordname2mozart - a Unix tool to translate a stream of chord names into a Mozart chord name system.
+
+midi2bass - a Unix tool program to translate MIDI into a stream of bass notes.
+
+midi2pattern - a Unix tool program to translate MIDI into a stream of note patterns ('convert bit pattern into chord system name').
+
+midi2rhythm - a Unix tool program to translate MIDI into a stream of rhythm indicators from the '|- -(- -)|' scheme organized in lines separated by the notes and chords, which themselves are dropped.
+
+pattern2chordname - a Unix tool program to translate a stream of note patterns into tonic chord names.
