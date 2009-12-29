@@ -1,3 +1,4 @@
+A composer's sketching program intended to encourage the use of the entire chord space (of all possible chords).
 ----------
 HOW TO PROCEED: AN EXPLORATION
 Code invariants-tests in the code classes, if useful.
@@ -12,23 +13,41 @@ GLOSSARY
 Bass note name. Example: 'A'.
 Chord octave-note distributions ('convert bit pattern into chord system name').
 Mozart chord name. Example: [Find in my Mozart chords blog post.]
-Regular note-plus chord name. Example: 'Am'.
-Regular tonic chord name. Example: 'i7'.
+Note-plus regular chord name. Example: 'Am'.
+Tonic regular chord name. Example: 'i7'.
 Rhythm indicators. Example: '|- -(- -)|' is a measure of time equally subdivided into three units.
 (Some kind of) standard jazz chord name. Example: [suspensions or minor sevenths, etc.].
 Tool. Unix tool program.
 
 ----------
 USER STORIES
-A program to translate a stream of regular note-plus chord names and rhythm indicators into MIDI (met by tools, below).
+A program to translate a stream of note-plus regular chord names, melody note names, and rhythm indicators into MIDI (met by tools, below).
 
-A program to translate a stream of regular note-plus chord names and rhythm indicators into standard musical notation (e.g., quarter notes) using (possibly) Gnu music writer notation.
+A program to translate a stream of note-plus regular chord names and rhythm indicators into standard musical notation (e.g., quarter notes) using (possibly) Gnu music writer notation.
 
-A program to translate MIDI into a stream of regular note-plus chord names and rhythm indicators, i.e., a lead sheet (met by tools, below).
+A program to translate MIDI into a stream of note-plus regular chord names and rhythm indicators, i.e., a lead sheet (met by tools, below).
+
+A program to compose music by entering rests, bass note names, melody note names, note-plus regular chord names, and rhythm indicators.
+
+The user should be able to insert, delete, copy, and transpose sections of the composition.
+
+The user should be able to see chord suggestions based on unity of bass note or of melody note.
+
+The user should be able to see chord suggestions based on unity such that all but one chord note is the same, all but two chord notes are the same, down to all but one chord note differs, and all chord notes differ.
+
+The user should be able to copy sections of the composition while leaving the notes and chords null, e.g. just 'A'.
+
+The user should be able to copy and overlay sections from the notes of the composition onto other sections already containing the desired rhythm indicators.
+
+Any copying, which the user can do from a section of the composition, she should be able to do from another composition.
+
+The user should be able to change the volume of the composition at any chord.
+
+The user should be able to change the tempo of the composition at any chord.
 
 ----------
 HIGHER-LEVEL
-bc2nc - a tool to translate a stream of bass note names and regular tonic chord names into regular note-plus chord names.
+bc2nc - a tool to translate a stream of bass note names and tonic regular chord names into note-plus regular chord names.
 
 cho2jaz - a tool to translate a stream of tonic chord names from regular into standard jazz.
 
@@ -40,11 +59,11 @@ moz2cho - a tool to translate a stream of tonic chord names from Mozart into reg
 
 ----------
 BOTTOM-LEVEL
-bdr2mid - a tool to translate a stream of bass note names, chord octave-note distributions, and rhythm indicators into MIDI.
+bmdr2mid - a tool to translate a stream of bass note names, melody note names, chord octave-note distributions, and rhythm indicators into MIDI.
 
-cho2dis - a tool to translate a stream of regular tonic chord names into chord octave-note distributions.
+cho2dis - a tool to translate a stream of tonic regular chord names into chord octave-note distributions.
 
-dis2cho - a tool to translate a stream of chord octave-note distributions into regular tonic chord names.
+dis2cho - a tool to translate a stream of chord octave-note distributions into tonic regular chord names.
 
 ----------
 EXTRACT
@@ -54,6 +73,6 @@ mid2dis - a tool to extract from MIDI a stream of chord octave-note distribution
 
 mid2rhy - a tool to extract from MIDI a stream of rhythm indicators organized into lines between the (stripped-out) notes and chords.
 
-nc2bas - a tool to extract from a stream of regular note-plus chord names the bass notes.
+nc2bas - a tool to extract from a stream of note-plus regular chord names the bass notes.
 
-nc2cho - a tool to extract from a stream of regular note-plus chord names the regular tonic chord names.
+nc2cho - a tool to extract from a stream of note-plus regular chord names the tonic regular chord names.
