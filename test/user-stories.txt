@@ -17,15 +17,18 @@ Tools are needed to translate between, on the one hand, regular, Mozart, and jaz
 
 ----------
 GLOSSARY
-Bass or melody note name. Example: 'A'.
-Chord octave-note distributions ('convert bit pattern into chord system name').
-Mozart chord name. Example: [Find in my Mozart chords blog post.]
-Necklace. A chord, regardless of its transposition and/or inversion; see Wikipedia.
-Note-plus regular chord name. Example: 'Am'.
-Octavity. The number of equal-tempered notes within a doubling of the frequency. The leading global, or Western European, system is duodecimal (with 12). A simplification in the program is that all the musical notes it produces are equal-tempered.
-Rhythm indicators. Example: '|- -(- -)|' is a measure of time equally subdivided into three units.
-(Some kind of) standard jazz chord name. Example: [suspensions or minor sevenths, etc.].
-Tonic regular chord name. Example: 'i7'.
+Bass or melody note name. They run from 'G' down to 'Ab'. For duodecimal octavity only.
+Bass or melody note number. In duodecimal octavity, they run from '0' down to '11'. A simplification in this package is that the note number, '0', for all octavities, has the same pitch: a note, G on a standard, physical piano.
+Chord octave-note distributions ('convert bit pattern into chord system name'). In duodecimal octavity, they run from '0' to '7ff': the bass note is implicit.
+Duodecimal. Having to do with the number, twelve ('12').
+Mozart chord name. Example: [-s4. /3. Find in my Mozart chords blog post.] For duodecimal octavity only.
+Necklace. A chord, regardless of transpositions and inversions. In duodecimal octavity, they run from '0' to '350'. See the Wikipedia article of the same name.
+Note-plus regular chord name. Example: 'Am'. For duodecimal octavity only.
+Octavity. The number of equal-tempered notes within a doubling of the frequency. The major, globally used, Western European system has duodecimal octavity (wherein this number is, '12'). A simplification in this package is that all the musical notes produced are equal-tempered.
+Rhythm indicators. Example: '|- -(- -)|' is eight (8) indicators specifying a measure of time equally subdivided into three units.
+Standard (of some kind) jazz chord name. Example: [suspensions or minor sevenths, etc.]. For duodecimal octavity only.
+Tonic regular chord name. Example: 'i7'. For duodecimal octavity only.
+Tonic regular chord number. Example: '0'. In duodecimal octavity, they run from '0' to '2047', which is the number formed by the mathematical expression, '2**11 - 1'. 
 Tool. Unix tool program.
 
 ----------
@@ -59,7 +62,7 @@ The user should be able to copy sections of the composition while leaving the no
 The user should be able to insert, delete, copy, and transpose sections of the composition.
 
 ----------
-PROGRAMMER TASKS: HIGHER-LEVEL
+PROGRAMMER TASKS: HIGHER-LEVEL: NAME
 bnamecname2ncname - a tool to translate a stream of bass note names and tonic regular chord names into note-plus regular chord names.
 
 choname2jazname - a tool to translate a stream of tonic chord names from regular into standard jazz.
@@ -83,7 +86,7 @@ jazname2chonumber - a tool to translate a stream of standard jazz tonic chord na
 mozname2chonumber - a tool to translate a stream of Mozart tonic chord names into tonic chord numbers.
 
 ----------
-BOTTOM-LEVEL
+BOTTOM-LEVEL: NAME
 bnamemnamedr2mid - a tool to translate a stream of bass note names, melody note names, chord octave-note distributions, and rhythm indicators into MIDI.
 
 choname2dis - a tool to translate a stream of tonic regular chord names into chord octave-note distributions.
@@ -100,8 +103,6 @@ dis2chonumber - a tool to translate a stream of chord octave-note distributions 
 
 ----------
 EXTRACT
-mid2basname - a tool to extract from MIDI a stream of bass note names.
-
 mid2dis - a tool to extract from MIDI a stream of chord octave-note distributions.
 
 mid2rhy - a tool to extract from MIDI a stream of rhythm indicators organized into lines between the (stripped-out) notes and chords.
@@ -109,6 +110,10 @@ mid2rhy - a tool to extract from MIDI a stream of rhythm indicators organized in
 nnamecname2basname - a tool to extract from a stream of note-plus regular chord names the bass note names.
 
 nnamecname2choname - a tool to extract from a stream of note-plus regular chord names the tonic regular chord names.
+
+----------
+EXTRACT: NAME
+mid2basname - a tool to extract from MIDI a stream of bass note names.
 
 ----------
 EXTRACT: NUMBER
