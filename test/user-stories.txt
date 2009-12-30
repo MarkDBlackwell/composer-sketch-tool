@@ -9,14 +9,24 @@ Save and edit compositions.
 Use Jim Menard's pure-Ruby library, 'midilib'.
 
 ----------
+NEW THOUGHTS
+At any chord, change the octavity; store the octavity at the beginning of the composition and where it is altered.
+Build and read stored tables about each available octavity.
+Even in the duodecimal octavity, in compositions, store (in-octave) note numbers and chord numbers, not bass and melody note names and tonic regular chord names.
+In non-duodecimal octavities, the tonic regular chord names are simply chord numbers, and the bass and melody note names are simply (in-octave) note numbers.
+Tools are needed to translate between, on the one hand, chord numbers, and on the other hand, tonic regular, Mozart, and jazz chord names. The same goes for note numbers and names.
+
+----------
 GLOSSARY
-Bass note name. Example: 'A'.
+Bass or melody note name. Example: 'A'.
 Chord octave-note distributions ('convert bit pattern into chord system name').
 Mozart chord name. Example: [Find in my Mozart chords blog post.]
+Necklace. A chord, regardless of its transposition and/or inversion; see Wikipedia.
 Note-plus regular chord name. Example: 'Am'.
-Tonic regular chord name. Example: 'i7'.
+Octavity. The number of equal-tempered notes within a doubling of the frequency. The leading global, or Western European, system is duodecimal (with 12). A simplification in the program is that all the musical notes it produces are equal-tempered.
 Rhythm indicators. Example: '|- -(- -)|' is a measure of time equally subdivided into three units.
 (Some kind of) standard jazz chord name. Example: [suspensions or minor sevenths, etc.].
+Tonic regular chord name. Example: 'i7'.
 Tool. Unix tool program.
 
 ----------
@@ -31,21 +41,21 @@ A program to translate a stream of note-plus regular chord names and rhythm indi
 
 ----------
 USER STORIES
-A program to compose music by entering rests, bass note names, melody note names, note-plus regular chord names, and rhythm indicators.
+A program to compose music by entering melody note names, bass note names, tonic regular chord names, rests, and rhythm indicators.
 
-At any chord, the user should be able to change the tempo and/or the volume of the composition.
+At any chord, the user should be able to change the volume, the tempo, and/or the octavity of the composition.
 
-The user should be able to see chord suggestions based on unity of bass note or of melody note, or chordal unity with N chord notes being the same, N going from zero up to all the chord notes, with a breakdown by number of notes in such chords.
+To aid in producing unity in the composition, the user should be enabled to receive chord suggestions containing any desired number of notes, based on the sameness of the bass note, of the melody note, and/or of the necklace, and/or based on the sameness (or equal transposition) of any N of the chord notes, N ranging from zero to the entire chord.
 
 ----------
 USER STORIES, COPYING
+Any form of copying possible from a section of the composition should similarly be possible from another composition.
+
 The user should be able to copy and overlay sections from the notes of the composition onto other sections already containing the desired rhythm indicators.
 
 The user should be able to copy sections of the composition while leaving the notes and chords null, possibly just bass notes of 'A' with nothing else.
 
 The user should be able to insert, delete, copy, and transpose sections of the composition.
-
-Any form of copying possible from a section of the composition should be possible similarly from another composition.
 
 ----------
 PROGRAMMER TASKS: HIGHER-LEVEL
@@ -62,6 +72,8 @@ moz2cho - a tool to translate a stream of tonic chord names from Mozart into reg
 ----------
 BOTTOM-LEVEL
 bmdr2mid - a tool to translate a stream of bass note names, melody note names, chord octave-note distributions, and rhythm indicators into MIDI.
+
+? bmdr2mid - a tool to translate a stream of bass note numbers, melody note numbers, chord octave-note distributions, and rhythm indicators into MIDI.
 
 cho2dis - a tool to translate a stream of tonic regular chord names into chord octave-note distributions.
 
