@@ -20,33 +20,35 @@ Rhythm indicators. Example: '|- -(- -)|' is a measure of time equally subdivided
 Tool. Unix tool program.
 
 ----------
-USER STORIES
-A program to translate a stream of note-plus regular chord names, melody note names, and rhythm indicators into MIDI (met by tools, below).
+USER STORIES MET BY PROGRAMMER TASKS, BELOW
+A program to translate a stream of note-plus regular chord names, melody note names, and rhythm indicators into MIDI.
 
+A program to translate MIDI into a stream of note-plus regular chord names and rhythm indicators, i.e., a lead sheet.
+
+----------
+USER STORIES NOT TO DO
 A program to translate a stream of note-plus regular chord names and rhythm indicators into standard musical notation (e.g., quarter notes) using (possibly) Gnu music writer notation.
 
-A program to translate MIDI into a stream of note-plus regular chord names and rhythm indicators, i.e., a lead sheet (met by tools, below).
-
+----------
+USER STORIES
 A program to compose music by entering rests, bass note names, melody note names, note-plus regular chord names, and rhythm indicators.
+
+At any chord, the user should be able to change the tempo and/or the volume of the composition.
+
+The user should be able to see chord suggestions based on unity of bass note or of melody note, or chordal unity with N chord notes being the same, N going from zero up to all the chord notes, with a breakdown by number of notes in such chords.
+
+----------
+USER STORIES, COPYING
+The user should be able to copy and overlay sections from the notes of the composition onto other sections already containing the desired rhythm indicators.
+
+The user should be able to copy sections of the composition while leaving the notes and chords null, possibly just bass notes of 'A' with nothing else.
 
 The user should be able to insert, delete, copy, and transpose sections of the composition.
 
-The user should be able to see chord suggestions based on unity of bass note or of melody note.
-
-The user should be able to see chord suggestions based on unity such that all but one chord note is the same, all but two chord notes are the same, down to all but one chord note differs, and all chord notes differ.
-
-The user should be able to copy sections of the composition while leaving the notes and chords null, e.g. just 'A'.
-
-The user should be able to copy and overlay sections from the notes of the composition onto other sections already containing the desired rhythm indicators.
-
-Any copying, which the user can do from a section of the composition, she should be able to do from another composition.
-
-The user should be able to change the volume of the composition at any chord.
-
-The user should be able to change the tempo of the composition at any chord.
+Any form of copying possible from a section of the composition should be possible similarly from another composition.
 
 ----------
-HIGHER-LEVEL
+PROGRAMMER TASKS: HIGHER-LEVEL
 bc2nc - a tool to translate a stream of bass note names and tonic regular chord names into note-plus regular chord names.
 
 cho2jaz - a tool to translate a stream of tonic chord names from regular into standard jazz.
