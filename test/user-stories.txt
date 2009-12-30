@@ -10,11 +10,10 @@ Use Jim Menard's pure-Ruby library, 'midilib'.
 
 ----------
 NEW THOUGHTS
-At any chord, change the octavity; store the octavity at the beginning of the composition and where it is altered.
-Build and read stored tables about each available octavity.
-Even in the duodecimal octavity, in compositions, store (in-octave) note numbers and chord numbers, not bass and melody note names and tonic regular chord names.
-In non-duodecimal octavities, the tonic regular chord names are simply chord numbers, and the bass and melody note names are simply (in-octave) note numbers.
-Tools are needed to translate between, on the one hand, chord numbers, and on the other hand, tonic regular, Mozart, and jazz chord names. The same goes for note numbers and names.
+At any chord, change the octavity; store the octavity at the beginning of the composition and wherever it is altered.
+For each available octavity, build and read fixed tables.
+In non-duodecimal octavities, the tonic regular chord names are simply chord numbers, and the bass and melody note names are simply (in-octave) note numbers. Even in the duodecimal octavity, in compositions, store (in-octave) note numbers and chord numbers, not bass or melody note names or tonic regular chord names.
+Tools are needed to translate between, on the one hand, regular, Mozart, and jazz tonic chord names, and on the other hand, chord numbers; similarly for note names and numbers.
 
 ----------
 GLOSSARY
@@ -47,46 +46,70 @@ At any chord, the user should be able to change the volume, the tempo, and/or th
 
 To aid in producing unity in the composition, the user should be enabled to receive chord suggestions containing any desired number of notes, based on the sameness of the bass note, of the melody note, and/or of the necklace, and/or based on the sameness (or equal transposition) of any N of the chord notes, N ranging from zero to the entire chord.
 
+The user shall not need the text files of compositions to be intelligible, for instance, for direct editing.
+
 ----------
 USER STORIES, COPYING
-Any form of copying possible from a section of the composition should similarly be possible from another composition.
+Any form of copying possible, from another section of the composition, should similarly be possible from another composition.
 
 The user should be able to copy and overlay sections from the notes of the composition onto other sections already containing the desired rhythm indicators.
 
-The user should be able to copy sections of the composition while leaving the notes and chords null, possibly just bass notes of 'A' with nothing else.
+The user should be able to copy sections of the composition while leaving the notes and chords empty, possibly just bass notes of 'A' with nothing else.
 
 The user should be able to insert, delete, copy, and transpose sections of the composition.
 
 ----------
 PROGRAMMER TASKS: HIGHER-LEVEL
-bc2nc - a tool to translate a stream of bass note names and tonic regular chord names into note-plus regular chord names.
+bnamecname2ncname - a tool to translate a stream of bass note names and tonic regular chord names into note-plus regular chord names.
 
-cho2jaz - a tool to translate a stream of tonic chord names from regular into standard jazz.
+choname2jazname - a tool to translate a stream of tonic chord names from regular into standard jazz.
 
-cho2moz - a tool to translate a stream of tonic chord names from regular into Mozart.
+choname2mozname - a tool to translate a stream of tonic chord names from regular into Mozart.
 
-jaz2cho - a tool to translate a stream of tonic chord names from standard jazz into regular.
+jazname2choname - a tool to translate a stream of tonic chord names from standard jazz into regular.
 
-moz2cho - a tool to translate a stream of tonic chord names from Mozart into regular.
+mozname2choname - a tool to translate a stream of tonic chord names from Mozart into regular.
+
+----------
+PROGRAMMER TASKS: HIGHER-LEVEL: NUMBER
+bnumbercnumber2ncname - a tool to translate a stream of bass note numbers and tonic regular chord numbers into note-plus regular chord names.
+
+chonumber2jazname - a tool to translate a stream of tonic chord numbers into standard jazz tonic chord names.
+
+chonumber2mozname - a tool to translate a stream of tonic chord numbers into Mozart tonic chord names.
+
+jazname2chonumber - a tool to translate a stream of standard jazz tonic chord names into tonic chord numbers.
+
+mozname2chonumber - a tool to translate a stream of Mozart tonic chord names into tonic chord numbers.
 
 ----------
 BOTTOM-LEVEL
-bmdr2mid - a tool to translate a stream of bass note names, melody note names, chord octave-note distributions, and rhythm indicators into MIDI.
+bnamemnamedr2mid - a tool to translate a stream of bass note names, melody note names, chord octave-note distributions, and rhythm indicators into MIDI.
 
-? bmdr2mid - a tool to translate a stream of bass note numbers, melody note numbers, chord octave-note distributions, and rhythm indicators into MIDI.
+choname2dis - a tool to translate a stream of tonic regular chord names into chord octave-note distributions.
 
-cho2dis - a tool to translate a stream of tonic regular chord names into chord octave-note distributions.
+dis2choname - a tool to translate a stream of chord octave-note distributions into tonic regular chord names.
 
-dis2cho - a tool to translate a stream of chord octave-note distributions into tonic regular chord names.
+----------
+BOTTOM-LEVEL: NUMBER
+bnumbermnumberdr2mid - a tool to translate a stream of bass note numbers, melody note numbers, chord octave-note distributions, and rhythm indicators into MIDI.
+
+chonumber2dis - a tool to translate a stream of tonic regular chord numbers into chord octave-note distributions.
+
+dis2chonumber - a tool to translate a stream of chord octave-note distributions into tonic regular chord numbers.
 
 ----------
 EXTRACT
-mid2bas - a tool to extract from MIDI a stream of bass note names.
+mid2basname - a tool to extract from MIDI a stream of bass note names.
 
 mid2dis - a tool to extract from MIDI a stream of chord octave-note distributions.
 
 mid2rhy - a tool to extract from MIDI a stream of rhythm indicators organized into lines between the (stripped-out) notes and chords.
 
-nc2bas - a tool to extract from a stream of note-plus regular chord names the bass notes.
+nnamecname2basname - a tool to extract from a stream of note-plus regular chord names the bass note names.
 
-nc2cho - a tool to extract from a stream of note-plus regular chord names the tonic regular chord names.
+nnamecname2choname - a tool to extract from a stream of note-plus regular chord names the tonic regular chord names.
+
+----------
+EXTRACT: NUMBER
+mid2basnumber - a tool to extract from MIDI a stream of bass note numbers.
