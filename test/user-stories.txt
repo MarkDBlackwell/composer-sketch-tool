@@ -1,105 +1,17 @@
-A composer's sketching program intended to encourage the use of the entire chord space (of all possible chords).
-Author: Mark D. Blackwell.
-Date user stories started to be written: December, 2009.
-Date user stories last changed: December 30, 2009.
-----------
-HOW TO PROCEED: AN EXPLORATION
-o Code invariants-tests in the code classes, if useful.
-o Extend a composition by one chord.
-o Limitation: 16 channels bent independently limits the size of chords in large octavities.
-o Not use CRC (Class (name), Responsibilities, (class) Collaborators) cards. 
-o Perhaps write unit tests to refactor my (already at the start) existing code?
-o Save and edit compositions.
-o Use Jim Menard's pure-Ruby library, 'midilib'.
-o What to do about octavity, etc. being kinds of 'rhythm' indicators?
-----------
-NEW THOUGHTS
-o At any chord, change the octavity; store the octavity at the beginning of the composition and wherever it is altered.
-o For each available octavity, build and read fixed tables.
-o In non-duodecimal octavities, the regular tonic chord names are simply chord numbers, and the bass and melody note names are simply (in-octave) note numbers. Even in the duodecimal octavity, in compositions, store (in-octave) note numbers and chord numbers, not bass or melody note names or regular tonic chord names.
-o Tools are needed to translate between, on the one hand, regular, Mozart, and jazz tonic chord names, and on the other hand, chord numbers; similarly for note names and numbers.
-----------
-USER STORIES NOT TO DO
-o A program to translate a stream of regular note-plus chord names and rhythm indicators into standard musical notation (e.g., quarter notes) using (possibly) Gnu music writer notation.
-----------
-USER STORIES MET BY PROGRAMMER TASKS, BELOW
-o A program to translate a stream of regular note-plus chord names, melody note names, and rhythm indicators, etc. into MIDI so it can be played by a typical computer sound card.
-o A program to translate MIDI into a stream of regular note-plus chord names and rhythm indicators, i.e., a lead sheet.
-----------
-USER STORIES
-o A program to compose (sketch) music by entering melody note names, bass note names, regular tonic chord names, rests, and rhythm indicators.
-o At any chord, the user should be able to change the volume, the tempo, the key (for relative chord printouts), and/or the octavity of the composition onward.
-o The user shall not need intelligible composition text files: for instance, for direct editing of chord names. However, the user shall be enabled to print out compositions containing, at the user's choice, intelligible absolute or relative chord names.
-o To aid in producing unity in the composition, the user should be enabled to receive chord suggestions containing the same number of notes, based on sameness of the necklace, or containing any desired number of notes based on sameness of the bass note, sameness of the melody note, and/or sameness (or equal transposition) of any N of the chord notes, N ranging from zero to one note less than the entire chord.
-----------
-USER STORIES, COPYING
-o Any possible form of copying from another section of the composition, shall similarly be possible from another composition.
-o The user should be able to copy and overlay sections from the notes of the composition onto other sections already containing the desired rhythm indicators.
-o The user should be able to copy sections of the composition while leaving the notes and chords empty, possibly just bass notes of 'G' ('0') with nothing else.
-o The user should be able to insert, delete, copy, and transpose sections of the composition.
-----------
-GLOSSARY
-Absolute chord name. Example: 'A7'.
-Bass or melody note name. They run from 'G' down to 'Ab'. For duodecimal octavity only.
-Bass or melody note number. In duodecimal octavity, they run from '0' down to '11'. A simplification in this package is that the note number, '0', for all octavities, has the same pitch: a note, G on a standard, physical piano.
-Chord number. Example: '0'. In duodecimal octavity, they run from '0' to '2047', which is the number formed by the mathematical expression, '2**11 - 1'. 
-Chord octave-note distributions ('convert bit pattern into chord system name'). In duodecimal octavity, they run from '0' to '7ff': the bass note is implicit.
-Duodecimal. Having to do with the number, twelve ('12').
-Key modulation(?). A 'rhythm' indicator.
-Mozart note-plus chord name. Example: [-s4. /3. Find in my Mozart chords blog post.] For duodecimal octavity only.
-Mozart tonic chord name. See, 'Mozart note-plus chord name' and 'Regular tonic chord name'.
-Necklace. A chord, regardless of transpositions and inversions. See the Wikipedia article of the same name.
-Necklace inversion number. In duodecimal octavity, they run through some of '0' to '11': i.e., whatever notes the chord has.
-Necklace number. In duodecimal octavity, they run from '0' to '350'.
-Octavity. The number of equal-tempered notes within a doubling of the frequency. A rhythm indicator. The major, globally used, Western European system has duodecimal octavity (wherein this number is, '12'). A simplification in this package is that all the musical notes produced are equal-tempered.
-Regular note-plus chord name. Example: 'Am'. For duodecimal octavity only.
-Regular tonic chord name. Example: 'i7'. For duodecimal octavity only.
-Relative chord name. Example: 'II7'.
-Rest. A 'rhythm' indicator. Literally, 'rest'.
-Rhythm indicators. Example: '|- -(- -)|' is eight (8) indicators specifying a measure of time equally subdivided into three units. Includes key modulations(?), octavities, rests, tempos, and volumes.
-Standard jazz note-plus chord name (of some kind). Example: [suspensions or minor sevenths, etc.]. For duodecimal octavity only.
-Standard jazz tonic chord name. See, 'Standard jazz note-plus chord name (of some kind)' and 'Regular tonic chord name'.
-Tempo. A 'rhythm' indicator.
-Tool. Unix tool program.
-Volume. A 'rhythm' indicator.
-----------
-PROGRAMMER TASKS
-all2mid - a tool to translate a stream of bass note numbers, melody note numbers, chord octave-note distributions, rhythm indicators, volumes, tempos, rests, and octavities into MIDI.
-
-bas-cho2ncm - a tool to translate a stream of bass note numbers and chord numbers into regular note-plus chord names.  At this point, it is unknown whether input of names is simpler.
-
-basm-chom2ncm - a tool to translate a stream of bass note names and regular tonic chord names into regular note-plus chord names. At this point, it is unknown whether input of numbers is simpler.
-
-cho2dis - a tool to translate a stream of chord numbers into chord octave-note distributions.
-
-cho2jazm - a tool to translate a stream of chord numbers into standard jazz tonic chord names.
-
-cho2mozm - a tool to translate a stream of chord numbers into Mozart tonic chord names.
-
-cho2nec - a tool to extract from a stream of chord numbers their necklace numbers.
-
-cho2neci - a tool to extract from a stream of chord numbers their necklace inversion numbers.
-
-dis2cho - a tool to translate a stream of chord octave-note distributions into chord numbers.
-
-double - a tool to double a stream. Does Unix have this functionality in any way? Do I need it?
-
-jazm2cho - a tool to translate a stream of standard jazz tonic chord names into chord numbers.
-
-mid2bas - a tool to extract from MIDI a stream of bass note numbers.
-
-mid2dis - a tool to extract from MIDI a stream of chord octave-note distributions.
-
-mid2rhy - a tool to extract from MIDI a stream of rhythm indicators, including volumes, tempos, rests, and octavities, organized into lines between the (stripped-out) bass and melody notes and chords.
-
-mozm2cho - a tool to translate a stream of Mozart tonic chord names into chord numbers.
-
-n2nm - a tool to translate a stream of note numbers into note names.
-
-ncm2basm - a tool to extract from a stream of regular note-plus chord names the bass note names.
-
-ncm2chom - a tool to extract from a stream of regular note-plus chord names the regular tonic chord names.
-
-nec-neci2cho - a tool to translate a stream of necklace numbers and necklace inversion numbers into chord numbers.
-
-nm2n - a tool to translate a stream of note names into note numbers.
+USER STORIES (WITH PRIORITY: RISK)
+1: (A program to) compose (sketch) music by entering melody note names, bass note names, regular tonic chord names, rests, and rhythm indicators.
+3:3 (((A program to) translate) a stream of rhythm indicators and regular note-plus chord) names into standard musical notation (e.g., quarter notes) using (possibly) Gnu music writer notation.
+2:2 (((A program to) translate) a stream of rhythm indicators and regular note-plus chord) names and melody note names, etc. into MIDI so it can be played by a typical computer sound card.
+1:2 ((A program to) translate) MIDI into a stream of regular note-plus chord names and rhythm indicators, i.e., a lead sheet.
+3:3 ((A program to) translate) a stream of regular note-plus chord names and rhythm indicators into standard musical notation (e.g., quarter notes) using (possibly) Gnu music writer notation.
+: (((The user shall) be able to), at any chord, change the) octavity; store the octavity at the beginning of the composition and wherever it is altered.
+: (((The user shall) be able to), at any chord, change the) volume, the tempo, the key (for relative chord printouts), and/or the octavity of the composition onward.
+: (Copying): Any possible form of copying from another section of the composition, shall similarly be possible from another composition.
+: ((Copying): ((The user shall) be able to) copy) and overlay sections from the notes of the composition onto other sections already containing the desired rhythm indicators.
+: ((Copying): ((The user shall) be able to) copy) sections of the composition while leaving the notes and chords empty, possibly just bass notes of 'G' ('0') with nothing else.
+: ((Copying): ((The user shall) be able to) copy), insert, delete, and transpose sections of the composition.
+: ((The user shall) be able to) extend a composition by one chord.
+: ((The user shall) be able to) save and edit compositions.
+: ((The user shall) be able to) name chords and necklaces. Names stored in the composition and in a user configuration file.
+: (The user shall) not need intelligible composition text files: for instance, for direct editing of chord names. However, the user shall be enabled to print out compositions containing, at the user's choice, intelligible absolute or relative chord names.
+: ((The user shall) be able to), to aid in producing unity in the composition, receive chord suggestions containing the same number of notes, based on sameness of the necklace, or containing any desired number of notes based on sameness of the bass note, sameness of the melody note, and/or sameness (or equal transposition) of any N of the chord notes, N ranging from zero to one note less than the entire chord.

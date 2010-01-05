@@ -1,0 +1,50 @@
+----------
+PROGRAMMER TASKS: UNIX-LIKE TOOLS TO EXTRACT FROM...
+cho2nec - a stream of chord numbers, their necklace numbers.
+
+cho2neci - a stream of chord numbers, their necklace inversion numbers.
+
+mid2bas - MIDI, a stream of bass note numbers.
+
+mid2dis - MIDI, a stream of chord octave-note distributions.
+
+mid2rhy - MIDI, a stream of rhythm indicators, including volumes, tempos, rests, and octavities, organized into lines between the (stripped-out) bass and melody notes and chords.
+
+ncm2basm - a stream of regular note-plus chord names, the bass note names.
+
+ncm2chom - a stream of regular note-plus chord names, the regular tonic chord names.
+----------
+PROGRAMMER TASKS: UNIX-LIKE TOOLS TO TRANSLATE A STREAM OF...
+all2mid - bass note numbers, melody note numbers, chord octave-note distributions, rhythm indicators, volumes, tempos, rests, and octavities into MIDI.
+
+bc2ncm - bass note numbers and chord numbers into regular note-plus chord names.  At this point, it is unknown whether input of names is simpler.
+
+bmcm2ncm - bass note names and regular tonic chord names into regular note-plus chord names. At this point, it is unknown whether input of numbers is simpler.
+
+cho2dis - chord numbers into chord octave-note distributions.
+
+cho2jazm - chord numbers into standard jazz tonic chord names.
+
+cho2mozm - chord numbers into Mozart tonic chord names.
+
+dis2cho - chord octave-note distributions into chord numbers.
+
+jazm2cho - standard jazz tonic chord names into chord numbers.
+
+mozm2cho - Mozart tonic chord names into chord numbers.
+
+n2nm - note numbers into note names.
+
+nm2n - note names into note numbers.
+
+nni2cho - necklace numbers and necklace inversion numbers into chord numbers.
+----------
+PROGRAMMER TASKS: UNIX-LIKE TOOLS
+multiple - multiplies (the tokens of) a stream. Does Unix have this functionality in any way? sed? Do I need it? What about MIDI files?
+----------
+PROGRAMMER TASKS
+mid2bas
+mid2dis
+mid2rhy
+mid2rhy
+dis2cho

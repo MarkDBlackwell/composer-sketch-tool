@@ -1,0 +1,24 @@
+A composer's sketching program intended to encourage the use of the entire chord space (of all possible chords).
+Author: Mark D. Blackwell.
+Date started: December, 2009.
+Date last changed: January 4, 2010
+----------
+PROCESS/DEVELOPMENT PROCEDURES
+o Code invariant-tests in the code classes, if useful.
+o Extreme Programming (XP) a la Kent Beck.
+o For user-perceptible things, prototyping: do up-front design. For how to implement: jump right into code.
+o From http://c2.com/cgi/wiki?ExtremePlanning :
+oo Priority:
+  1. These have to be done if the system is to meet its business goals.
+  2. These have a measurable impact on the system's business goals.
+  3. These would make the user happy, but without explicit justification.
+oo Risk:
+  1. We know exactly how to do this.
+  2. We think we know how to do this.
+  3. We have no idea what this means or how to do this.
+o Listen, Test, Code, Reshape (LTCR).
+o Perhaps write unit tests to refactor my (already at the start) existing code?
+o Reshape is refactor & redesign.
+o Test is Test-first: first write tests, using Rspec.
+o Two kinds of minds: user and developer: shocked by each other. User stories is a solution to inspire them to communicate.
+o Use CRC (Class (name), Responsibilities, (class) Collaborators) cards to make a design to implement each user story.
