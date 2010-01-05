@@ -1,30 +1,100 @@
 USER STORIES (WITH PRIORITY: RISK)
-1: {A program to} compose (sketch) music by entering melody note names, bass note names, regular tonic chord names, rests, and rhythm indicators.
+1:2 {A program} to compose (sketch) music by entering melody note names, bass note names, regular tonic chord names, rests, and rhythm indicators.
 
-2:2 {{{{A program to} translate} a stream of} rhythm indicators and regular note-plus chord names} and melody note names, etc. into MIDI so it can be played by a typical computer sound card.
+1:2 {{{A program} to translate} a stream of rhythm indicators and regular note-plus chord names} and melody note names, etc. into MIDI so it can be played by a typical computer sound card.
 
-3:3 {{{{A program to} translate} a stream of} rhythm indicators and regular note-plus chord names} into standard musical notation (e.g., quarter notes) using (possibly) Gnu music writer notation.
+3:2 {{{A program} to translate} a stream of rhythm indicators and regular note-plus chord names} into standard musical notation (e.g., quarter notes) using (possibly) Gnu music writer notation.
 
-1:2 {{A program to} translate} MIDI into a stream of rhythm indicators and regular note-plus chord names, i.e., a lead sheet.
+1:2 {{A program} to translate} MIDI into a stream of rhythm indicators and regular note-plus chord names, i.e., a lead sheet.
 
-: {Copying}: Any possible form of copying from another section of the composition, shall similarly be possible from another composition.
+2:2 Copying: Any form of copying, possible from another section of the composition, shall similarly be possible from another composition.
 
-: {{Copying}: {{The user shall} be able to} copy} and overlay sections from the notes of the composition onto other sections already containing the desired rhythm indicators.
+2:2 Copying: {The user shall be able to copy} and overlay sections from the notes of the composition onto other sections already containing the desired rhythm indicators.
 
-: {{Copying}: {{The user shall} be able to} copy} sections of the composition while leaving the notes and chords empty, possibly just bass notes of 'G' ('0') with nothing else.
+2:2 Copying: {The user shall be able to copy} sections of the composition while leaving the notes and chords empty, possibly just bass notes of 'G' ('0') with nothing else.
 
-: {{Copying}: {{The user shall} be able to} copy}, insert, delete, and transpose sections of the composition.
+1:2 Cut and paste: {The user shall be able, for any contiguous section of the composition, and onto an internal clipboard ('internal' here meaning 'only accessible by this package'), to select and} to cut it.
 
-: {{The user shall} be able to} extend a composition by one chord.
+1:2 Cut and paste: {The user shall be able, for any contiguous section of the composition, and onto an internal clipboard ('internal' here meaning 'only accessible by this package'), to select and} to copy it.
 
-: {{The user shall} be able to} name chords and necklaces. Names stored in the composition and in a user configuration file.
+1:2 Cut and paste: {The user shall be able, from the internal clipboard, to insert into the composition} before any chord.
 
-: {{The user shall} be able to} receive (for purposes of increasing unity in the composition) chord suggestions containing the same number of notes, based on sameness of the necklace, or containing any desired number of notes based on sameness of the bass note, sameness of the melody note, and/or sameness (or equal transposition) of any N of the chord notes, N ranging from zero to one note less than the entire chord.
+1:2 Cut and paste: {The user shall be able, from the internal clipboard, to insert into the composition} at the end.
 
-: {{The user shall} be able to} save and edit compositions.
+1:2 Cut and paste: {The user shall be able, for any contiguous section of the composition}, to select it.
 
-: {{{The user shall} be able to}, at any chord, change the} octavity; store the octavity at the beginning of the composition and wherever it is altered.
+1:2 {{The user shall be able}, for any contiguous section of the composition}, to delete it.
 
-: {{{The user shall} be able to}, at any chord, change the} volume, the tempo, the key (for relative chord printouts), and/or the octavity of the composition onward.
+3:2 {{The user shall be able}, for any contiguous section of the composition}, to pitch-invert it.
+
+3:2 {{The user shall be able}, for any contiguous section of the composition}, to time-invert it.
+
+2:2 {{The user shall be able}, for any contiguous section of the composition}, to transpose it.
+
+1:3 {{The user shall be able}, at any chord of the composition}, to alter the composition by inserting a chord before it.
+
+2:3 User's custom names for chords and necklaces shall be stored, both in the composition and in configuration file(s), arranged by user identity.
+
+2:3 Selecting: {The user shall be able, in a composition, regarding} any single chord, to select it.
+
+2:3 Selecting: {The user shall be able, in a composition, regarding} multiple chords, regardless of contiguity, to select them.
+
+2:3 Chord naming: {The user shall be able, for a composition, regarding} any single, selected chord}, to name it.
+
+2:3 Chord naming: {{The user shall be able, for a composition, regarding} any single, selected chord} already named by the user, to rename it.
+
+2:3 Chord naming: {The user shall be able, for a composition, regarding} any single, selected chord}, to add it to any named group of chords.
+
+2:3 Chord naming: {The user shall be able, in a composition, regarding} the selected chords, to name them as a group.
+
+2:3 Chord naming: {The user shall be able, in a composition, regarding} the selected chords, regardless of any of their individual possible presences in other groups of chords, to create anew a named group of chords which contains only it.
+
+2:3 Chord naming: {The user shall be able, for any} chord of the composition, if it is selected, regardless of its possible presence in another group of chords, to create a new, named group of chords which contains only it.
+
+2:3 Chord naming: {The user shall be able, for any} chord of the composition, if it is selected, to add it to any named group of chords.
+
+2:3 Chord naming: {The user shall be able, for any} arbitrary chord, to name it.
+
+2:3 Chord naming: {The user shall be able, for any} arbitrary chord, to rename it.
+
+2:3 Chord naming: {The user shall be able, for any} arbitrary chord, into any named group of chords, to add it.
+
+2:3 Chord naming: {The user shall be able, for any} arbitrary chord, into a fresh, empty group of chords, to add it.
+
+2:3 {The user shall be able, for any} necklace, to name it.
+
+2:3 {{The user shall be able, for any} group of} chords, to add another .  to name 
+
+2:3 {{The user shall be able to name any} group of} chords.
+
+2:3 {{The user shall be able to name any} group of} necklaces.
+
+2:3 {The user shall be able, for any group of} chords, to name them (with a single name).
+
+2:3 {{The user shall be able to add name any} group of} chords.
+
+: {{{The user shall} be able} to receive (for purposes of increasing unity in the composition) chord suggestions containing} the same number of notes, based on sameness of the necklace.
+
+: {{{{{The user shall} be able} to receive (for purposes of increasing unity in the composition) chord suggestions containing} any desired number of notes, based on} sameness of the} bass note.
+
+: {{{{{The user shall} be able} to receive (for purposes of increasing unity in the composition) chord suggestions containing} any desired number of notes, based on} sameness of the} melody note.
+
+: {{{{{The user shall} be able} to receive (for purposes of increasing unity in the composition) chord suggestions containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} the same.
+
+: {{{{{The user shall} be able} to receive (for purposes of increasing unity in the composition) chord suggestions containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} equally transposed.
+
+: {The user shall be able, for any composition}, to save it.
+
+2:2 {{The user shall be able, for any composition}, if he crashes the computer while editing it, to recover his work reasonably, by an autosaving facility covering} the single, latest draft.
+
+3:2 {{The user shall be able, for any composition}, if he crashes the computer while editing it, to recover his work reasonably, by an autosaving facility covering} multiple drafts).
+
+: {{The user shall} be able}, for any composition, to edit it.
+-------
+: {{The user shall} be able} to create a new, empty composition.
+
+: {{{The user shall} be able}, at any chord, to change the} octavity; store the octavity at the beginning of the composition and wherever it is altered.
+
+: {{{The user shall} be able}, at any chord, to change the} volume, the tempo, the key (for relative chord printouts), and/or the octavity of the composition onward.
 
 : {The user shall} not need intelligible composition text files: for instance, for direct editing of chord names. However, the user shall be enabled to print out compositions containing, at the user's choice, intelligible absolute or relative chord names.

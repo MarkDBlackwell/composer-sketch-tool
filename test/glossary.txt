@@ -1,15 +1,26 @@
 Absolute chord name. Example: 'A7'.
-Bass or melody note name. They run from 'G' down to 'Ab'. For duodecimal octavity only.
-Bass or melody note number. In duodecimal octavity, they run from '0' down to '11'. A simplification in this package is that the note number, '0', for all octavities, has the same pitch: a note, G on a standard, physical piano.
+Bass. Notes which must be in the chord, and are the lowest in pitch.
+Bass note name. See note name.
+Bass note number. See note number.
+Chord group. An abstract grouping of chords which is given a name by a user.
+Chord name. Regular, regular note-plus, or user-given.
 Chord number. Example: '0'. In duodecimal octavity, they run from '0' to '2047', which is the number formed by the mathematical expression, '2**11 - 1'. 
 Chord octave-note distributions ('convert bit pattern into chord system name'). In duodecimal octavity, they run from '0' to '7ff': the bass note is implicit.
+Composition. What music is sketched in.
 Duodecimal. Having to do with the number, twelve ('12').
 Key modulation(?). A 'rhythm' indicator.
+Melody. Notes which must be in the chord, and are played more audibly somehow.
+Melody note name. See note name.
+Melody note number. See note number.
 Mozart note-plus chord name. Example: [-s4. /3. Find in my Mozart chords blog post.] For duodecimal octavity only.
 Mozart tonic chord name. See, 'Mozart note-plus chord name' and 'Regular tonic chord name'.
 Necklace. A chord, regardless of transpositions and inversions. See the Wikipedia article of the same name.
+Necklace group. An abstract grouping of necklaces which is given a name by a user.
 Necklace inversion number. In duodecimal octavity, they run through some of '0' to '11': i.e., whatever notes the chord has.
+Necklace name. User-given.
 Necklace number. In duodecimal octavity, they run from '0' to '350'.
+Note name. They run from 'G' down to 'Ab'. For duodecimal octavity only.
+Note number. In duodecimal octavity, they run from '0' down to '11'. A simplification in this package is that the note number, '0', for all octavities, has the same pitch: a note, G on a standard, physical piano.
 Octavity. The number of equal-tempered notes within a doubling of the frequency. A rhythm indicator. The major, globally used, Western European system has duodecimal octavity (wherein this number is, '12'). A simplification in this package is that all the musical notes produced are equal-tempered.
 Regular note-plus chord name. Example: 'Am'. For duodecimal octavity only.
 Regular tonic chord name. Example: 'i7'. For duodecimal octavity only.
@@ -20,4 +31,5 @@ Standard jazz note-plus chord name (of some kind). Example: [suspensions or mino
 Standard jazz tonic chord name. See, 'Standard jazz note-plus chord name (of some kind)' and 'Regular tonic chord name'.
 Tempo. A 'rhythm' indicator.
 Tool. Unix tool program.
+User identity. What some information is stored by, inside and outside of compositions.
 Volume. A 'rhythm' indicator.
