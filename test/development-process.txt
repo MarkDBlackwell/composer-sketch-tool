@@ -1,6 +1,6 @@
 o Code (LTCR): (non-test class) coding.
 o CRC: (Class (name), Responsibilities, (class) Collaborators) cards; for each user story, use them to design an implementation.
-o Extreme Programming (XP) à la Kent Beck: learn it by following.
+o Extreme Programming (XP) Ã  la Kent Beck: learn it by following.
 o How to implement: jump right into coding.
 o Invariant-tests: if useful, write in the code classes.
 o Listen (LTCR): listen to the users.

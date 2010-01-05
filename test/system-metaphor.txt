@@ -6,3 +6,4 @@ o Octavity: for each available, build and read fixed tables.
 o 'Rhythm' indicators: what to do about octavity, etc. being kinds of this?
 o System metaphor: this program is like a word processor, and like a set of Unix tools.
 o Tools are needed to translate between, on the one hand, regular, Mozart, and jazz tonic chord names, and on the other hand, chord numbers; similarly for note names and numbers.
+o Store the volume, the tempo, the key (for relative chord printouts), and/or the octavity at the beginning of the composition and wherever it is altered.
