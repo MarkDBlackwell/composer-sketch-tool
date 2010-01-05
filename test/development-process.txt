@@ -1,0 +1,21 @@
+o Code (LTCR): (non-test class) coding.
+o CRC: (Class (name), Responsibilities, (class) Collaborators) cards; for each user story, use them to design an implementation.
+o Extreme Programming (XP) á lá (sp?) Kent Beck: learn it by following.
+o How to implement: jump right into coding.
+o Invariant-tests: if useful, write in the code classes.
+o Listen (LTCR): listen to the users.
+o LTCR: Listen, Test, Code, Reshape.
+o Preexisting code (at the start): perhaps write unit tests to refactor it?
+o Reshape (LTCR): called also refactor, and (re)design.
+o Test (-first, LTCR): first write tests, with Rspec.
+o Up-front design: do for user-perceptible things & prototyping.
+o User stories (solution). Two kinds of minds, generally shocked by each other, user and developer, can use them to communicate.
+o User story cards. Priority and risk numbers are written upon them. From http://c2.com/cgi/wiki?ExtremePlanning :
+oo Priority:
+1. These have to be done if the system is to meet its business goals.
+2. These have a measurable impact on the system's business goals.
+3. These would make the user happy, but without explicit justification.
+oo Risk:
+1. We know exactly how to do this.
+2. We think we know how to do this.
+3. We have no idea what this means or how to do this.

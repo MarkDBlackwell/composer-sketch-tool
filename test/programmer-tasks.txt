@@ -1,5 +1,5 @@
 ----------
-PROGRAMMER TASKS: UNIX-LIKE TOOLS TO EXTRACT FROM...
+UNIX-LIKE TOOLS TO EXTRACT FROM...
 cho2nec - a stream of chord numbers, their necklace numbers.
 
 cho2neci - a stream of chord numbers, their necklace inversion numbers.
@@ -14,7 +14,7 @@ ncm2basm - a stream of regular note-plus chord names, the bass note names.
 
 ncm2chom - a stream of regular note-plus chord names, the regular tonic chord names.
 ----------
-PROGRAMMER TASKS: UNIX-LIKE TOOLS TO TRANSLATE A STREAM OF...
+UNIX-LIKE TOOLS TO TRANSLATE A STREAM OF...
 all2mid - bass note numbers, melody note numbers, chord octave-note distributions, rhythm indicators, volumes, tempos, rests, and octavities into MIDI.
 
 bc2ncm - bass note numbers and chord numbers into regular note-plus chord names.  At this point, it is unknown whether input of names is simpler.
@@ -39,10 +39,10 @@ nm2n - note names into note numbers.
 
 nni2cho - necklace numbers and necklace inversion numbers into chord numbers.
 ----------
-PROGRAMMER TASKS: UNIX-LIKE TOOLS
-multiple - multiplies (the tokens of) a stream. Does Unix have this functionality in any way? sed? Do I need it? What about MIDI files?
+UNIX-LIKE TOOLS: OTHER KINDS
+mult - multiply (the tokens of) a stream. Does Unix have this functionality in any way? sed? Do I need it? What about MIDI files?
 ----------
-PROGRAMMER TASKS
+OTHER KINDS
 mid2bas
 mid2dis
 mid2rhy

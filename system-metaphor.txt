@@ -1,9 +1,0 @@
-----------
-SYSTEM METAPHOR (AND DESIGN)
-o For each available octavity, build and read fixed tables.
-o In non-duodecimal octavities, the regular tonic chord names are simply chord numbers, and the bass and melody note names are simply (in-octave) note numbers. Even in the duodecimal octavity, in compositions, store (in-octave) note numbers and chord numbers, not bass or melody note names or regular tonic chord names.
-o Limitation: 16 channels bent independently limits the size of chords in large octavities.
-o System Metaphor: word processor, and set of Unix tools.
-o Tools are needed to translate between, on the one hand, regular, Mozart, and jazz tonic chord names, and on the other hand, chord numbers; similarly for note names and numbers.
-o Use Jim Menard's pure-Ruby library, 'midilib'.
-o What to do about octavity, etc. being kinds of 'rhythm' indicators?

@@ -1,0 +1,8 @@
+SYSTEM METAPHOR (AND DESIGN)
+o Midilib: use Jim Menard's pure-Ruby library.
+o Octavities limitation: 16 channels, bent independently, limits the size of chords in large octavities.
+o Octavities: in the non-duodecimal ones, the regular tonic chord names are(?) simply chord numbers, and the bass and melody note names are(?) simply (in-octave) note numbers. Even for compositions in the duodecimal octavity, store (in-octave) note numbers and chord numbers, not bass or melody note names, or regular tonic chord names.
+o Octavity: for each available, build and read fixed tables.
+o 'Rhythm' indicators: what to do about octavity, etc. being kinds of this?
+o System metaphor: this program is like a word processor, and like a set of Unix tools.
+o Tools are needed to translate between, on the one hand, regular, Mozart, and jazz tonic chord names, and on the other hand, chord numbers; similarly for note names and numbers.
