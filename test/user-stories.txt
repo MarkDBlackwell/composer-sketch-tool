@@ -1,4 +1,6 @@
 ff USER STORIES (WITH RISK: PRIORITY)
+fb Build------------------------------
+fb Build 3:3: The user shall be able, at least by means of special, personal arrangements, to acquire additional octavities having all the same functionality of previously-existing ones. This capability shall be subject to possible hardware limitations coming from MIDI capabilities, e.g. the use of 16 channels to independently bend pitch.
 f7 Chord name------------------------------
 f7 Chord name 3:3: User's custom names for chords and necklaces shall be} usable.
 f7 Chord name 3:3: User's custom names for chords and necklaces shall be} maintained, both in the composition and in configuration file(s), arranged by user identity.
@@ -44,6 +46,11 @@ df Edit 3:1: The user shall be able} to edit compositions in the manner of Word.
 df Edit 2:1: The user shall be able} to create a new, empty composition.
 d7 Lead sheet------------------------------
 d7 Lead sheet 2:1: A program to translate MIDI into a stream of rhythm indicators and regular note-plus chord names, i.e., a lead sheet.
+d3 List------------------------------
+d3 List 3:3: The user shall be able to list}, for a composition, the names of all used} necklaces.
+d3 List 3:3: The user shall be able to list}, for a composition, the names of all used} chords.
+d3 List 3:3: The user shall be able to list} his custom names of} necklaces.
+d3 List 3:3: The user shall be able to list} his custom names of} chords.
 cf Octavity------------------------------
 cf Octavity 3:3: The user shall be able}, in each octavity, to name} necklaces.
 cf Octavity 3:3: The user shall be able}, in each octavity, to name} chords.
