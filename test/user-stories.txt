@@ -1,68 +1,69 @@
-. USER STORIES (WITH PRIORITY: RISK)
-o Chord name:
-o Chord name: The user shall be able to name any} group of} chords. 3:3
-o Chord name: The user shall be able to name any} group of} necklaces. 3:3
-o Chord name: The user shall be able, for a composition, regarding} any single, selected chord} already named by the user, to rename it. 3:3
-o Chord name: The user shall be able, for a composition, regarding} any single, selected chord}, to add it to any named group of chords. 3:3
-o Chord name: The user shall be able, for a composition, regarding} any single, selected chord}, to name it. 3:3
-o Chord name: The user shall be able, for any group of} chords, to add another chord. 3:3
-o Chord name: The user shall be able, for any group of} chords, to name them (with a single name). 3:3
-o Chord name: The user shall be able, for any} arbitrary chord, into a fresh, empty group of chords, to add it. 3:3
-o Chord name: The user shall be able, for any} arbitrary chord, into any named group of chords, to add it. 3:3
-o Chord name: The user shall be able, for any} arbitrary chord, to name it. 3:3
-o Chord name: The user shall be able, for any} arbitrary chord, to rename it. 3:3
-o Chord name: The user shall be able, for any} chord of the composition, if it is selected}, regardless of its possible presence in another group of chords, to create a new, named group of chords which contains only it. 3:3
-o Chord name: The user shall be able, for any} chord of the composition, if it is selected}, to add it to any named group of chords. 3:3
-o Chord name: The user shall be able, for any} necklace, to name it. 3:3
-o Chord name: The user shall be able, in a composition, regarding} the selected chords, regardless of any of their individual possible presences in other groups of chords, to create anew a named group of chords which contains only it. 3:3
-o Chord name: The user shall be able, in a composition, regarding} the selected chords, to name them as a group. 3:3
-o Chord name: User's custom names for chords and necklaces shall be stored, both in the composition and in configuration file(s), arranged by user identity. 3:3
-o Copy:
-o Copy: Any form of copying, possible from another section of the composition, shall similarly be possible from another composition. 2:2
-o Copy: The user shall be able to copy} and overlay sections from the notes of the composition onto other sections already containing the desired rhythm indicators. 3:2
-o Copy: The user shall be able to copy} sections of the composition while leaving the notes and chords empty, possibly just bass notes of 'G' ('0') with nothing else. 3:2
-o Cut and paste:
-o Cut and paste: The user shall be able, for any contiguous section of the composition, and onto an internal clipboard ('internal' here meaning 'only accessible by this package'), to select and} to copy it. 1:2
-o Cut and paste: The user shall be able, for any contiguous section of the composition, and onto an internal clipboard ('internal' here meaning 'only accessible by this package'), to select and} to cut it. 1:2
-o Cut and paste: The user shall be able, for any contiguous section of the composition}, to select it. 1:2
-o Cut and paste: The user shall be able, from the internal clipboard, to insert into the composition} at the end. 1:2
-o Cut and paste: The user shall be able, from the internal clipboard, to insert into the composition} before any chord. 1:2
-o Edit:
-o Edit: A program} to translate} a stream of rhythm indicators and regular note-plus chord names} into standard musical notation (e.g., quarter notes) using (possibly) GNU music writer(?) notation. 3:3
-o Edit: The sketch program shall} edit compositions in the manner of Word. 1:3
-o Edit: The user shall be able}, at any chord of the composition}, to alter the composition by inserting a chord before it. 1:3
-o Edit: The user shall be able}, for any contiguous section of the composition}, to delete it. 1:3
-o Edit: The user shall be able}, for any contiguous section of the composition}, to pitch-invert it. 3:3
-o Edit: The user shall be able}, for any contiguous section of the composition}, to time-invert it. 3:3
-o Edit: The user shall be able}, for any contiguous section of the composition}, to transpose it. 3:3
-o Edit: The user shall} be able} to create a new, empty composition. 1:3
-o Edit: The user shall} be able}, at any chord, to change the} key (for relative chord printouts) which applies from that chord onward. 3:3
-o Edit: The user shall} be able}, at any chord, to change the} octavity which applies from that chord onward. 3:3
-o Edit: The user shall} be able}, at any chord, to change the} tempo which applies from that chord onward. 3:3
-o Edit: The user shall} be able}, at any chord, to change the} volume which applies from that chord onward. 3:3
-o Edit: The user shall} be able}, for any composition, to edit it. 1:3
-o Edit: The user shall} not need intelligible composition text files: for instance, for direct editing of chord names. However, the user shall be enabled to print out compositions containing, at the user's choice, intelligible absolute or relative chord names. 3:3
-o Lead sheet:
-o Lead sheet: A program} to translate} MIDI into a stream of rhythm indicators and regular note-plus chord names, i.e., a lead sheet. 1:2
-o Octavity:
-o Octavity: The sketch program shall} be capable of handling not only Western, equal-tempered 12-note octaves, but at least several other micro- and macro-tonalities. 3:2
-o Play:
-o Play: A program} to translate} a stream of rhythm indicators and regular note-plus chord names} and melody note names, etc. into MIDI so it can be played by a typical computer sound card. 1:3
-o Play: The sketch program shall} play compositions through the MIDI capability of typical computer sound cards. 1:3
-o Save:
-o Save: The user shall be able, for any composition}, if he crashes the computer while editing it, to recover his work reasonably, by an autosaving facility covering} multiple drafts). 3:2
-o Save: The user shall be able, for any composition}, if he crashes the computer while editing it, to recover his work reasonably, by an autosaving facility covering} the single, latest draft. 2:2
-o Save: The user shall be able, for any composition}, to save it. 1:3
-o Select:
-o Select: The user shall be able, in a composition, regarding} any single chord, to select it. 2:3
-o Select: The user shall be able, in a composition, regarding} multiple chords, regardless of contiguity, to select them. 2:3
-o Sketch:
-o Sketch: A program} (the 'sketch program'), a composer's sketch tool, to compose music by entering melody note names, bass note names, regular tonic chord names, rests, and rhythm indicators. 1:3
-o Suggest:
-o Suggest: The sketch program shall} suggest chords from the space of all mathematically possible ones. 3:2
-o Suggest: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on} sameness of the} bass note. 2:3
-o Suggest: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on} sameness of the} melody note. 2:3
-o Suggest: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} equally transposed. 3:3
-o Suggest: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} the same. 2:3
-o Suggest: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} the same number of notes, based on sameness of the necklace. 2:3
-o Suggest: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions}. 1:3
+. USER STORIES (WITH RISK: PRIORITY)
+o Chord name
+o Chord name 3:3: The user shall be able to name any} group of} chords.
+o Chord name 3:3: The user shall be able to name any} group of} necklaces.
+o Chord name 3:3: The user shall be able, for a composition, regarding} any single, selected chord} already named by the user, to rename it.
+o Chord name 3:3: The user shall be able, for a composition, regarding} any single, selected chord}, to add it to any named group of chords.
+o Chord name 3:3: The user shall be able, for a composition, regarding} any single, selected chord}, to name it.
+o Chord name 3:3: The user shall be able, for any group of} chords, to add another chord.
+o Chord name 3:3: The user shall be able, for any group of} chords, to name them (with a single name).
+o Chord name 3:3: The user shall be able, for any} arbitrary chord, into a fresh, empty group of chords, to add it.
+o Chord name 3:3: The user shall be able, for any} arbitrary chord, into any named group of chords, to add it.
+o Chord name 3:3: The user shall be able, for any} arbitrary chord, to name it.
+o Chord name 3:3: The user shall be able, for any} arbitrary chord, to rename it.
+o Chord name 3:3: The user shall be able, for any} chord of the composition, if it is selected}, regardless of its possible presence in another group of chords, to create a new, named group of chords which contains only it.
+o Chord name 3:3: The user shall be able, for any} chord of the composition, if it is selected}, to add it to any named group of chords.
+o Chord name 3:3: The user shall be able, for any} necklace, to name it.
+o Chord name 3:3: The user shall be able, in a composition, regarding} the selected chords, regardless of any of their individual possible presences in other groups of chords, to create anew a named group of chords which contains only it.
+o Chord name 3:3: The user shall be able, in a composition, regarding} the selected chords, to name them as a group.
+o Chord name 3:3: User's custom names for chords and necklaces shall be stored, both in the composition and in configuration file(s), arranged by user identity.
+o Copy
+o Copy 2:2: Any form of copying, possible from another section of the composition, shall similarly be possible from another composition.
+o Copy 2:3: The user shall be able to copy} and overlay sections from the notes of the composition onto other sections already containing the desired rhythm indicators.
+o Copy 2:3: The user shall be able to copy} sections of the composition while leaving the notes and chords empty, possibly just bass notes of 'G' ('0') with nothing else.
+o Cut and paste
+o Cut and paste 2:1: The user shall be able}, for any contiguous section of the composition}, and onto an internal clipboard ('internal' here meaning 'only accessible by this package'), to select and} to copy it.
+o Cut and paste 2:1: The user shall be able}, for any contiguous section of the composition}, and onto an internal clipboard ('internal' here meaning 'only accessible by this package'), to select and} to cut it.
+o Cut and paste 2:1: The user shall be able}, for any contiguous section of the composition}, to select it.
+o Cut and paste 2:1: The user shall be able}, from the internal clipboard, to insert into the composition} at the end.
+o Cut and paste 2:1: The user shall be able}, from the internal clipboard, to insert into the composition} before any chord.
+o Edit
+o Edit 3:1: The sketch program shall} edit compositions in the manner of Word.
+o Edit 3:1: The user shall} be able} to create a new, empty composition.
+o Edit 3:1: The user shall} be able}, at any chord}, to alter the composition by inserting a chord before it.
+o Edit 3:1: The user shall} be able}, for any} composition, to edit it.
+o Edit 3:1: The user shall} be able}, for any} contiguous section}, to delete it.
+o Edit 3:2: The user shall} be able}, at any chord}, for there onward}, to change the} tempo.
+o Edit 3:2: The user shall} be able}, at any chord}, for there onward}, to change the} volume.
+o Edit 3:2: The user shall} be able}, for any} contiguous section}, to transpose it.
+o Edit 3:3: A program} to translate} a stream of rhythm indicators and regular note-plus chord names} into standard musical notation (e.g., quarter notes) using (possibly) GNU music writer(?) notation.
+o Edit 3:3: The user shall} be able} to print out compositions containing, at the user's choice, intelligible absolute or relative chord names. However, the user shall not be able to see intelligible composition text files: for instance, for direct editing of chord names.
+o Edit 3:3: The user shall} be able}, at any chord}, for there onward}, to change the} key (for relative chord printouts).
+o Edit 3:3: The user shall} be able}, at any chord}, for there onward}, to change the} octavity.
+o Edit 3:3: The user shall} be able}, for any} contiguous section}, to pitch-invert it.
+o Edit 3:3: The user shall} be able}, for any} contiguous section}, to time-reverse the chords (not rhythm).
+o Edit 3:3: The user shall} be able}, for any} contiguous section}, to time-reverse the rhythm (not chords).
+o Lead sheet
+o Lead sheet 2:1: A program} to translate} MIDI into a stream of rhythm indicators and regular note-plus chord names, i.e., a lead sheet.
+o Octavity
+o Octavity 2:3: The sketch program shall} be capable of handling not only Western, equal-tempered 12-note octaves, but at least several other micro- and macro-tonalities.
+o Play
+o Play 2:1: A program} to translate} a stream of rhythm indicators and regular note-plus chord names} and melody note names, etc. into MIDI so it can be played by a typical computer sound card.
+o Play 3:1: The sketch program shall} play compositions through the MIDI capability of typical computer sound cards.
+o Save
+o Save 2:2: The user shall be able, for any composition}, if he crashes the computer while editing it, to recover his work reasonably, by an autosaving facility covering} the single, latest draft.
+o Save 2:3: The user shall be able, for any composition}, if he crashes the computer while editing it, to recover his work reasonably, by an autosaving facility covering} multiple drafts).
+o Save 3:1: The user shall be able, for any composition}, to save it.
+o Select
+o Select 3:2: The user shall be able, in a composition, regarding} any single chord, to select it.
+o Select 3:2: The user shall be able, in a composition, regarding} multiple chords, regardless of contiguity, to select them.
+o Sketch
+o Sketch 3:1: A program} (the 'sketch program'), a composer's sketch tool, to compose music by entering melody note names, bass note names, regular tonic chord names, rests, and rhythm indicators.
+o Suggest
+o Suggest 2:3: The sketch program shall} suggest chords from the space of all mathematically possible ones.
+o Suggest 3:1: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions}.
+o Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on} sameness of the} bass note.
+o Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on} sameness of the} melody note.
+o Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} the same.
+o Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} the same number of notes, based on sameness of the necklace.
+o Suggest 3:3: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} equally transposed.
