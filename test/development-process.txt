@@ -19,7 +19,8 @@ oo Priority:
 1. These have to be done if the system is to meet its business goals.
 2. These have a measurable impact on the system's business goals.
 3. These would make the user happy, but without explicit justification.
-o User stories are arranged thus in a file (descendingly sorted). Right braces are used after multiply-used beginnings within each named heading (e.g., 'Chord name'), except for punctuation and the word, 'to'. Good to rephrase to maximize the length of the beginnings in common:
+4. More general restatements unthought by the customer. (This number is new, from me.)
+o User stories are arranged thus in a file (descendingly sorted). Right braces are used after multiply-used beginnings within each named heading (e.g., 'Chord name'), except for punctuation and the verb infinitive indicator word, 'to'. Good to rephrase to maximize the length of the beginnings in common:
 ff USER STORIES (WITH RISK: PRIORITY)
 f7 Chord name------------------------------
 f7 Chord name 3:3: User's [...].

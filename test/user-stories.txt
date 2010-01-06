@@ -1,42 +1,42 @@
 ff USER STORIES (WITH RISK: PRIORITY)
 fb Build------------------------------
-fb Build 3:3: The user shall be able, at least by means of special, personal arrangements, to acquire additional octavities having all the same functionality of previously-existing ones. This capability shall be subject to possible hardware limitations coming from MIDI capabilities, e.g. the use of 16 channels to independently bend pitch.
+fb Build 3:3: The user shall be able, at least by special, personal arrangement, to acquire additional octavities, having all the same functionality of previously-existing ones. This capability is subject to possible hardware limitations coming from MIDI capabilities, e.g. the use of 16 channels to independently bend pitch.
+f9 Chord group name------------------------------
+f9 Chord group name 3:4: The user shall be able}, regarding selected chord(s), to add them to any named group of chords.
+f9 Chord group name 3:4: The user shall be able}, for any group of chords}, to name them.
+f9 Chord group name 3:3: The user shall be able}, within a single composition, regarding selected chord(s), regardless of their possible, individual presence in other groups of chords}, to give them a name as a group.
+f9 Chord group name 3:3: The user shall be able}, within a single composition, regarding selected chord(s), regardless of their possible, individual presence in other groups of chords}, to add them to any named group of chords.
+f9 Chord group name 3:1: The user shall be able}, for any group of chords}, to choose a chord from them in some useful way.
 f7 Chord name------------------------------
-f7 Chord name 3:3: User's custom names for chords and necklaces shall be} usable.
 f7 Chord name 3:3: User's custom names for chords and necklaces shall be} maintained, both in the composition and in configuration file(s), arranged by user identity.
-f7 Chord name 3:3: The user shall be able, in a composition, regarding the selected chords}, to name them as a group.
-f7 Chord name 3:3: The user shall be able, in a composition, regarding the selected chords}, regardless of any of their individual possible presences in other groups of chords, to create anew a named group of chords which contains only it.
-f7 Chord name 3:3: The user shall be able, for any} necklace, to name it.
-f7 Chord name 3:3: The user shall be able, for any} chord of the composition, if it is selected}, to add it to any named group of chords.
-f7 Chord name 3:3: The user shall be able, for any} chord of the composition, if it is selected}, regardless of its possible presence in another group of chords, to create a new, named group of chords which contains only it.
-f7 Chord name 3:3: The user shall be able, for any} arbitrary chord}, to rename it.
-f7 Chord name 3:3: The user shall be able, for any} arbitrary chord}, to name it.
-f7 Chord name 3:3: The user shall be able, for any} arbitrary chord}, into} any named group of chords, to add it.
-f7 Chord name 3:3: The user shall be able, for any} arbitrary chord}, into} a fresh, empty group of chords, to add it.
-f7 Chord name 3:3: The user shall be able, for any group of chords}, to name them (with a single name).
-f7 Chord name 3:3: The user shall be able, for any group of chords}, to add another chord.
-f7 Chord name 3:3: The user shall be able, for a composition, regarding any single, selected chord}, to name it.
-f7 Chord name 3:3: The user shall be able, for a composition, regarding any single, selected chord}, to add it to any named group of chords.
-f7 Chord name 3:3: The user shall be able, for a composition, regarding any single, selected chord} already named by the user, to rename it.
-f7 Chord name 3:3: The user shall be able to name any group of} necklaces.
-f7 Chord name 3:3: The user shall be able to name any group of} chords.
+f7 Chord name 3:3: User's custom names for chords and necklaces shall be} as usable as other names.
+f7 Chord name 3:3: The user shall be able, for any selected chord}, to name it.
+f7 Chord name 3:3: The user shall be able, for any selected chord} already named by the user, to rename it.
 ef Copy------------------------------
-ef Copy 2:3: The user shall be able to copy} sections of the composition while leaving the notes and chords empty, possibly just bass notes of 'G' ('0') with nothing else.
-ef Copy 2:3: The user shall be able to copy} and overlay sections from the notes of the composition onto other sections already containing the desired rhythm indicators.
-ef Copy 2:2: Any form of copying, possible from another section of the composition, shall similarly be possible from another composition.
+ef Copy 3:3: The user shall be able to specially paste from a contiguous selection, resulting in everything remaining the same but the chords, which shall become} replaced.
+ef Copy 3:3: The user shall be able to specially paste from a contiguous selection, resulting in everything remaining the same but the chords, which shall become} practically-empty placeholders, possibly just single notes of 'G' ('0'). This is a kind of insertion.
+ef Copy 2:1: The user shall be able to copy his compositions for backup purposes and to share them with other people.
 e7 Cut and paste------------------------------
-e7 Cut and paste 2:1: The user shall be able}, from the internal clipboard, to insert into the composition} before any chord.
-e7 Cut and paste 2:1: The user shall be able}, from the internal clipboard, to insert into the composition} at the end.
-e7 Cut and paste 2:1: The user shall be able}, for any contiguous section of the composition}, to select it.
-e7 Cut and paste 2:1: The user shall be able}, for any contiguous section of the composition}, and onto an internal clipboard ('internal' here meaning 'only accessible by this package'), to select and} to cut it.
-e7 Cut and paste 2:1: The user shall be able}, for any contiguous section of the composition}, and onto an internal clipboard ('internal' here meaning 'only accessible by this package'), to select and} to copy it.
+e7 Cut and paste 3:2: Any form of cut-and-paste, possible from another section of the composition, shall similarly be possible from another composition.
+e7 Cut and paste 2:4: The user shall be able}, for any contiguous section, to select it}.
+e7 Cut and paste 2:1: The user shall be able}, from the internal clipboard, to insert} before any chord.
+e7 Cut and paste 2:1: The user shall be able}, from the internal clipboard, to insert} at the end.
+e7 Cut and paste 2:1: The user shall be able}, for any contiguous section, to select it} onto an internal clipboard (accessible only to this package).
+e7 Cut and paste 2:1: Any selection} shall be cuttable.
+e7 Cut and paste 2:1: Any selection} shall be copyable.
 df Edit------------------------------
-df Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse the} rhythm (not chords).
-df Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse the} chords (not rhythm).
+df Edit 3:4: The user shall be able}, for any} contiguous section}, to time-reverse} everything.
+df Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} the volume (and not the rhythm or chords or anything else).
+df Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} the tempo (and not the rhythm or chords or anything else).
+df Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} the rhythm (and not the chords or anything else).
+df Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} the chords (and not the rhythm or anything else).
+df Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} everything (including the chords, rhythm, tempo, and volume).
 df Edit 3:3: The user shall be able}, for any} contiguous section}, to pitch-invert it.
 df Edit 3:3: The user shall be able}, at any chord}, effective onward, to change the} key (for relative chord printing).
 df Edit 3:3: A program} to translate} a stream of rhythm indicators and regular note-plus chord names} into standard musical notation (e.g., quarter notes) using (possibly) GNU music writer(?) notation.
 df Edit 3:2: The user shall be able}, for any} contiguous section}, to transpose it.
+df Edit 3:2: The user shall be able}, for any} contiguous section}, to change the volume.
+df Edit 3:2: The user shall be able}, for any} contiguous section}, to change the tempo.
 df Edit 3:2: The user shall be able}, at any chord}, effective onward, to change the} volume.
 df Edit 3:2: The user shall be able}, at any chord}, effective onward, to change the} tempo.
 df Edit 3:1: The user shall be able}, for any} contiguous section}, to delete it.
@@ -47,10 +47,13 @@ df Edit 2:1: The user shall be able} to create a new, empty composition.
 d7 Lead sheet------------------------------
 d7 Lead sheet 2:1: A program to translate MIDI into a stream of rhythm indicators and regular note-plus chord names, i.e., a lead sheet.
 d3 List------------------------------
-d3 List 3:3: The user shall be able to list}, for a composition, the names of all used} necklaces.
-d3 List 3:3: The user shall be able to list}, for a composition, the names of all used} chords.
-d3 List 3:3: The user shall be able to list} his custom names of} necklaces.
-d3 List 3:3: The user shall be able to list} his custom names of} chords.
+d3 List 3:3: The user shall be able to list alphabetically}, for a composition, the names of all used} necklaces.
+d3 List 3:3: The user shall be able to list alphabetically}, for a composition, the names of all used} chords.
+d3 List 3:3: The user shall be able to list alphabetically}, across compositions, his custom names of} necklaces.
+d3 List 3:3: The user shall be able to list alphabetically}, across compositions, his custom names of} chords.
+d1 Necklace name------------------------------
+d1 Necklace name 3:3: The user shall be able}, for any necklace, to name it.
+d1 Necklace name 3:3: The user shall be able} to name any group of necklaces.
 cf Octavity------------------------------
 cf Octavity 3:3: The user shall be able}, in each octavity, to name} necklaces.
 cf Octavity 3:3: The user shall be able}, in each octavity, to name} chords.
@@ -84,3 +87,5 @@ a7 Suggest 3:2: The user shall be able to receive (for purposes of increasing un
 a7 Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on} sameness of the} bass note.
 a7 Suggest 3:1: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions}.
 a7 Suggest 2:3: The sketch program shall suggest chords from the space of all mathematically possible ones.
+9f User identity------------------------------
+9f User identity 1:3: The user shall be protected from other people without her permission altering her personal data stored by the package.
