@@ -44,6 +44,18 @@ df Edit 3:1: The user shall be able}, for any} composition, to edit it.
 df Edit 3:1: The user shall be able}, at any chord}, to alter the composition by inserting a chord before it.
 df Edit 3:1: The user shall be able} to edit compositions in the manner of Word.
 df Edit 2:1: The user shall be able} to create a new, empty composition.
+dd Filter------------------------------
+dd Filter 3:4: Test in Rspec to expect an exception if on Object, write, print or p methods are called.
+dd Filter 3:4: Replace with Object.my_write(). Similarly for Object.print() and Object.p().
+dd Filter 3:4: Alias and raise exceptions on Object.write()
+dc I18n------------------------------
+dc I18n 3:4: Plan for i18n.
+da Insert------------------------------
+da Insert 3:4: Hear two chords; insert before the second chord.
+da Insert 3:3: Insert regarding and between both a chord and the next chord.
+da Insert 3:3: Insert regarding and before the first chord.
+da Insert 3:3: Insert regarding and after a chord.
+da Insert 3:3: Insert at the beginning of the composition.
 d7 Lead sheet------------------------------
 d7 Lead sheet 2:1: A program to translate MIDI into a stream of rhythm indicators and regular note-plus chord names, i.e., a lead sheet.
 d3 List------------------------------
@@ -51,6 +63,8 @@ d3 List 3:3: The user shall be able to list alphabetically}, for a composition, 
 d3 List 3:3: The user shall be able to list alphabetically}, for a composition, the names of all used} chords.
 d3 List 3:3: The user shall be able to list alphabetically}, across compositions, his custom names of} necklaces.
 d3 List 3:3: The user shall be able to list alphabetically}, across compositions, his custom names of} chords.
+d2 Menu------------------------------
+d2 Menu 3:4: Menu part of WIMP, for File and Window-open compositions list.
 d1 Necklace name------------------------------
 d1 Necklace name 3:3: The user shall be able}, for any necklace, to name it.
 d1 Necklace name 3:3: The user shall be able} to name any group of necklaces.
@@ -70,7 +84,13 @@ c7 Play 3:1: The sketch program shall play compositions through the MIDI capabil
 c7 Play 2:1: A program to translate a stream of rhythm indicators and regular note-plus chord names and melody note names, etc. into MIDI so it can be played.
 c3 Print------------------------------
 c3 Print 3:3: The user shall be able to print the compositions containing, at the user's choice, intelligible absolute or relative chord names. However, the user shall not be able to see intelligible composition text files: for instance, for direct editing of chord names.
+c2 Replace------------------------------
+c2 Replace 3:4: Hear three chords; replace the middle chord, optionally hearing the middle chord. Suggestions based on shared notes both with the first and the third chords.
+c2 Replace 3:3: Replace the only chord, suggestions based on it.
+c2 Replace 3:3: Replace the first chord, suggestions based on it and the second chord.
+c2 Replace 3:3: Replace a chord, suggestions based on it, the chord before, and the chord after.
 bf Save------------------------------
+bf Save 3:4: File open (browse), reload, close, close all, save, save as, save all, new.
 bf Save 3:1: The user shall be able, for any composition}, to save it.
 bf Save 2:3: The user shall be able, for any composition}, if he crashes the computer while editing it, to recover his work reasonably, by an autosaving facility covering} multiple drafts).
 bf Save 2:2: The user shall be able, for any composition}, if he crashes the computer while editing it, to recover his work reasonably, by an autosaving facility covering} the single, latest draft.
@@ -80,6 +100,7 @@ b7 Select 3:2: The user shall be able, in a composition, regarding} any single c
 af Sketch------------------------------
 af Sketch 3:1: A program (the 'sketch program'), a composer's sketch tool, to compose music by entering melody note names, bass note names, regular tonic chord names, rests, and rhythm indicators.
 a7 Suggest------------------------------
+a7 Suggest 3:4: N being from 0 up to all chord notes in common, plus K more notes.
 a7 Suggest 3:3: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} equally transposed.
 a7 Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} the same number of notes, based on sameness of the necklace.
 a7 Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} the same.
@@ -87,5 +108,13 @@ a7 Suggest 3:2: The user shall be able to receive (for purposes of increasing un
 a7 Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on} sameness of the} bass note.
 a7 Suggest 3:1: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions}.
 a7 Suggest 2:3: The sketch program shall suggest chords from the space of all mathematically possible ones.
+a5 UI------------------------------
+a5 UI 3:4: support web and widget toolkits.
+a3 Undo------------------------------
+a3 Undo 3:4: Complete undo/redo facility, back through save and save-as (which have no effect), back to composition (re)load time.
 9f User identity------------------------------
-9f User identity 1:3: The user shall be protected from other people without her permission altering her personal data stored by the package.
+9f User identity 1:3: The user shall be protected from other people altering without her permission her personal data stored by the package.
+99 WIMP------------------------------
+99 WIMP 3:4: Full WIMP setup.
+97 Window------------------------------
+97 Window 3:4: Switchable between open compositions.
