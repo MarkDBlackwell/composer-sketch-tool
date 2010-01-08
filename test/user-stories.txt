@@ -1,120 +1,123 @@
 ff USER STORIES (WITH RISK: PRIORITY)
-fb Build------------------------------
-fb Build 3:3: The user shall be able, at least by special, personal arrangement, to acquire additional octavities, having all the same functionality of previously-existing ones. This capability is subject to possible hardware limitations coming from MIDI capabilities, e.g. the use of 16 channels to independently bend pitch.
-f9 Chord group name------------------------------
-f9 Chord group name 3:4: The user shall be able}, regarding selected chord(s), to add them to any named group of chords.
-f9 Chord group name 3:4: The user shall be able}, for any group of chords}, to name them.
-f9 Chord group name 3:3: The user shall be able}, within a single composition, regarding selected chord(s), regardless of their possible, individual presence in other groups of chords}, to give them a name as a group.
-f9 Chord group name 3:3: The user shall be able}, within a single composition, regarding selected chord(s), regardless of their possible, individual presence in other groups of chords}, to add them to any named group of chords.
-f9 Chord group name 3:1: The user shall be able}, for any group of chords}, to choose a chord from them in some useful way.
-f7 Chord name------------------------------
-f7 Chord name 3:3: User's custom names for chords and necklaces shall be} maintained, both in the composition and in configuration file(s), arranged by user identity.
-f7 Chord name 3:3: User's custom names for chords and necklaces shall be} as usable as other names.
-f7 Chord name 3:3: The user shall be able, for any selected chord}, to name it.
-f7 Chord name 3:3: The user shall be able, for any selected chord} already named by the user, to rename it.
-ef Copy------------------------------
-ef Copy 3:3: The user shall be able to specially paste from a contiguous selection, resulting in everything remaining the same but the chords, which shall become} replaced.
-ef Copy 3:3: The user shall be able to specially paste from a contiguous selection, resulting in everything remaining the same but the chords, which shall become} practically-empty placeholders, possibly just single notes of 'G' ('0'). This is a kind of insertion.
-ef Copy 2:1: The user shall be able to copy his compositions for backup purposes and to share them with other people.
-e7 Cut and paste------------------------------
-e7 Cut and paste 3:2: Any form of cut-and-paste, possible from another section of the composition, shall similarly be possible from another composition.
-e7 Cut and paste 2:4: The user shall be able}, for any contiguous section, to select it}.
-e7 Cut and paste 2:1: The user shall be able}, from the internal clipboard, to insert} before any chord.
-e7 Cut and paste 2:1: The user shall be able}, from the internal clipboard, to insert} at the end.
-e7 Cut and paste 2:1: The user shall be able}, for any contiguous section, to select it} onto an internal clipboard (accessible only to this package).
-e7 Cut and paste 2:1: Any selection} shall be cuttable.
-e7 Cut and paste 2:1: Any selection} shall be copyable.
-df Edit------------------------------
-df Edit 3:4: The user shall be able}, for any} contiguous section}, to time-reverse} everything.
-df Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} the volume (and not the rhythm or chords or anything else).
-df Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} the tempo (and not the rhythm or chords or anything else).
-df Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} the rhythm (and not the chords or anything else).
-df Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} the chords (and not the rhythm or anything else).
-df Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} everything (including the chords, rhythm, tempo, and volume).
-df Edit 3:3: The user shall be able}, for any} contiguous section}, to pitch-invert it.
-df Edit 3:3: The user shall be able}, at any chord}, effective onward, to change the} key (for relative chord printing).
-df Edit 3:3: A program} to translate} a stream of rhythm indicators and regular note-plus chord names} into standard musical notation (e.g., quarter notes) using (possibly) GNU music writer(?) notation.
-df Edit 3:2: The user shall be able}, for any} contiguous section}, to transpose it.
-df Edit 3:2: The user shall be able}, for any} contiguous section}, to change the volume.
-df Edit 3:2: The user shall be able}, for any} contiguous section}, to change the tempo.
-df Edit 3:2: The user shall be able}, at any chord}, effective onward, to change the} volume.
-df Edit 3:2: The user shall be able}, at any chord}, effective onward, to change the} tempo.
-df Edit 3:1: The user shall be able}, for any} contiguous section}, to delete it.
-df Edit 3:1: The user shall be able}, for any} composition, to edit it.
-df Edit 3:1: The user shall be able}, at any chord}, to alter the composition by inserting a chord before it.
-df Edit 3:1: The user shall be able} to edit compositions in the manner of Word.
-df Edit 2:1: The user shall be able} to create a new, empty composition.
-dd Filter------------------------------
-dd Filter 3:4: Test in Rspec to expect an exception if on Object, write, print or p methods are called.
-dd Filter 3:4: Replace with Object.my_write(). Similarly for Object.print() and Object.p().
-dd Filter 3:4: Alias and raise exceptions on Object.write()
-dc I18n------------------------------
-dc I18n 3:4: Plan for i18n.
-da Insert------------------------------
-da Insert 3:4: Hear two chords; insert before the second chord.
-da Insert 3:3: Insert regarding and between both a chord and the next chord.
-da Insert 3:3: Insert regarding and before the first chord.
-da Insert 3:3: Insert regarding and after a chord.
-da Insert 3:3: Insert at the beginning of the composition.
-d7 Lead sheet------------------------------
-d7 Lead sheet 2:1: A program to translate MIDI into a stream of rhythm indicators and regular note-plus chord names, i.e., a lead sheet.
-d3 List------------------------------
-d3 List 3:3: The user shall be able to list alphabetically}, for a composition, the names of all used} necklaces.
-d3 List 3:3: The user shall be able to list alphabetically}, for a composition, the names of all used} chords.
-d3 List 3:3: The user shall be able to list alphabetically}, across compositions, his custom names of} necklaces.
-d3 List 3:3: The user shall be able to list alphabetically}, across compositions, his custom names of} chords.
-d2 Menu------------------------------
-d2 Menu 3:4: Menu part of WIMP, for File and Window-open compositions list.
-d1 Necklace name------------------------------
-d1 Necklace name 3:3: The user shall be able}, for any necklace, to name it.
-d1 Necklace name 3:3: The user shall be able} to name any group of necklaces.
-cf Octavity------------------------------
-cf Octavity 3:3: The user shall be able}, in each octavity, to name} necklaces.
-cf Octavity 3:3: The user shall be able}, in each octavity, to name} chords.
-cf Octavity 3:3: The user shall be able}, at any wall-clock time, to change the octavity of all future new chords suggested and added.
-cf Octavity 3:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable} of all the same functionality.
-cf Octavity 2:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, in proper pitches, of playing audibly}.
-cf Octavity 2:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, in proper pitches, of playing audibly} through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} IBM-PC.
-cf Octavity 2:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, in proper pitches, of playing audibly} through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} Apple Mac(Intosh).
-cf Octavity 2:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, based on unity, of making suggestions of} necklaces.
-cf Octavity 2:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, based on unity, of making suggestions of} chords.
-c7 Play------------------------------
-c7 Play 3:1: The sketch program shall play compositions through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} IBM-PC.
-c7 Play 3:1: The sketch program shall play compositions through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} Apple Mac(Intosh).
-c7 Play 2:1: A program to translate a stream of rhythm indicators and regular note-plus chord names and melody note names, etc. into MIDI so it can be played.
-c3 Print------------------------------
-c3 Print 3:3: The user shall be able to print the compositions containing, at the user's choice, intelligible absolute or relative chord names. However, the user shall not be able to see intelligible composition text files: for instance, for direct editing of chord names.
-c2 Replace------------------------------
-c2 Replace 3:4: Hear three chords; replace the middle chord, optionally hearing the middle chord. Suggestions based on shared notes both with the first and the third chords.
-c2 Replace 3:3: Replace the only chord, suggestions based on it.
-c2 Replace 3:3: Replace the first chord, suggestions based on it and the second chord.
-c2 Replace 3:3: Replace a chord, suggestions based on it, the chord before, and the chord after.
-bf Save------------------------------
-bf Save 3:4: File open (browse), reload, close, close all, save, save as, save all, new.
-bf Save 3:1: The user shall be able, for any composition}, to save it.
-bf Save 2:3: The user shall be able, for any composition}, if he crashes the computer while editing it, to recover his work reasonably, by an autosaving facility covering} multiple drafts).
-bf Save 2:2: The user shall be able, for any composition}, if he crashes the computer while editing it, to recover his work reasonably, by an autosaving facility covering} the single, latest draft.
-b7 Select------------------------------
-b7 Select 3:2: The user shall be able, in a composition, regarding} multiple chords, regardless of contiguity, to select them.
-b7 Select 3:2: The user shall be able, in a composition, regarding} any single chord, to select it.
-af Sketch------------------------------
-af Sketch 3:1: A program (the 'sketch program'), a composer's sketch tool, to compose music by entering melody note names, bass note names, regular tonic chord names, rests, and rhythm indicators.
-a7 Suggest------------------------------
-a7 Suggest 3:4: N being from 0 up to all chord notes in common, plus K more notes.
-a7 Suggest 3:3: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} equally transposed.
-a7 Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} the same number of notes, based on sameness of the necklace.
-a7 Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} the same.
-a7 Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on} sameness of the} melody note.
-a7 Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on} sameness of the} bass note.
-a7 Suggest 3:1: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions}.
-a7 Suggest 2:3: The sketch program shall suggest chords from the space of all mathematically possible ones.
-a5 UI------------------------------
-a5 UI 3:4: support web and widget toolkits.
-a3 Undo------------------------------
-a3 Undo 3:4: Complete undo/redo facility, back through save and save-as (which have no effect), back to composition (re)load time.
-9f User identity------------------------------
-9f User identity 1:3: The user shall be protected from other people altering without her permission her personal data stored by the package.
-99 WIMP------------------------------
-99 WIMP 3:4: Full WIMP setup.
-97 Window------------------------------
-97 Window 3:4: Switchable between open compositions.
+f7 Build------------------------------
+f7 Build 3:3: The user shall be able, at least by special, personal arrangement, to acquire additional octavities, having all the same functionality of previously-existing ones. This capability is subject to possible hardware limitations coming from MIDI capabilities, e.g. the use of 16 channels to independently bend pitch.
+ef Chord group name------------------------------
+ef Chord group name 3:4: The user shall be able}, regarding selected chord(s), to add them to any named group of chords.
+ef Chord group name 3:4: The user shall be able}, for any group of chords}, to name them.
+ef Chord group name 3:3: The user shall be able}, within a single composition, regarding selected chord(s), regardless of their possible, individual presence in other groups of chords}, to give them a name as a group.
+ef Chord group name 3:3: The user shall be able}, within a single composition, regarding selected chord(s), regardless of their possible, individual presence in other groups of chords}, to add them to any named group of chords.
+ef Chord group name 3:1: The user shall be able}, for any group of chords}, to choose a chord from them in some useful way.
+e7 Chord name------------------------------
+e7 Chord name 3:3: User's custom names for chords and necklaces shall be} maintained, both in the composition and in configuration file(s), arranged by user identity.
+e7 Chord name 3:3: User's custom names for chords and necklaces shall be} as usable as other names.
+e7 Chord name 3:3: The user shall be able, for any selected chord}, to name it.
+e7 Chord name 3:3: The user shall be able, for any selected chord} already named by the user, to rename it.
+df Context Menu------------------------------
+d7 Copy------------------------------
+d7 Copy 3:3: The user shall be able to specially paste from a contiguous selection, resulting in everything remaining the same but the chords, which shall become} replaced.
+d7 Copy 3:3: The user shall be able to specially paste from a contiguous selection, resulting in everything remaining the same but the chords, which shall become} practically-empty placeholders, possibly just single notes of 'G' ('0'). This is a kind of insertion.
+d7 Copy 2:1: The user shall be able to copy his compositions for backup purposes and to share them with other people.
+cf Cut and paste------------------------------
+cf Cut and paste 3:2: Any form of cut-and-paste, possible from another section of the composition, shall similarly be possible from another composition.
+cf Cut and paste 2:4: The user shall be able}, for any contiguous section, to select it}.
+cf Cut and paste 2:1: The user shall be able}, from the internal clipboard, to insert} before any chord.
+cf Cut and paste 2:1: The user shall be able}, from the internal clipboard, to insert} at the end.
+cf Cut and paste 2:1: The user shall be able}, for any contiguous section, to select it} onto an internal clipboard (accessible only to this package).
+cf Cut and paste 2:1: Any selection} shall be cuttable.
+cf Cut and paste 2:1: Any selection} shall be copyable.
+c7 Edit------------------------------
+c7 Edit 3:4: The user shall be able}, for any} contiguous section}, to time-reverse} everything.
+c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} the volume (and not the rhythm or chords or anything else).
+c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} the tempo (and not the rhythm or chords or anything else).
+c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} the rhythm (and not the chords or anything else).
+c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} the chords (and not the rhythm or anything else).
+c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} everything (including the chords, rhythm, tempo, and volume).
+c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to pitch-invert it.
+c7 Edit 3:3: The user shall be able}, at any chord}, effective onward, to change the} key (for relative chord printing).
+c7 Edit 3:3: A program} to translate} a stream of rhythm indicators and regular note-plus chord names} into standard musical notation (e.g., quarter notes) using (possibly) GNU music writer(?) notation.
+c7 Edit 3:2: The user shall be able}, for any} contiguous section}, to transpose it.
+c7 Edit 3:2: The user shall be able}, for any} contiguous section}, to change the volume.
+c7 Edit 3:2: The user shall be able}, for any} contiguous section}, to change the tempo.
+c7 Edit 3:2: The user shall be able}, at any chord}, effective onward, to change the} volume.
+c7 Edit 3:2: The user shall be able}, at any chord}, effective onward, to change the} tempo.
+c7 Edit 3:1: The user shall be able}, for any} contiguous section}, to delete it.
+c7 Edit 3:1: The user shall be able}, for any} composition, to edit it.
+c7 Edit 3:1: The user shall be able}, at any chord}, to alter the composition by inserting a chord before it.
+c7 Edit 3:1: The user shall be able} to edit compositions in the manner of Word.
+c7 Edit 2:1: The user shall be able} to create a new, empty composition.
+bf Filter------------------------------
+bf Filter 3:4: Test in Rspec to expect an exception if on Object, write, print or p methods are called.
+bf Filter 3:4: Replace with Object.my_write(). Similarly for Object.print() and Object.p().
+bf Filter 3:4: Alias and raise exceptions on Object.write()
+b7 I18n------------------------------
+b7 I18n 3:4: Plan for i18n.
+af Icon------------------------------
+a7 Insert------------------------------
+a7 Insert 3:4: Hear two chords; insert before the second chord.
+a7 Insert 3:3: Insert regarding and between both a chord and the next chord.
+a7 Insert 3:3: Insert regarding and before the first chord.
+a7 Insert 3:3: Insert regarding and after a chord.
+a7 Insert 3:3: Insert at the beginning of the composition.
+9f Lead sheet------------------------------
+9f Lead sheet 2:1: A program to translate MIDI into a stream of rhythm indicators and regular note-plus chord names, i.e., a lead sheet.
+97 List------------------------------
+97 List 3:3: The user shall be able to list alphabetically}, for a composition, the names of all used} necklaces.
+97 List 3:3: The user shall be able to list alphabetically}, for a composition, the names of all used} chords.
+97 List 3:3: The user shall be able to list alphabetically}, across compositions, his custom names of} necklaces.
+97 List 3:3: The user shall be able to list alphabetically}, across compositions, his custom names of} chords.
+8f Menu------------------------------
+8f Menu 3:4: Menu part of WIMP, for File and Window-open compositions list.
+87 Necklace name------------------------------
+87 Necklace name 3:3: The user shall be able}, for any necklace, to name it.
+87 Necklace name 3:3: The user shall be able} to name any group of necklaces.
+7f Octavity------------------------------
+7f Octavity 3:3: The user shall be able}, in each octavity, to name} necklaces.
+7f Octavity 3:3: The user shall be able}, in each octavity, to name} chords.
+7f Octavity 3:3: The user shall be able}, at any wall-clock time, to change the octavity of all future new chords suggested and added.
+7f Octavity 3:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable} of all the same functionality.
+7f Octavity 2:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, in proper pitches, of playing audibly}.
+7f Octavity 2:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, in proper pitches, of playing audibly} through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} IBM-PC.
+7f Octavity 2:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, in proper pitches, of playing audibly} through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} Apple Mac(Intosh).
+7f Octavity 2:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, based on unity, of making suggestions of} necklaces.
+7f Octavity 2:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, based on unity, of making suggestions of} chords.
+77 Play------------------------------
+77 Play 3:1: The sketch program shall play compositions through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} IBM-PC.
+77 Play 3:1: The sketch program shall play compositions through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} Apple Mac(Intosh).
+77 Play 2:1: A program to translate a stream of rhythm indicators and regular note-plus chord names and melody note names, etc. into MIDI so it can be played.
+67 Print------------------------------
+67 Print 3:3: The user shall be able to print the compositions containing, at the user's choice, intelligible absolute or relative chord names. However, the user shall not be able to see intelligible composition text files: for instance, for direct editing of chord names.
+5f Replace------------------------------
+5f Replace 3:4: Hear three chords; replace the middle chord, optionally hearing the middle chord. Suggestions based on shared notes both with the first and the third chords.
+5f Replace 3:3: Replace the only chord, suggestions based on it.
+5f Replace 3:3: Replace the first chord, suggestions based on it and the second chord.
+5f Replace 3:3: Replace a chord, suggestions based on it, the chord before, and the chord after.
+57 Save------------------------------
+57 Save 3:4: File open (browse), reload, close, close all, save, save as, save all, new.
+57 Save 3:1: The user shall be able, for any composition}, to save it.
+57 Save 2:3: The user shall be able, for any composition}, if he crashes the computer while editing it, to recover his work reasonably, by an autosaving facility covering} multiple drafts).
+57 Save 2:2: The user shall be able, for any composition}, if he crashes the computer while editing it, to recover his work reasonably, by an autosaving facility covering} the single, latest draft.
+4f Select------------------------------
+4f Select 3:2: The user shall be able, in a composition, regarding} multiple chords, regardless of contiguity, to select them.
+4f Select 3:2: The user shall be able, in a composition, regarding} any single chord, to select it.
+47 Sketch------------------------------
+47 Sketch 3:1: A program (the 'sketch program'), a composer's sketch tool, to compose music by entering melody note names, bass note names, regular tonic chord names, rests, and rhythm indicators.
+3f Suggest------------------------------
+3f Suggest 3:4: N being from 0 up to all chord notes in common, plus K more notes.
+3f Suggest 3:3: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} equally transposed.
+3f Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} the same number of notes, based on sameness of the necklace.
+3f Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} the same.
+3f Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on} sameness of the} melody note.
+3f Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on} sameness of the} bass note.
+3f Suggest 3:1: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions}.
+3f Suggest 2:3: The sketch program shall suggest chords from the space of all mathematically possible ones.
+37 Tooltip------------------------------
+2f UI------------------------------
+2f UI 3:4: support web and widget toolkits.
+27 Undo------------------------------
+27 Undo 3:4: Complete undo/redo facility, back through save and save-as (which have no effect), back to composition (re)load time.
+1f User identity------------------------------
+1f User identity 1:3: The user shall be protected from other people altering without her permission her personal data stored by the package.
+17 WIMP------------------------------
+17 WIMP 3:4: The sketch program shall have a full Windows, Icons, Menu, Pointer (WIMP) system.
+0f Window------------------------------
+0f Window 3:4: The sketch program shall be switchable between open compositions.
