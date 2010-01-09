@@ -13,18 +13,23 @@ e7 Chord name 3:3: User's custom names for chords and necklaces shall be} as usa
 e7 Chord name 3:3: The user shall be able, for any selected chord}, to name it.
 e7 Chord name 3:3: The user shall be able, for any selected chord} already named by the user, to rename it.
 e3 Composition------------------------------
-e3 Composition 3:4: The navigation menu shall include Menu-Composition-Reload.
+e3 Composition 3:4: The navigation menu shall include Menu-Composition.
+e3 Composition 3:4: The navigation menu shall include Menu-Composition-Revert.
+e3 Composition 3:4: The navigation menu shall include Menu-Composition-Revert As.
 df Context Menu------------------------------
-df Context Menu 3:4: Paste.
-df Context Menu 3:4: Format.
-df Context Menu 3:4: Delete.
-df Context Menu 3:4: Cut.
-df Context Menu 3:4: Copy.
+df Context Menu 3:4: There shall be a Context menu for single chords.
+df Context Menu 3:4: There shall be a Context menu for a selection of chords which is contiguous.
+df Context Menu 3:4: There shall be a Context menu for a selection of chords which are not contiguous.
+df Context Menu 3:4: The composition icon, which is on the navigation toolbar, shall have a context menu.
+df Context Menu 3:5: For background, see http://en.wikipedia.org/wiki/Context_menu.
 d7 Copy------------------------------
 d7 Copy 3:3: The user shall be able to specially paste from a contiguous selection, resulting in everything remaining the same but the chords, which shall become} replaced.
 d7 Copy 3:3: The user shall be able to specially paste from a contiguous selection, resulting in everything remaining the same but the chords, which shall become} practically-empty placeholders, possibly just single notes of 'G' ('0'). This is a kind of insertion.
 d7 Copy 2:1: The user shall be able to copy his compositions for backup purposes and to share them with other people.
 cf Cut and paste------------------------------
+cf Cut and paste 3:4: Context menu-Paste.
+cf Cut and paste 3:4: Context menu-Cut.
+cf Cut and paste 3:4: Context menu-Copy.
 cf Cut and paste 3:2: Any form of cut-and-paste, possible from another section of the composition, shall similarly be possible from another composition.
 cf Cut and paste 2:4: The user shall be able}, for any contiguous section, to select it}.
 cf Cut and paste 2:1: The user shall be able}, from the internal clipboard, to insert} before any chord.
@@ -45,10 +50,11 @@ c7 Edit 3:4: The navigation menu shall include Menu-Edit-Paste Special.
 c7 Edit 3:4: The navigation menu shall include Menu-Edit-Delete.
 c7 Edit 3:4: The navigation menu shall include Menu-Edit-Cut.
 c7 Edit 3:4: The navigation menu shall include Menu-Edit-Copy.
+c7 Edit 3:4: Context menu-Delete.
 c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} not the rhythm, nor the chords nor anything else, but the volume.
 c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} not the rhythm, nor the chords nor anything else, but the tempo.
-c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} not the chords, nor anything else, but the rhythm.
 c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} not the rhythm, nor anything else, but the chords.
+c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} not the chords, nor anything else, but the rhythm.
 c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} everything (including the chords, rhythm, tempo, and volume).
 c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to pitch-invert it.
 c7 Edit 3:3: The user shall be able}, at any chord}, effective onward, to change the} key (for relative chord printing).
@@ -86,6 +92,7 @@ bf Filter 3:4: Replace with Object.my_write(). Similarly for Object.print() and 
 bf Filter 3:4: Alias and raise exceptions on Object.write()
 bd Format------------------------------
 bd Format 3:4: The navigation menu shall include Menu-Format-Group.
+bd Format 3:4: Context menu-Format.
 bb Help------------------------------
 bb Help 3:4: The navigation menu shall include Menu-Help-What's This?
 bb Help 3:4: The navigation menu shall include Menu-Help-Support.
@@ -101,6 +108,8 @@ b7 I18n------------------------------
 b7 I18n 3:4: Plan for i18n.
 af Icon------------------------------
 af Icon 3:4: The sketch program shall have a recognizable icon.
+af Icon 3:4: The navigation toolbar shall include a composition icon.
+af Icon 3:4: The navigation menu shall include Menu-Window-Arrange-Arrange Icons.
 a7 Insert------------------------------
 a7 Insert 3:4: The navigation menu shall include Menu-Insert.
 a7 Insert 3:4: Hear two chords; insert before the second chord.
@@ -115,9 +124,12 @@ a7 Insert 3:3: Insert at the beginning of the composition.
 97 List 3:3: The user shall be able to list alphabetically}, for a composition, the names of all used} chords.
 97 List 3:3: The user shall be able to list alphabetically}, across compositions, his custom names of} necklaces.
 97 List 3:3: The user shall be able to list alphabetically}, across compositions, his custom names of} chords.
-8f Menu------------------------------
-8f Menu 3:4: Menu part of WIMP, for File and Window-open compositions list.
-8f Menu 3:4: File, Window, Help
+93 Marker------------------------------
+93 Marker 3:4: The navigation menu shall include Menu-Search-Toggle Marker.
+93 Marker 3:4: The navigation menu shall include Menu-Search-Previous Marker.
+93 Marker 3:4: The navigation menu shall include Menu-Search-Next Marker.
+93 Marker 3:4: The navigation menu shall include Menu-Search-Clear All Markers.
+91 Measure------------------------------
 87 Necklace name------------------------------
 87 Necklace name 3:3: The user shall be able}, for any necklace, to name it.
 87 Necklace name 3:3: The user shall be able} to name any group of necklaces.
@@ -135,6 +147,8 @@ a7 Insert 3:3: Insert at the beginning of the composition.
 77 Play 3:1: The sketch program shall play compositions through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} IBM-PC.
 77 Play 3:1: The sketch program shall play compositions through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} Apple Mac(Intosh).
 77 Play 2:1: A program to translate a stream of rhythm indicators and regular note-plus chord names and melody note names, etc. into MIDI so it can be played.
+6f Preference------------------------------
+6f Preference 3:4: The navigation menu shall include Menu-Tools-Preferences.
 67 Print------------------------------
 67 Print 3:3: The user shall be able to print the compositions containing, at the user's choice, intelligible absolute or relative chord names. However, the user shall not be able to see intelligible composition text files: for instance, for direct editing of chord names.
 5f Replace------------------------------
@@ -150,59 +164,160 @@ a7 Insert 3:3: Insert at the beginning of the composition.
 4f Select 3:2: The user shall be able, in a composition, regarding} multiple chords, regardless of contiguity, to select them.
 4f Select 3:2: The user shall be able, in a composition, regarding} any single chord, to select it.
 4f Search------------------------------
+4f Search 3:4: The navigation menu shall include Menu-Search.
 4f Search 3:4: The navigation menu shall include Menu-Search-Replace.
+4f Search 3:4: The navigation menu shall include Menu-Search-Go to Measure Number.
+4f Search 3:4: The navigation menu shall include Menu-Search-Go to Chord Number.
 4f Search 3:4: The navigation menu shall include Menu-Search-Find.
 4f Search 3:4: The navigation menu shall include Menu-Search-Find Previous.
 4f Search 3:4: The navigation menu shall include Menu-Search-Find Next.
-47 Sketch------------------------------
-47 Sketch 3:1: A program (the 'sketch program'), a composer's sketch tool, to compose music by entering melody note names, bass note names, regular tonic chord names, rests, and rhythm indicators.
-3f Suggest------------------------------
-3f Suggest 3:4: N being from 0 up to all chord notes in common, plus K more notes.
-3f Suggest 3:3: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} equally transposed.
-3f Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} the same number of notes, based on sameness of the necklace.
-3f Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} the same.
-3f Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on} sameness of the} melody note.
-3f Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on} sameness of the} bass note.
-3f Suggest 3:1: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions}.
-3f Suggest 2:3: The sketch program shall suggest chords from the space of all mathematically possible ones.
-3b Tools------------------------------
-3b Tools 3:4: The navigation menu shall include Menu-Tools-Options.
+4f Search 3:4: The navigation menu shall include Menu-Search-Find in Compositions.
+43 Split------------------------------
+43 Split 3:4: The navigation menu shall include Menu-Window-Splitter-Split.
+43 Split 3:4: The navigation menu shall include Menu-Window-Splitter-Previous Pane.
+43 Split 3:4: The navigation menu shall include Menu-Window-Splitter-Next Pane.
+41 Status bar------------------------------
+41 Status bar 3:4: The navigation menu shall include Menu-View-Status Bar.
+40 Suggest------------------------------
+40 Suggest 3:4: N being from 0 up to all chord notes in common, plus K more notes.
+40 Suggest 3:3: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} equally transposed.
+40 Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} the same number of notes, based on sameness of the necklace.
+40 Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} the same.
+40 Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on} sameness of the} melody note.
+40 Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on} sameness of the} bass note.
+40 Suggest 3:1: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions}.
+40 Suggest 2:3: The sketch program shall suggest chords from the space of all those mathematically possible.
+3f Task------------------------------
+3f Task 3:4: The sketch program, in order to remember tasks, shall support simple text editing.
+3e Task bar------------------------------
+3e Task bar 3:4: The task bar button}, when} hovered over, shall show a tooltip.
+3e Task bar 3:4: The task bar button}, when} clicked, shall cause the program, if it is} restored, to be minimized.
+3e Task bar 3:4: The task bar button}, when} clicked, shall cause the program, if it is} minimized, to be restored.
+3e Task bar 3:4: The task bar button}'s tooltip shall show the unparented window's title bar text.
+3e Task bar 3:4: The task bar button shall have the unparented window's context menu.
+3e Task bar 3:4: The task bar button} shall include}, for the sketch program, its icon.
+3e Task bar 3:4: The task bar button} shall include} the beginning of the unparented window's title bar text.
+3e Task bar 3:4: The sketch program shall, at all times when it is running, on the task bar, maintain a button.
+3e Task bar 3:5: For background, see http://en.wikipedia.org/wiki/Taskbar.
+3d Text note------------------------------
+3d Text note 3:4: The navigation menu shall include Menu-View-Text Notes.
+3a Tool------------------------------
+3a Tool 3:4: The navigation menu shall include Menu-Tools.
 37 Tooltip------------------------------
 2f Undo------------------------------
-2f Undo 3:4: Complete undo/redo facility, back through save and save-as (which have no effect), back to composition (re)load time.
+2f Undo 3:4: Complete undo/redo facility, through save and save-as (which have no effect), back to composition (re)load time.
 27 User identity------------------------------
 27 User identity 1:3: The user shall be protected from other people altering without her permission her personal data stored by the package.
 1f User interface------------------------------
-1f User interface 3:4: support web and widget toolkits.
+1f User interface 3:4: The sketch program shall have a full Windows, Icons, Menu, Pointer (WIMP) system.
+1f User interface 3:2: The sketch program shall use toolkit widgets.
+1f User interface 3:2: The sketch program shall use keyboard shortcuts.
+1f User interface 3:1: The sketch program shall support a world-wide web interface.
 1b View------------------------------
+1b View 3:4: The navigation menu shall include Menu-View.
 1b View 3:4: The navigation menu shall include Menu-View-Zoom.
-1b View 3:4: The navigation menu shall include Menu-View-Toolbars.
 1b View 3:4: The navigation menu shall include Menu-View-Task Pane.
-1b View 3:4: The navigation menu shall include Menu-View-Status Bar.
-1b View 3:4: The navigation menu shall include Menu-View-Relative Chords.
-1b View 3:4: The navigation menu shall include Menu-View-Numeric Chords.
-1b View 3:4: The navigation menu shall include Menu-View-Notes.
+1b View 3:4: The navigation menu shall include Menu-View-Relative Chord.
+1b View 3:4: The navigation menu shall include Menu-View-Numeric Chord.
 1b View 3:4: The navigation menu shall include Menu-View-Normal.
+1b View 3:4: The navigation menu shall include Menu-View-Measure Number.
 1b View 3:4: The navigation menu shall include Menu-View-Full Screen.
-1b View 3:4: The navigation menu shall include Menu-View-Absolute Chords.
-17 WIMP------------------------------
-17 WIMP 3:4: The sketch program shall have a full Windows, Icons, Menu, Pointer (WIMP) system.
+1b View 3:4: The navigation menu shall include Menu-View-Cursor Indicator.
+1b View 3:4: The navigation menu shall include Menu-View-Chord Number.
+1b View 3:4: The navigation menu shall include Menu-View-Absolute Chord.
+
+ff Program------------------------------
+ff Program 3:1: There shall be a program (the 'sketch program'), a composer's sketch tool, to compose music by entering melody note names, bass note names, regular tonic chord names, rests, and rhythm indicators.
+ff Program 3:5: The sketch program shall display the unparented window.
 0f Window------------------------------
-0f Window 3:4: The sketch program shall be switchable between open compositions.
-0f Window 3:4: The navigation menu shall include Menu-Window-Window List.
-0f Window 3:4: The navigation menu shall include Menu-Window-Splitter-Split.
-0f Window 3:4: The navigation menu shall include Menu-Window-Splitter-Previous Pane.
-0f Window 3:4: The navigation menu shall include Menu-Window-Splitter-Next Pane.
-0f Window 3:4: The navigation menu shall include Menu-Window-Previous.
-0f Window 3:4: The navigation menu shall include Menu-Window-Next.
-0f Window 3:4: The navigation menu shall include Menu-Window-New Window.
-0f Window 3:4: The navigation menu shall include Menu-Window-Last Visited.
-0f Window 3:4: The navigation menu shall include Menu-Window-Find Window.
-0f Window 3:4: The navigation menu shall include Menu-Window-Close Window.
-0f Window 3:4: The navigation menu shall include Menu-Window-Close All.
-0f Window 3:4: The navigation menu shall include Menu-Window-Arrange-Tile Vertically.
-0f Window 3:4: The navigation menu shall include Menu-Window-Arrange-Tile Horizontally.
-0f Window 3:4: The navigation menu shall include Menu-Window-Arrange-Restore All.
-0f Window 3:4: The navigation menu shall include Menu-Window-Arrange-Minimize All.
-0f Window 3:4: The navigation menu shall include Menu-Window-Arrange-Cascade.
-0f Window 3:4: The navigation menu shall include Menu-Window-Arrange-Arrange Icons.
+0f Window 3:5: For background, see http://en.wikipedia.org/wiki/Window_(computing).
+0f Window 3:5: For background, see http://en.wikipedia.org/wiki/Graphical_user_interface.
+0f Window 3:4: A window} is a document window or the unparented window.
+0f Window 3:4: A window} shall contain, sometimes hidden}, a title bar.
+0f Window 3:4: A window} shall contain, sometimes hidden}, a composition icon.
+0f Window 3:4: A window} shall contain, sometimes hidden}, window controls.
+0f Window 3:4: The navigation menu shall include Menu.
+0f Window 3:4: In the menu, the Menu-Window submenu shall include Window List.
+0f Window 3:4: In the menu, the Menu-Window submenu shall include Previous.
+0f Window 3:4: In the menu, the Menu-Window submenu shall include Next.
+0f Window 3:4: In the menu, the Menu-Window submenu shall include New Window.
+0f Window 3:4: In the menu, the Menu-Window submenu shall include Last Visited.
+0f Window 3:4: In the menu, the Menu-Window submenu shall include Find Window.
+0f Window 3:4: In the menu, the Menu-Window submenu shall include Close Window.
+0f Window 3:4: In the menu, the Menu-Window submenu shall include Close All.
+0f Window 3:4: In the menu, the Menu-Window submenu shall include Arrange.
+0f Window 3:4: In the menu, the Menu-Window submenu shall include Arrange-Tile Vertically.
+0f Window 3:4: In the menu, the Menu-Window submenu shall include Arrange-Tile Horizontally.
+0f Window 3:4: In the menu, the Menu-Window submenu shall include Arrange-Restore All.
+0f Window 3:4: In the menu, the Menu-Window submenu shall include Arrange-Minimize All.
+0f Window 3:4: In the menu, the Menu-Window submenu shall include Arrange-Cascade.
+0f Window 3:4: In the menu, the Menu-Window submenu shall include Search-Jump to Document.
+
+0f Window 3:4: On the navigation toolbar, the composition icon's context menu shall include Size.
+0f Window 3:4: On the navigation toolbar, the composition icon's context menu shall include Restore.
+0f Window 3:4: On the navigation toolbar, the composition icon's context menu shall include Previous.
+0f Window 3:4: On the navigation toolbar, the composition icon's context menu shall include Next.
+0f Window 3:4: On the navigation toolbar, the composition icon's context menu shall include Move.
+0f Window 3:4: On the navigation toolbar, the composition icon's context menu shall include Minimize.
+0f Window 3:4: On the navigation toolbar, the composition icon's context menu shall include Maximize.
+0f Window 3:4: On the navigation toolbar, the composition icon's context menu shall include Close.
+ff Window controls------------------------------
+ff Window controls 3:4: Window controls shall include} tooltips.
+ff Window controls 3:4: Window controls shall include} Restore.
+ff Window controls 3:4: Window controls shall include} Minimize.
+ff Window controls 3:4: Window controls shall include} Maximize.
+ff Window controls 3:4: Window controls shall include} Close.
+cb Document window------------------------------
+cb Document window 3:4: A document window contains an open composition or an open text file of tasks.
+cb Document window 3:4: A document window title bar text shall include}, for the} file of the current composition, its} path.
+cb Document window 3:4: A document window title bar text shall include}, for the} file of the current composition, its} name.
+cb Document window 3:4: A document window title bar text shall include}, for the} current composition, if changes are unsaved, an asterisk.
+2b Unparented window------------------------------
+ff Unparented window 3:4: The unparented window title bar text shall include, if a document window is maximized, the document window title bar text.
+ff Unparented window title bar text 3:4: The unparented window title bar text shall include, for the} sketch program, its name.
+2b Unparented window 3:4: The unparented window shall contain multiple document windows.
+2b Unparented window 3:4: The unparented window shall contain a toolbar.
+2b Unparented window 3:4: The unparented window shall contain a status bar.
+2b Unparented window 3:4: The unparented window shall contain a menu bar.
+2b Unparented window 3:4: The unparented window shall contain a composition selector.
+ff Title bar text------------------------------
+ff Title bar text 3:4: 
+3c Title bar------------------------------
+3c Title bar 3:5: For background, see http://en.wikipedia.org/wiki/Title_bar.
+3c Title bar 3:4: A title bar}'s context menu shall include} Size.
+3c Title bar 3:4: A title bar}'s context menu shall include} Restore.
+3c Title bar 3:4: A title bar}'s context menu shall include} Move.
+3c Title bar 3:4: A title bar}'s context menu shall include} Minimize.
+3c Title bar 3:4: A title bar}'s context menu shall include} Maximize.
+3c Title bar 3:4: A title bar}'s context menu shall include} Close.
+3c Title bar 3:4: A title bar} shall include}, for the unparented window, window manipulation icons.
+3c Title bar 3:4: A title bar} shall include}, for the unparented window, view-selection icons.
+3c Title bar 3:4: A title bar} shall include}, for the sketch program, its icon.
+3c Title bar 3:4: A title bar} shall include} a title bar text.
+3c Title bar 3:4: A title bar} shall have a context menu.
+39 Toolbar------------------------------
+39 Toolbar 3:4: The toolbar shall navigation menu shall include Menu-View-Toolbars.
+39 Toolbar 3:4: The toolbar shall contain a navigation menu.
+39 Toolbar 3:4: The navigation menu shall include Menu-View-Toolbars.
+8b Menu bar------------------------------
+8b Menu bar 3:5: For background, see http://en.wikipedia.org/wiki/Menu_bar.
+8b Menu bar 3:4: The menu bar shall contain a pull-down menu.
+8b Menu bar 3:4: The menu bar shall contain, when a document window is maximized, its document icon.
+8b Menu bar 3:4: The menu bar shall contain, when a document window is maximized, its view-selection icons.
+8b Menu bar 3:4: On the navigation toolbar, the composition icon's context menu shall include Size.
+8b Menu bar 3:4: On the navigation toolbar, the composition icon's context menu shall include Restore.
+8b Menu bar 3:4: On the navigation toolbar, the composition icon's context menu shall include Previous.
+8b Menu bar 3:4: On the navigation toolbar, the composition icon's context menu shall include Next.
+8b Menu bar 3:4: On the navigation toolbar, the composition icon's context menu shall include Move.
+8b Menu bar 3:4: On the navigation toolbar, the composition icon's context menu shall include Minimize.
+8b Menu bar 3:4: On the navigation toolbar, the composition icon's context menu shall include Maximize.
+8b Menu bar 3:4: On the navigation toolbar, the composition icon's context menu shall include Close.
+8f Menu------------------------------
+8f Menu 3:5: For background, see http://en.wikipedia.org/wiki/Menu_(computing).
+8f Menu 3:4: The pull-down menu shall}, regarding options}, contain selection indicators.
+8f Menu 3:4: The pull-down menu shall}, regarding options}, allow selection.
+8f Menu 3:4: The pull-down menu shall} show Alt key shortcuts.
+8f Menu 3:4: The pull-down menu shall} contain option selection indicators.
+8f Menu 3:4: The pull-down menu shall} be navigable by} the mouse pointing device.
+8f Menu 3:4: The pull-down menu shall} be navigable by} keys.
+8f Menu 3:4: The menu bar shall include a navigation shall contain option selection indicators.
