@@ -1,11 +1,4 @@
 ff USER STORIES (WITH RISK: PRIORITY)
-ff e3 Composition------------------------------
-ff c7 Edit 3:3: A program to translate a stream of rhythm indicators and regular note-plus chord names into standard musical notation (e.g., quarter notes) using (possibly) GNU music writer(?) notation.
-ff 91 Measure------------------------------
-ff 77 Play 2:1: A program to translate a stream of rhythm indicators and regular note-plus chord names and melody note names, etc. into MIDI so it can be played.
-ff 6f Preference------------------------------
-ff 41 Status bar------------------------------
-ff 39 Toolbar------------------------------
 fb Arrange------------------------------
 fb Arrange 3:4: The Arrange submenu shall include an entry}, Tile Vertically.
 fb Arrange 3:4: The Arrange submenu shall include an entry}, Tile Horizontally.
@@ -15,6 +8,9 @@ fb Arrange 3:4: The Arrange submenu shall include an entry}, Cascade.
 fb Arrange 3:4: The Arrange submenu shall include an entry}, Arrange Icons.
 f7 Build------------------------------
 f7 Build 3:3: The user shall be able, at least by special, personal arrangement, to acquire additional octavities, having all the same functionality of previously-existing ones. This capability is subject to possible hardware limitations coming from MIDI capabilities, e.g. the use of 16 channels independently to bend pitch.
+f3 Button------------------------------
+f3 Button 3:4 A button shall show a tooltip.
+f3 Button 3:4 A button shall produce an action of the pull-down menu.
 ef Chord group name------------------------------
 ef Chord group name 3:4: The user shall be able}, regarding selected chord(s), to add them to any named group of chords.
 ef Chord group name 3:4: The user shall be able}, for any group of chords}, to name them.
@@ -26,6 +22,8 @@ e7 Chord name 3:3: User's custom names for chords and necklaces shall be} mainta
 e7 Chord name 3:3: User's custom names for chords and necklaces shall be} as usable as other names.
 e7 Chord name 3:3: The user shall be able, for any selected chord}, to name it.
 e7 Chord name 3:3: The user shall be able, for any selected chord} already named by the user, to rename it.
+e3 Composition------------------------------
+e3 Composition 3:4: A composition is a kind of document.
 df Context menu------------------------------
 df Context menu 3:5: For background, see http://en.wikipedia.org/wiki/Context_menu.
 df Context menu 3:4: There shall be a context menu for single chords.
@@ -53,7 +51,7 @@ c9 Document window------------------------------
 c9 Document window 3:4: A document window}'s icon's context menu shall include an entry}, Previous.
 c9 Document window 3:4: A document window}'s icon's context menu shall include an entry}, Next.
 c9 Document window 3:4: A document window}'s icon means the document.
-c9 Document window 3:4: A document window} shall contain either a composition or a tasks file.
+c9 Document window 3:4: A document window} shall contain either a composition or a text file of tasks.
 c7 Edit------------------------------
 c7 Edit 3:4: The user shall be able}, for any} contiguous section}, to time-reverse} everything.
 c7 Edit 3:4: Context menu-Delete.
@@ -163,10 +161,12 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 93 Marker 3:4: The Markers submenu shall include an entry}, Next Marker.
 93 Marker 3:4: The Markers submenu shall include an entry}, Invert Markers.
 93 Marker 3:4: The Markers submenu shall include an entry}, Clear All Markers.
+91 Measure------------------------------
+91 Measure 3:4: A measure shall contain a uniform length of time unless the tempo is changed.
 8f Menu------------------------------
 8f Menu 3:5: For background, see http://en.wikipedia.org/wiki/Menu_(computing).
-8f Menu 3:4: The pull-down menu shall}, regarding options}, contain selection indicators.
-8f Menu 3:4: The pull-down menu shall}, regarding options}, allow selection.
+8f Menu 3:4: The pull-down menu shall}, regarding selecting options}, contain indicators.
+8f Menu 3:4: The pull-down menu shall}, regarding selecting options}, allow it.
 8f Menu 3:4: The pull-down menu shall} show Alt key shortcuts.
 8f Menu 3:4: The pull-down menu shall} include a submenu}, Window.
 8f Menu 3:4: The pull-down menu shall} include a submenu}, View.
@@ -178,7 +178,6 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 8f Menu 3:4: The pull-down menu shall} include a submenu}, File.
 8f Menu 3:4: The pull-down menu shall} include a submenu}, Edit.
 8f Menu 3:4: The pull-down menu shall} include a submenu}, Document.
-8f Menu 3:4: The pull-down menu shall} contain option-selection indicators.
 8f Menu 3:4: The pull-down menu shall} be navigable by} the mouse pointing device.
 8f Menu 3:4: The pull-down menu shall} be navigable by} keys.
 8b Menu bar------------------------------
@@ -200,13 +199,16 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 7f Octavity 2:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, based on unity, of making suggestions of} necklaces.
 7f Octavity 2:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, based on unity, of making suggestions of} chords.
 77 Play------------------------------
-77 Play 3:1: The sketch program shall play compositions through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} IBM-PC.
-77 Play 3:1: The sketch program shall play compositions through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} Apple Mac(Intosh).
+77 Play 3:1: The sketch program shall be able to play compositions through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} IBM-PC.
+77 Play 3:1: The sketch program shall be able to play compositions through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} Apple Mac(Intosh).
+6f Preference------------------------------
+6f Preference 3:4: The user shall be able to set preferences.
 67 Print------------------------------
 67 Print 3:3: The user shall be able to print the compositions containing, at the user's choice, intelligible absolute or relative chord names. However, the user shall not be able to see intelligible composition text files: for instance, for direct editing of chord names.
 63 Program------------------------------
-63 Program 3:5: The sketch program shall display an unparented window.
-63 Program 3:1: There shall be a program (the 'sketch program'), a composer's sketch tool, to compose music by entering melody note names, bass note names, regular tonic chord names, rests, and rhythm indicators.
+63 Program 3:3: There shall be a program to translate a stream of rhythm indicators and regular note-plus chord names} into standard musical notation (e.g., quarter notes) using (possibly) GNU music writer(?) notation (the 'art program').
+63 Program 3:1: There shall be a program to compose music (a composer's sketch tool; the 'sketch program') by entering melody note names, bass note names, regular tonic chord names, rests, and rhythm indicators.
+63 Program 2:1: There shall be a program to translate a stream of rhythm indicators and regular note-plus chord names} and melody note names, etc., into MIDI so it can be played (the 'MIDI program').
 5f Replace------------------------------
 5f Replace 3:4: Hear three chords; replace the middle chord, optionally hearing the middle chord. Suggestions based on shared notes both with the first and the third chords.
 5f Replace 3:3: Replace the only chord, suggestions based on it.
@@ -232,8 +234,10 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 43 Split 3:4: The Splitter submenu shall include an entry}, Split.
 43 Split 3:4: The Splitter submenu shall include an entry}, Previous Pane.
 43 Split 3:4: The Splitter submenu shall include an entry}, Next Pane.
+41 Status bar------------------------------
+41 Status bar 3:4: A status bar shall contain information about the status of the program.
 40 Suggest------------------------------
-40 Suggest 3:4: N being from 0 up to all chord notes in common, plus K more notes.
+40 Suggest 3:4: The number of notes is N, increasing from 0 notes, to 'all chord notes', in common, plus a range of numbers, call them K, of notes in addition.
 40 Suggest 3:3: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} equally transposed.
 40 Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} the same number of notes, based on sameness of the necklace.
 40 Suggest 3:2: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} the same.
@@ -243,6 +247,7 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 40 Suggest 2:3: The sketch program shall suggest chords from the space of all those mathematically possible.
 3f Task------------------------------
 3f Task 3:4: The sketch program, in order to remember tasks, shall support simple text editing.
+3f Task 3:4: A text file of tasks is a kind of document.
 3e Task bar------------------------------
 3e Task bar 3:5: For background, see http://en.wikipedia.org/wiki/Taskbar.
 3e Task bar 3:4: The task bar button}, when} hovered over, shall show a tooltip.
@@ -273,6 +278,8 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 3b Title bar text 3:4: The title bar text shall include, for} a document window, for the current document}, if changes are unsaved, an asterisk.
 3a Tool------------------------------
 3a Tool 3:4: The Tools submenu shall include an entry, Preferences.
+39 Toolbar------------------------------
+39 Toolbar 3:4 A toolbar shall contain buttons.
 37 Tooltip------------------------------
 37 Tooltip 3:4 A tooltip shall} have a pale yellow background.
 37 Tooltip 3:4 A tooltip shall} be in a rectangular box.
@@ -292,7 +299,11 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 27 User identity------------------------------
 27 User identity 1:3: The user shall be protected from other people altering, without her permission, her personal data stored by the package.
 1f User interface------------------------------
-1f User interface 3:4: The sketch program shall} have a full Windows, Icons, Menu, Pointer (WIMP) system.
+1f User interface 3:5: The sketch program shall} display an unparented window.
+1f User interface 3:5: A command-line interface shall be provided by the} sketch program.
+1f User interface 3:5: A command-line interface shall be provided by the} MIDI program.
+1f User interface 3:5: A command-line interface shall be provided by the} art program.
+1f User interface 3:4: The sketch program shall} have a full Windows, Icons, Menu, Pointer (WIMP) interface.
 1f User interface 3:2: The sketch program shall} use} toolkit widgets.
 1f User interface 3:2: The sketch program shall} use} keyboard shortcuts.
 1f User interface 3:1: The sketch program shall} support} a world-wide web interface.
