@@ -148,8 +148,6 @@ a7 Insert 3:3: Insert} regarding and} between both a chord and the next chord.
 a7 Insert 3:3: Insert} regarding and} before the first chord.
 a7 Insert 3:3: Insert} regarding and} after a chord.
 a7 Insert 3:3: Insert} at the beginning of the composition.
-9f Lead sheet------------------------------
-9f Lead sheet 2:1: A program to translate MIDI into a stream of rhythm indicators and regular note-plus chord names, i.e., a lead sheet.
 97 List------------------------------
 97 List 3:3: The user shall be able to list alphabetically}, for a composition, the names of all used} necklaces.
 97 List 3:3: The user shall be able to list alphabetically}, for a composition, the names of all used} chords.
@@ -206,14 +204,35 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 67 Print------------------------------
 67 Print 3:3: The user shall be able to print the compositions containing, at the user's choice, intelligible absolute or relative chord names. However, the user shall not be able to see intelligible composition text files: for instance, for direct editing of chord names.
 63 Program------------------------------
-63 Program 3:3: There shall be a program to translate a stream of rhythm indicators and regular note-plus chord names} into standard musical notation (e.g., quarter notes) using (possibly) GNU music writer(?) notation (the 'art program').
-63 Program 3:1: There shall be a program to compose music (a composer's sketch tool; the 'sketch program') by entering melody note names, bass note names, regular tonic chord names, rests, and rhythm indicators.
-63 Program 2:1: There shall be a program to translate a stream of rhythm indicators and regular note-plus chord names} and melody note names, etc., into MIDI so it can be played (the 'MIDI program').
+63 Program 4:1: There shall be a program} to translate} MIDI into a stream of rhythm indicators and regular note-plus chord names, i.e., a lead sheet (the 'lead sheet program').
+63 Program 3:3: There shall be a program} to translate} a stream of rhythm indicators and regular note-plus chord names} into standard musical notation (e.g., quarter notes) using (possibly) GNU music writer(?) notation (the 'art program').
+63 Program 3:1: There shall be a program} to compose music (a composer's sketch tool; the 'sketch program') by entering melody note names, bass note names, regular tonic chord names, rests, and rhythm indicators.
+63 Program 2:1: There shall be a program}, a Unix-like tool} to translate a stream of} standard jazz tonic chord names into chord numbers: ('jazm2cho').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to translate a stream of} note} numbers into note names: ('n2nm').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to translate a stream of} note} names into note numbers: ('nm2n').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to translate a stream of} necklace numbers and necklace inversion numbers into chord numbers: ('nni2cho').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to translate a stream of} Mozart tonic chord names into chord numbers: ('mozm2cho').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to translate a stream of} chord} octave-note distributions into chord numbers: ('dis2cho').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to translate a stream of} chord} numbers into} standard jazz tonic chord names: ('cho2jazm').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to translate a stream of} chord} numbers into} Mozart tonic chord names: ('cho2mozm').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to translate a stream of} chord} numbers into} chord octave-note distributions: ('cho2dis').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to translate a stream of} bass note} numbers}, melody note numbers, chord octave-note distributions, rhythm indicators, volumes, tempos, rests, and octavities into MIDI: ('all2mid').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to translate a stream of} bass note} numbers} and chord numbers into regular note-plus chord names: ('bc2ncm').  At this point, it is unknown whether input of names is simpler.
+63 Program 2:1: There shall be a program}, a Unix-like tool} to translate a stream of} bass note} names and regular tonic chord names into regular note-plus chord names: ('bmcm2ncm'). At this point, it is unknown whether input of numbers is simpler.
+63 Program 2:1: There shall be a program}, a Unix-like tool} to multiply (the tokens of) a stream: ('mult'). Does Unix have this functionality in any way? sed? Do I need it? What about MIDI files?
+63 Program 2:1: There shall be a program}, a Unix-like tool} to extract, from} MIDI, a stream of} rhythm indicators, including volumes, tempos, rests, and octavities, organized into lines between the (stripped-out) bass and melody notes and chords: ('mid2rhy').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to extract, from} MIDI, a stream of} chord octave-note distributions: ('mid2dis').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to extract, from} MIDI, a stream of} bass note numbers: ('mid2bas').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to extract, from} a stream of} regular note-plus chord names, the} regular tonic chord names: ('ncm2chom').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to extract, from} a stream of} regular note-plus chord names, the} bass note names: ('ncm2basm').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to extract, from} a stream of} chord numbers, their necklace} numbers: ('cho2nec').
+63 Program 2:1: There shall be a program}, a Unix-like tool} to extract, from} a stream of} chord numbers, their necklace} inversion numbers: ('cho2neci').
+63 Program 2:1: There shall be a program} to translate} a stream of rhythm indicators and regular note-plus chord names} and melody note names, etc., into MIDI so it can be played (the 'MIDI program').
 5f Replace------------------------------
 5f Replace 3:4: Hear three chords; replace the middle chord, optionally hearing the middle chord. Suggestions based on shared notes both with the first and the third chords.
-5f Replace 3:3: Replace the only chord, suggestions based on it.
-5f Replace 3:3: Replace the first chord, suggestions based on it and the second chord.
-5f Replace 3:3: Replace a chord, suggestions based on it, the chord before, and the chord after.
+5f Replace 3:3: Replace} the} only chord, suggestions based on it.
+5f Replace 3:3: Replace} the} first chord, suggestions based on it and the second chord.
+5f Replace 3:3: Replace} a chord, suggestions based on it, the chord before, and the chord after.
 57 Save------------------------------
 57 Save 3:1: The user shall be able, for any composition}, to save it.
 57 Save 2:3: The user shall be able, for any composition}, if he crashes the computer while editing it, to recover his work reasonably, by an autosaving facility covering} multiple drafts).
@@ -235,7 +254,7 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 43 Split 3:4: The Splitter submenu shall include an entry}, Previous Pane.
 43 Split 3:4: The Splitter submenu shall include an entry}, Next Pane.
 41 Status bar------------------------------
-41 Status bar 3:4: A status bar shall contain information about the status of the program.
+41 Status bar 3:4: A status bar shall contain information about the status of the sketch program.
 40 Suggest------------------------------
 40 Suggest 3:4: The number of notes is N, increasing from 0 notes, to 'all chord notes', in common, plus a range of numbers, call them K, of notes in addition.
 40 Suggest 3:3: The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} any desired number of notes, based on}, for any N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} equally transposed.
@@ -251,8 +270,8 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 3e Task bar------------------------------
 3e Task bar 3:5: For background, see http://en.wikipedia.org/wiki/Taskbar.
 3e Task bar 3:4: The task bar button}, when} hovered over, shall show a tooltip.
-3e Task bar 3:4: The task bar button}, when} clicked, shall cause the program, if it is} restored, to be minimized.
-3e Task bar 3:4: The task bar button}, when} clicked, shall cause the program, if it is} minimized, to be restored.
+3e Task bar 3:4: The task bar button}, when} clicked, shall cause the sketch program, if it is} restored, to be minimized.
+3e Task bar 3:4: The task bar button}, when} clicked, shall cause the sketch program, if it is} minimized, to be restored.
 3e Task bar 3:4: The task bar button}'s tooltip shall show the unparented window's title bar text.
 3e Task bar 3:4: The task bar button} shall include}, for the sketch program, its icon.
 3e Task bar 3:4: The task bar button} shall include} the beginning of the unparented window's title bar text.

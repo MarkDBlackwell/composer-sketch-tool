@@ -1,3 +1,4 @@
+o Application tests, like FXRuby examples for users to try.
 o Code (LTCR): (non-test class) coding.
 o CRC: (Class (name), Responsibilities, (class) Collaborators) cards; for each user story, use them to design an implementation.
 o Extreme Programming (XP) à la Kent Beck: learn it by following.
@@ -15,12 +16,13 @@ oo Risk:
 1. We know exactly how to do this.
 2. We think we know how to do this.
 3. We have no idea what this means or how to do this.
+4. Fully encompassed by more precise user stories. (This number is new, from mdb.)
 oo Priority:
 1. These have to be done if the system is to meet its business goals.
 2. These have a measurable impact on the system's business goals.
 3. These would make the user happy, but without explicit justification.
-4. More general restatements unthought by the customer. (This number is new, from me.)
-o User stories are arranged thus in a file (descendingly sorted). Right braces are used after multiply-used beginnings within each named heading (e.g., 'Chord name'), except for punctuation, the article, 'a', and the verb infinitive indicator word, 'to'. Good to rephrase to maximize the length of the beginnings in common:
+4. More general restatements unthought by the customer. (This number is new, from mdb.)
+o User stories are arranged thus in a file (descendingly sorted). Right braces are used after multiply-used beginnings within each named heading (e.g., 'Chord name'), except for punctuation, the article, 'a' (because it looks like a list element), and the verb infinitive indicator word, 'to' (so as not to split it). Good to rephrase to maximize the length of the beginnings in common:
 ff USER STORIES (WITH RISK: PRIORITY)
 f7 Chord name------------------------------
 f7 Chord name 3:3: User's [...].
