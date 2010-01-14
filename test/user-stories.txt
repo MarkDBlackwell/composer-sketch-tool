@@ -1,7 +1,7 @@
 ff USER STORIES (WITH RISK: PRIORITY)
 fb Arrange------------------------------
-fb Arrange 3:4: The Arrange submenu shall include an entry}, Tile Vertically.
-fb Arrange 3:4: The Arrange submenu shall include an entry}, Tile Horizontally.
+fb Arrange 3:4: The Arrange submenu shall include an entry}, Tile} Vertically.
+fb Arrange 3:4: The Arrange submenu shall include an entry}, Tile} Horizontally.
 fb Arrange 3:4: The Arrange submenu shall include an entry}, Restore All.
 fb Arrange 3:4: The Arrange submenu shall include an entry}, Minimize All.
 fb Arrange 3:4: The Arrange submenu shall include an entry}, Cascade.
@@ -9,8 +9,8 @@ fb Arrange 3:4: The Arrange submenu shall include an entry}, Arrange Icons.
 f7 Build------------------------------
 f7 Build 3:3: The user shall be able, at least by special, personal arrangement, to acquire additional octavities, having all the same functionality of previously-existing ones. This capability is subject to possible hardware limitations coming from MIDI capabilities, e.g. the use of 16 channels independently to bend pitch.
 f3 Button------------------------------
-f3 Button 3:4 A button shall show a tooltip.
-f3 Button 3:4 A button shall produce an action of the pull-down menu.
+f3 Button 3:4 A button shall} show a tooltip.
+f3 Button 3:4 A button shall} produce an action of the pull-down menu.
 ef Chord group name------------------------------
 ef Chord group name 3:4: The user shall be able}, regarding selected chord(s), to add them to any named group of chords.
 ef Chord group name 3:4: The user shall be able}, for any group of chords}, to name them.
@@ -26,17 +26,17 @@ e3 Composition------------------------------
 e3 Composition 3:4: A composition is a kind of document.
 df Context menu------------------------------
 df Context menu 3:5: For background, see http://en.wikipedia.org/wiki/Context_menu.
-df Context menu 3:4: There shall be a context menu for single chords.
-df Context menu 3:4: There shall be a context menu for a selection of chords which is contiguous.
-df Context menu 3:4: There shall be a context menu for a selection of chords which are not contiguous.
+df Context menu 3:4: There shall be a context menu for} single chords.
+df Context menu 3:4: There shall be a context menu for} a selection of chords which} is contiguous.
+df Context menu 3:4: There shall be a context menu for} a selection of chords which} are not contiguous.
 d7 Copy------------------------------
 d7 Copy 3:3: The user shall be able to specially paste from a contiguous selection, resulting in everything remaining the same but the chords, which shall become} replaced.
 d7 Copy 3:3: The user shall be able to specially paste from a contiguous selection, resulting in everything remaining the same but the chords, which shall become} practically-empty placeholders, possibly just single notes of 'G' ('0'). This is a kind of insertion.
 d7 Copy 2:1: The user shall be able to copy his documents for backup purposes and to share them with other people.
 cf Cut and paste------------------------------
-cf Cut and paste 3:4: Context menu-Paste.
-cf Cut and paste 3:4: Context menu-Cut.
-cf Cut and paste 3:4: Context menu-Copy.
+cf Cut and paste 3:4: Context menu}-Paste.
+cf Cut and paste 3:4: Context menu}-Cut.
+cf Cut and paste 3:4: Context menu}-Copy.
 cf Cut and paste 3:2: Any form of cut and paste, possible from a section of the composition, shall also be possible from another composition.
 cf Cut and paste 2:4: The user shall be able}, for any contiguous section, to select it}.
 cf Cut and paste 2:1: The user shall be able}, from the internal clipboard, to insert} before any chord.
@@ -53,13 +53,13 @@ c9 Document window 3:4: A document window}'s icon's context menu shall include a
 c9 Document window 3:4: A document window}'s icon means the document.
 c9 Document window 3:4: A document window} shall contain either a composition or a text file of tasks.
 c7 Edit------------------------------
-c7 Edit 3:4: The user shall be able}, for any} contiguous section}, to time-reverse} everything.
+c7 Edit 3:4: The user shall be able}, for any} contiguous section}, to time-reverse} everything}.
 c7 Edit 3:4: Context menu-Delete.
-c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} not the rhythm, nor the chords nor anything else, but the volume.
-c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} not the rhythm, nor the chords nor anything else, but the tempo.
-c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} not the rhythm, nor anything else, but the chords.
-c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} not the chords, nor anything else, but the rhythm.
-c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} everything (including the chords, rhythm, tempo, and volume).
+c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} not the rhythm, nor} the chords nor anything else, but the} volume.
+c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} not the rhythm, nor} the chords nor anything else, but the} tempo.
+c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} not the rhythm, nor} anything else, but the} chords.
+c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} not the chords, nor} anything else, but the} rhythm.
+c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to time-reverse} everything} (including the chords, rhythm, tempo, and volume).
 c7 Edit 3:3: The user shall be able}, for any} contiguous section}, to pitch-invert it.
 c7 Edit 3:3: The user shall be able}, at any chord}, effective onward, to change the} key (for relative chord printing).
 c7 Edit 3:2: The user shall be able}, for any} contiguous section}, to transpose it.
@@ -72,28 +72,28 @@ c7 Edit 3:1: The user shall be able}, for any} contiguous section}, to delete it
 c7 Edit 3:1: The user shall be able}, for any} composition, to edit it.
 c7 Edit 3:1: The user shall be able}, at any chord}, to alter the composition by inserting a chord before it.
 c7 Edit 3:1: The user shall be able} to edit compositions in the manner of Word.
-c7 Edit 2:1: The user shall be able} to create a new, empty task document.
-c7 Edit 2:1: The user shall be able} to create a new, empty composition.
+c7 Edit 2:1: The user shall be able} to create a new, empty} task document.
+c7 Edit 2:1: The user shall be able} to create a new, empty} composition.
 c5 Edit submenu------------------------------
 c5 Edit submenu 3:4: The Edit submenu shall include an entry}, Undo.
-c5 Edit submenu 3:4: The Edit submenu shall include an entry}, Select Chords.
-c5 Edit submenu 3:4: The Edit submenu shall include an entry}, Select All.
+c5 Edit submenu 3:4: The Edit submenu shall include an entry}, Select} Chords.
+c5 Edit submenu 3:4: The Edit submenu shall include an entry}, Select} All.
 c5 Edit submenu 3:4: The Edit submenu shall include an entry}, Repeat.
 c5 Edit submenu 3:4: The Edit submenu shall include an entry}, Redo.
 c5 Edit submenu 3:4: The Edit submenu shall include an entry}, Preferences.
-c5 Edit submenu 3:4: The Edit submenu shall include an entry}, Paste.
-c5 Edit submenu 3:4: The Edit submenu shall include an entry}, Paste Special.
+c5 Edit submenu 3:4: The Edit submenu shall include an entry}, Paste}.
+c5 Edit submenu 3:4: The Edit submenu shall include an entry}, Paste} Special.
 c5 Edit submenu 3:4: The Edit submenu shall include an entry}, Delete.
 c5 Edit submenu 3:4: The Edit submenu shall include an entry}, Cut.
 c5 Edit submenu 3:4: The Edit submenu shall include an entry}, Copy.
 c3 File------------------------------
-c3 File 3:4: The File-Send submenu shall include an entry}, Document As Email.
-c3 File 3:4: The File-New submenu} shall include an entry}, Task Document.
-c3 File 3:4: The File-New submenu} shall include an entry}, Composition.
+c3 File 3:4: The File submenu shall include} an entry} in its submenu}, Send, of Document As Email.
+c3 File 3:4: The File submenu shall include} an entry} in its submenu}, New, of} Task Document.
+c3 File 3:4: The File submenu shall include} an entry} in its submenu}, New, of} Composition.
 c3 File 3:4: The File submenu shall include} an entry}, Wizards.
-c3 File 3:4: The File submenu shall include} an entry}, Save.
-c3 File 3:4: The File submenu shall include} an entry}, Save As.
-c3 File 3:4: The File submenu shall include} an entry}, Save All.
+c3 File 3:4: The File submenu shall include} an entry}, Save}.
+c3 File 3:4: The File submenu shall include} an entry}, Save} As.
+c3 File 3:4: The File submenu shall include} an entry}, Save} All.
 c3 File 3:4: The File submenu shall include} an entry}, Revert.
 c3 File 3:4: The File submenu shall include} an entry}, Reload.
 c3 File 3:4: The File submenu shall include} an entry}, Recent Documents.
@@ -102,16 +102,16 @@ c3 File 3:4: The File submenu shall include} an entry}, Print.
 c3 File 3:4: The File submenu shall include} an entry}, Open (browse).
 c3 File 3:4: The File submenu shall include} an entry}, Export.
 c3 File 3:4: The File submenu shall include} an entry}, Exit.
-c3 File 3:4: The File submenu shall include} an entry}, Close.
-c3 File 3:4: The File submenu shall include} an entry}, Close All.
-c3 File 3:4: The File submenu shall include} a submenu}, Send.
-c3 File 3:4: The File submenu shall include} a submenu}, New.
+c3 File 3:4: The File submenu shall include} an entry}, Close}.
+c3 File 3:4: The File submenu shall include} an entry}, Close} All.
+c3 File 3:4: The File submenu shall include} a submenu, Send.
+c3 File 3:4: The File submenu shall include} a submenu, New.
 bf Filter------------------------------
-bf Filter 3:4: Test in Rspec to expect an exception if on Object, write, print or p methods are called.
-bf Filter 3:4: Replace with Object.my_write(). Similarly for Object.print() and Object.p().
+bf Filter 3:4: Test in Rspec to expect an exception if (on Object) write, print or p methods are called.
+bf Filter 3:4: Replace Object.write by Object.my_write(). Similarly for Object.print() and Object.p().
 bf Filter 3:4: Alias and raise exceptions on Object.write()
 bd Format------------------------------
-bd Format 3:4: The Format submenu shall include an entry}, Group.
+bd Format 3:4: The Format submenu shall include an entry, Group.
 bd Format 3:4: Context menu-Format.
 bc Go to------------------------------
 bc Go to 3:4: The Go To submenu shall include an entry, Go to} Measure Number.
@@ -124,8 +124,8 @@ bb Help 3:4: The Help submenu shall include an entry}, Help Topics.
 bb Help 3:4: The Help submenu shall include an entry}, Feedback and Support.
 bb Help 3:4: The Help submenu shall include an entry}, Context Help.
 bb Help 3:4: The Help submenu shall include an entry}, Composer Sketch Tool Help.
-bb Help 3:4: The Help submenu shall include an entry}, Check Latest Version.
-bb Help 3:4: The Help submenu shall include an entry}, Check For Updates.
+bb Help 3:4: The Help submenu shall include an entry}, Check} Latest Version.
+bb Help 3:4: The Help submenu shall include an entry}, Check} For Updates.
 bb Help 3:4: The Help submenu shall include an entry}, About Composer Sketch Tool.
 b7 I18n------------------------------ 
 b7 I18n 3:4: The sketch program shall have internationalization (i18n).
@@ -144,9 +144,9 @@ af Icon 3:4: An icon} shall have a context menu.
 a7 Insert------------------------------
 a7 Insert 3:4: Hear two chords; insert before the second chord.
 a7 Insert 3:3: The Insert submenu shall include an entry, ?
-a7 Insert 3:3: Insert} regarding and} between both a chord and the next chord.
-a7 Insert 3:3: Insert} regarding and} before the first chord.
-a7 Insert 3:3: Insert} regarding and} after a chord.
+a7 Insert 3:3: Insert}, regarding and} between, both a chord and the next chord.
+a7 Insert 3:3: Insert}, regarding and} before, the first chord.
+a7 Insert 3:3: Insert}, regarding and} after, a chord.
 a7 Insert 3:3: Insert} at the beginning of the composition.
 97 List------------------------------
 97 List 3:3: The user shall be able to list alphabetically}, for a composition, the names of all used} necklaces.
@@ -176,7 +176,7 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 8f Menu 3:4: The pull-down menu shall} include a submenu}, File.
 8f Menu 3:4: The pull-down menu shall} include a submenu}, Edit.
 8f Menu 3:4: The pull-down menu shall} include a submenu}, Document.
-8f Menu 3:4: The pull-down menu shall} be navigable by} the mouse pointing device.
+8f Menu 3:4: The pull-down menu shall} be navigable by} the pointing device (mouse).
 8f Menu 3:4: The pull-down menu shall} be navigable by} keys.
 8b Menu bar------------------------------
 8b Menu bar 3:5: For background, see http://en.wikipedia.org/wiki/Menu_bar.
@@ -189,7 +189,7 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 7f Octavity------------------------------
 7f Octavity 3:3: The user shall be able}, in each octavity, to name} necklaces.
 7f Octavity 3:3: The user shall be able}, in each octavity, to name} chords.
-7f Octavity 3:3: The user shall be able}, at any wall-clock time, to change the octavity of all future new chords suggested and added.
+7f Octavity 3:3: The user shall be able}, at any wall-clock time, to change the octavity of all future new chords, suggested and added.
 7f Octavity 3:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable} of all the same functionality.
 7f Octavity 2:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, in proper pitches, of playing audibly}.
 7f Octavity 2:3: The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, in proper pitches, of playing audibly} through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} IBM-PC.
@@ -230,9 +230,9 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 63 Program 2:1: There shall be a program} to translate} a stream of rhythm indicators and regular note-plus chord names} and melody note names, etc., into MIDI so it can be played (the 'MIDI program').
 5f Replace------------------------------
 5f Replace 3:4: Hear three chords; replace the middle chord, optionally hearing the middle chord. Suggestions based on shared notes both with the first and the third chords.
-5f Replace 3:3: Replace} the} only chord, suggestions based on it.
-5f Replace 3:3: Replace} the} first chord, suggestions based on it and the second chord.
-5f Replace 3:3: Replace} a chord, suggestions based on it, the chord before, and the chord after.
+5f Replace 3:3: Replace -- suggestions based on it} alone -- the only chord.
+5f Replace 3:3: Replace -- suggestions based on it} and the second chord -- the first chord.
+5f Replace 3:3: Replace -- suggestions based on it}, the chord before, and the chord after -- a chord.
 57 Save------------------------------
 57 Save 3:1: The user shall be able, for any composition}, to save it.
 57 Save 2:3: The user shall be able, for any composition}, if he crashes the computer while editing it, to recover his work reasonably, by an autosaving facility covering} multiple drafts).
@@ -243,10 +243,10 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 4f Search------------------------------
 4f Search 3:4: The Search submenu shall include} an entry}, Replace.
 4f Search 3:4: The Search submenu shall include} an entry}, Jump to Document.
-4f Search 3:4: The Search submenu shall include} an entry}, Find.
-4f Search 3:4: The Search submenu shall include} an entry}, Find Previous.
-4f Search 3:4: The Search submenu shall include} an entry}, Find Next.
-4f Search 3:4: The Search submenu shall include} an entry}, Find in Documents.
+4f Search 3:4: The Search submenu shall include} an entry}, Find}.
+4f Search 3:4: The Search submenu shall include} an entry}, Find} Previous.
+4f Search 3:4: The Search submenu shall include} an entry}, Find} Next.
+4f Search 3:4: The Search submenu shall include} an entry}, Find} in Documents.
 4f Search 3:4: The Search submenu shall include} a submenu}, Markers.
 4f Search 3:4: The Search submenu shall include} a submenu}, Go To.
 43 Split------------------------------
@@ -274,17 +274,17 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 3e Task bar 3:4: The task bar button}, when} clicked, shall cause the sketch program, if it is} minimized, to be restored.
 3e Task bar 3:4: The task bar button}'s tooltip shall show the unparented window's title bar text.
 3e Task bar 3:4: The task bar button} shall include}, for the sketch program, its icon.
-3e Task bar 3:4: The task bar button} shall include} the beginning of the unparented window's title bar text.
-3e Task bar 3:4: The task bar button shall have the unparented window's context menu.
+3e Task bar 3:4: The task bar button} shall include}, of the unparented window}'s title bar text, the beginning.
+3e Task bar 3:4: The task bar button} shall include}, of the unparented window}, its context menu.
 3e Task bar 3:4: The sketch program shall, at all times when it is running, on the task bar, maintain a button.
 3c Title bar------------------------------
 3c Title bar 3:5: For background, see http://en.wikipedia.org/wiki/Title_bar.
-3c Title bar 3:4: A title bar}'s context menu shall include} an entry}, Size.
-3c Title bar 3:4: A title bar}'s context menu shall include} an entry}, Restore.
-3c Title bar 3:4: A title bar}'s context menu shall include} an entry}, Move.
-3c Title bar 3:4: A title bar}'s context menu shall include} an entry}, Minimize.
-3c Title bar 3:4: A title bar}'s context menu shall include} an entry}, Maximize.
-3c Title bar 3:4: A title bar}'s context menu shall include} an entry}, Close.
+3c Title bar 3:4: A title bar}'s context menu shall include an entry}, Size.
+3c Title bar 3:4: A title bar}'s context menu shall include an entry}, Restore.
+3c Title bar 3:4: A title bar}'s context menu shall include an entry}, Move.
+3c Title bar 3:4: A title bar}'s context menu shall include an entry}, Minimize.
+3c Title bar 3:4: A title bar}'s context menu shall include an entry}, Maximize.
+3c Title bar 3:4: A title bar}'s context menu shall include an entry}, Close.
 3c Title bar 3:4: A title bar} shall include}, for the} unparented window, window controls.
 3c Title bar 3:4: A title bar} shall include}, for the} sketch program, its icon.
 3c Title bar 3:4: A title bar} shall include} a title bar text: either an unparented window title bar text, or a document window title bar text.
@@ -303,9 +303,9 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 37 Tooltip 3:4 A tooltip shall} have a pale yellow background.
 37 Tooltip 3:4 A tooltip shall} be in a rectangular box.
 2f Undo------------------------------
-2f Undo 3:4: The user shall be able, regarding editing steps, passing through save and save-as (which shall not effect this), reaching back to the document's latest (re)load time}, to undo.
-2f Undo 3:4: The user shall be able, regarding editing steps, passing through save and save-as (which shall not effect this), reaching back to the document's latest (re)load time}, to repeat.
-2f Undo 3:4: The user shall be able, regarding editing steps, passing through save and save-as (which shall not effect this), reaching back to the document's latest (re)load time}, to redo.
+2f Undo 3:4: The user shall be able, regarding editing steps, passing through save and save-as (which shall not affect them), reaching back to the document's most recent (re)load}, to undo.
+2f Undo 3:4: The user shall be able, regarding editing steps, passing through save and save-as (which shall not affect them), reaching back to the document's most recent (re)load}, to repeat.
+2f Undo 3:4: The user shall be able, regarding editing steps, passing through save and save-as (which shall not affect them), reaching back to the document's most recent (re)load}, to redo.
 2b Unparented window------------------------------
 2b Unparented window 3:4: The unparented window}'s icon} means the sketch program.
 2b Unparented window 3:4: The unparented window}'s icon} is never hidden.
@@ -342,8 +342,8 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 1b View 3:4: The View submenu shall include an entry}, Chord Number.
 1b View 3:4: The View submenu shall include an entry}, Absolute Chord.
 0f Window------------------------------
-0f Window 3:5: For background, see} http://en.wikipedia.org/wiki/Window_(computing).
-0f Window 3:5: For background, see} http://en.wikipedia.org/wiki/Graphical_user_interface.
+0f Window 3:5: For background, see http://en.wikipedia.org/wiki/}Window_(computing).
+0f Window 3:5: For background, see http://en.wikipedia.org/wiki/}Graphical_user_interface.
 0f Window 3:4: A window} shall contain, though sometimes hidden}, window controls.
 0f Window 3:4: A window} shall contain, though sometimes hidden}, an icon.
 0f Window 3:4: A window} shall contain, though sometimes hidden}, a title bar.
@@ -361,7 +361,7 @@ a7 Insert 3:3: Insert} at the beginning of the composition.
 07 Window submenu 3:4: The Window submenu shall include} an entry}, New Window.
 07 Window submenu 3:4: The Window submenu shall include} an entry}, Last Visited.
 07 Window submenu 3:4: The Window submenu shall include} an entry}, Find Window.
-07 Window submenu 3:4: The Window submenu shall include} an entry}, Close Window.
-07 Window submenu 3:4: The Window submenu shall include} an entry}, Close All.
+07 Window submenu 3:4: The Window submenu shall include} an entry}, Close} Window.
+07 Window submenu 3:4: The Window submenu shall include} an entry}, Close} All.
 07 Window submenu 3:4: The Window submenu shall include} a submenu}, Splitter.
 07 Window submenu 3:4: The Window submenu shall include} a submenu}, Arrange.
