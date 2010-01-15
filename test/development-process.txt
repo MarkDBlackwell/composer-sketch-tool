@@ -29,4 +29,4 @@ oo PRIORITY:
 2. These have a measurable impact on the system's business goals.
 3. These would make the user happy, but without explicit justification.
 4. These merely generalize other user stories.
-5. These are background information.
+5. These are background information or definitional.
