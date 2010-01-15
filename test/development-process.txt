@@ -11,17 +11,6 @@ o Reshape (LTCR): called also refactor, and (re)design.
 o Test (-first, LTCR): first write tests, with Rspec.
 o Up-front design: do for user-perceptible things & prototyping.
 o User stories (solution). Two kinds of minds, generally shocked by each other, user and developer, can use them to communicate.
-o User story cards. Risk and priority numbers are written upon them. From http://c2.com/cgi/wiki?ExtremePlanning :
-oo Risk:
-1. We know exactly how to do this.
-2. We think we know how to do this.
-3. We have no idea what this means or how to do this.
-4. Fully encompassed by more precise user stories. (This number is new, from mdb.)
-oo Priority:
-1. These have to be done if the system is to meet its business goals.
-2. These have a measurable impact on the system's business goals.
-3. These would make the user happy, but without explicit justification.
-4. More general restatements unthought by the customer. (This number is new, from mdb.)
 o User stories are arranged thus in a file (descendingly sorted). Right braces are used after multiply-used beginnings within each named heading (e.g., 'Chord name'), except for punctuation, the article, 'a' (because it looks like a list element), and the verb infinitive indicator word, 'to' (so as not to split it). Good to rephrase to maximize the length of the beginnings in common:
 ff USER STORIES (WITH RISK: PRIORITY)
 f7 Chord name------------------------------
@@ -29,3 +18,15 @@ f7 Chord name 3:3: User's [...].
 ef Copy------------------------------
 ef Copy 2:3: The user shall} be able to} [...].
 ef Copy 1:2: Any [...].
+o User story cards. Risk and priority numbers are written upon them. From http://c2.com/cgi/wiki?ExtremePlanning. Risk 4 and Priorities 4 and 5are new, from mdb:
+oo RISK:
+1. We know exactly how to do this.
+2. We think we know how to do this.
+3. We have no idea what this means or how to do this.
+4. This is fully encompassed by more precise user stories.
+oo PRIORITY:
+1. These have to be done if the system is to meet its business goals.
+2. These have a measurable impact on the system's business goals.
+3. These would make the user happy, but without explicit justification.
+4. These merely generalize other user stories.
+5. These are background information.
