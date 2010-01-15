@@ -145,6 +145,9 @@ a7 Insert 2:2: Insert}, regarding and} before, the first chord.
 a7 Insert 2:2: Insert}, regarding and} after, a chord.
 a7 Insert 2:2: Insert} at the beginning of the composition.
 a7 Insert 2:2: Hear two chords; insert before the second chord.
+9f Key------------------------------
+9f Key 2:2: The keys, ctrl-tab shall select the next document window.
+9f Key 2:2: Keys shall be short-cuts to some items of the menu.
 97 List------------------------------
 97 List 2:3: The user shall be able to list alphabetically}, for a composition, the names of all used} necklaces.
 97 List 2:3: The user shall be able to list alphabetically}, for a composition, the names of all used} chords.
@@ -157,7 +160,10 @@ a7 Insert 2:2: Hear two chords; insert before the second chord.
 93 Marker 2:3: The Markers submenu shall include an entry}, Invert Markers.
 93 Marker 2:3: The Markers submenu shall include an entry}, Clear All Markers.
 91 Measure------------------------------
+91 Measure 2:2: For a measure, the user shall be able to change the rhythm.
 91 Measure 2:1: A measure shall contain a uniform length of time unless the tempo is changed.
+90 Melody------------------------------
+90 Melody : The melody shall be enterable, first.
 8f Menu------------------------------
 8f Menu 3:5: For background, see http://en.wikipedia.org/wiki/Menu_(computing).
 8f Menu 3:3: The pull-down menu shall}, regarding selecting options}, contain indicators.
@@ -231,6 +237,17 @@ a7 Insert 2:2: Hear two chords; insert before the second chord.
 5f Replace 2:2: Replace -- suggestions based on notes shared with it}, the chord before, and the chord after -- a chord.
 5f Replace 2:2: Replace -- suggestions based on notes shared with it} and the second chord -- the first chord.
 5f Replace 2:2: Replace -- suggestions based on notes shared with it} alone -- the only chord.
+5b Rhythm------------------------------
+5b Rhythm 2:2: Within a measure, for selected, contiguous rhythm indicators containing no incomplete rhythm group, the user shall be able to define them as a rhythm group.
+5b Rhythm 2:2: For} a selected rhythm group, the user shall be able to ungroup it.
+5b Rhythm 2:2: For} a contiguous selection of rhythm indicators, the user shall be able}, for a rhythm indicator, to insert it} before them.
+5b Rhythm 2:2: For} a contiguous selection of rhythm indicators, the user shall be able}, for a rhythm indicator, to insert it} after them.
+5b Rhythm 2:2: For} a contiguous selection of rhythm indicators, the user shall be able} to delete them.
+5b Rhythm 2:2: For} a contiguous selection of rhythm indicators, the user shall be able} to cut them.
+5b Rhythm 2:2: For} a contiguous selection of rhythm indicators, the user shall be able} to copy them.
+5b Rhythm 2:2: Automatically in a measure, the total time shall be preserved while adding or removing rhythm indicators.
+5b Rhythm 2:1: A simple rhythm indicator is a chord, a continuation, a measure indicator (bar), or a rest.
+5b Rhythm 2:1: A rhythm indicator is a simple rhythm indicator or a rhythm group.
 57 Save------------------------------
 57 Save 3:1: The user shall be able, for a composition}, to save it.
 57 Save 2:3: The user shall be able, for a composition}, if he crashes the computer while editing it, to recover his work reasonably, by an autosaving facility covering} multiple drafts).
@@ -245,6 +262,8 @@ a7 Insert 2:2: Hear two chords; insert before the second chord.
 4f Search 2:3: The Search submenu shall include} a submenu}, Markers.
 4f Search 2:3: The Search submenu shall include} a submenu}, Go To.
 4b Select------------------------------
+4b Select 2:3: The user shall be able} to select adjacent ones, once the selection is made of a single} measure.
+4b Select 2:3: The user shall be able} to select adjacent ones, once the selection is made of a single} chord.
 4b Select 2:3: For a selection}, a context menu shall include} an entry}, Strip Out...
 4b Select 2:3: For a selection}, a context menu shall include} an entry}, Search.
 4b Select 2:3: For a selection}, a context menu shall include} an entry}, Replace.
@@ -252,13 +271,16 @@ a7 Insert 2:2: Hear two chords; insert before the second chord.
 4b Select 2:3: For a selection}, a context menu shall include} an entry}, Delete.
 4b Select 2:3: For a selection}, a context menu shall include} an entry}, Cut.
 4b Select 2:3: For a selection}, a context menu shall include} an entry}, Copy.
-4b Select 2:3: For a selection}, a context menu shall include} a submenu}, Others.
+4b Select 2:3: For a selection}, a context menu shall include} a submenu, Others.
 4b Select 2:2: The user shall be able}, in a composition, regarding} multiple chords, regardless of contiguity, to select them.
+4b Select 2:2: The user shall be able}, in a composition, regarding} a single measure, to select it.
 4b Select 2:2: The user shall be able}, in a composition, regarding} a single chord, to select it.
 4b Select 2:2: The user shall be able} to specially paste from} a single chord onto a selection, resulting in everything remaining the same but the chords, which shall become replaced.
 4b Select 2:2: The user shall be able} to specially paste from} a contiguous selection, resulting in everything remaining the same but the chords, which shall become} replaced.
 4b Select 2:2: The user shall be able} to specially paste from} a contiguous selection, resulting in everything remaining the same but the chords, which shall become} practically-empty placeholders, possibly just single notes of 'G' ('0'). This is a kind of insertion.
-4b Select 2:2: For a selection}, the user shall be able} to change the volume.
+4b Select 2:2: For a selection}, the user shall be able} to change the} volume.
+4b Select 2:2: For a selection}, the user shall be able} to change the} rhythm.
+4b Select 2:2: For a selection} within a measure, the user shall be able to change the rhythm.
 4b Select 2:2: A selection shall have a context menu.
 4b Select 2:2: A selection may be a contiguous selection or not.
 4b Select 2:1: For a selection}, the user shall be able} to delete it.
