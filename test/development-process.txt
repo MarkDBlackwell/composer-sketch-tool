@@ -12,12 +12,12 @@ o Test (-first, LTCR): first write tests, with Rspec.
 o Up-front design: do for user-perceptible things & prototyping.
 o User stories (solution). Two kinds of minds, generally shocked by each other, user and developer, can use them to communicate.
 o User stories are arranged thus in a file (descendingly sorted). Right braces are used after multiply-used beginnings within each named heading (e.g., 'Chord name'), except for punctuation, the article, 'a' (because it looks like a list element), and the verb infinitive indicator word, 'to' (so as not to split it). Good to rephrase to maximize the length of the beginnings in common:
-ff USER STORIES (WITH RISK: PRIORITY)
+ff USER STORIES (WITH RISK:PRIORITY)
 f7 Chord name------------------------------
-f7 Chord name 3:3: User's [...].
+f7 Chord name 3:3 User's [...].
 ef Copy------------------------------
-ef Copy 2:3: The user shall} be able to} [...].
-ef Copy 1:2: Any [...].
+ef Copy 2:3 The user shall} be able to} [...].
+ef Copy 1:2 Any [...].
 o User story cards. Risk and priority numbers are written upon them. From http://c2.com/cgi/wiki?ExtremePlanning. Risk 4 and Priorities 4 and 5are new, from mdb:
 oo RISK:
 1. We know exactly how to do this.

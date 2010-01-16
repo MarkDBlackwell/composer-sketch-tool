@@ -23,7 +23,14 @@ f1 Chord 2:2 A chord}'s context menu shall include an entry}, Delete.
 f1 Chord 2:2 A chord}'s context menu shall include an entry}, Cut.
 f1 Chord 2:2 A chord}'s context menu shall include an entry}, Copy.
 f1 Chord 2:2 A chord} shall have} an icon, that of its chord number.
+f1 Chord 2:2 A chord's icon shall have an indication at the left if it is a continuation.
+f1 Chord 2:2 A chord's icon shall have an indication above for the melody, containing a color.
+f1 Chord 2:2 A chord's icon shall have an indication below for the bass, containing a color.
+f1 Chord 2:2 A chord's icon indication for the melody shall have an indication at the left if it is a melody continuation.
+f1 Chord 2:2 A chord's icon indication for the bass shall have an indication at the left if it is a bass continuation.
 f1 Chord 2:2 A chord} shall have} a context menu.
+f1 Chord 3:2 The user shall be able to insert a continuation into the chords, separate from the melody and the bass.
+f1 Chord 3:2 A continuation shall be notated in the file as '>'.
 ef Chord group name------------------------------
 ef Chord group name 2:2 The user shall be able}, within a single composition, regarding selected chord(s), regardless of their possible, individual presence in other groups of chords}, to give them a name as a group.
 ef Chord group name 2:2 The user shall be able}, within a single composition, regarding selected chord(s), regardless of their possible, individual presence in other groups of chords}, to add them to a named group of chords.
@@ -167,7 +174,8 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 91 Measure 2:1 A measure} shall} contain a uniform length of time unless the tempo is changed.
 91 Measure 2:1 A measure} shall} be displayed in a box.
 90 Melody------------------------------
-90 Melody : The melody shall be enterable, first.
+90 Melody 3:2 The melody shall be enterable, first.
+90 Melody 3:2 The user shall be able to insert a continuation into the melody, separate from the chords and bass.
 8f Menu------------------------------
 8f Menu 3:5 For background, see http://en.wikipedia.org/wiki/Menu_(computing).
 8f Menu 3:3 The pull-down menu shall}, regarding selecting options}, contain indicators.
