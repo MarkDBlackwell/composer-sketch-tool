@@ -15,6 +15,8 @@ f1 Chord------------------------------
 f1 Chord 3:3 The user shall be able}, at a chord}, effective onward, to change the} key (for relative chord printing).
 f1 Chord 3:2 The user shall be able}, at a chord}, effective onward, to change the} volume.
 f1 Chord 3:2 The user shall be able}, at a chord}, effective onward, to change the} tempo.
+f1 Chord 3:2 The user shall be able to insert a continuation into the chords, separate from the melody and the bass.
+f1 Chord 3:2 A continuation shall be notated in the file as '>'.
 f1 Chord 3:1 The user shall be able}, at a chord}, to alter the composition by inserting a chord before it.
 f1 Chord 2:2 A chord}'s context menu shall include an entry}, Strip Out...
 f1 Chord 2:2 A chord}'s context menu shall include an entry}, Paste Special (before).
@@ -23,14 +25,12 @@ f1 Chord 2:2 A chord}'s context menu shall include an entry}, Delete.
 f1 Chord 2:2 A chord}'s context menu shall include an entry}, Cut.
 f1 Chord 2:2 A chord}'s context menu shall include an entry}, Copy.
 f1 Chord 2:2 A chord} shall have} an icon, that of its chord number.
+f1 Chord 2:2 A chord} shall have} a context menu.
+f1 Chord 2:2 A chord's icon shall have an indication below for the bass, containing a color.
 f1 Chord 2:2 A chord's icon shall have an indication at the left if it is a continuation.
 f1 Chord 2:2 A chord's icon shall have an indication above for the melody, containing a color.
-f1 Chord 2:2 A chord's icon shall have an indication below for the bass, containing a color.
 f1 Chord 2:2 A chord's icon indication for the melody shall have an indication at the left if it is a melody continuation.
 f1 Chord 2:2 A chord's icon indication for the bass shall have an indication at the left if it is a bass continuation.
-f1 Chord 2:2 A chord} shall have} a context menu.
-f1 Chord 3:2 The user shall be able to insert a continuation into the chords, separate from the melody and the bass.
-f1 Chord 3:2 A continuation shall be notated in the file as '>'.
 ef Chord group name------------------------------
 ef Chord group name 2:2 The user shall be able}, within a single composition, regarding selected chord(s), regardless of their possible, individual presence in other groups of chords}, to give them a name as a group.
 ef Chord group name 2:2 The user shall be able}, within a single composition, regarding selected chord(s), regardless of their possible, individual presence in other groups of chords}, to add them to a named group of chords.
@@ -82,7 +82,7 @@ cf Cut and paste 2:1 A selection shall be} copyable.
 cd Document submenu------------------------------
 cd Document submenu 3:3 The Document submenu shall include an entry, Revert}.
 c9 Document window------------------------------
-c9 Document window 2:3 A document window} shall contain either a composition or a text file of tasks.
+c9 Document window 2:3 A document window} shall contain a composition.
 c9 Document window 2:3 A document window} icon}'s context menu shall include an entry}, Previous.
 c9 Document window 2:3 A document window} icon}'s context menu shall include an entry}, Next.
 c9 Document window 1:4 A document window} icon} means the document.
@@ -107,12 +107,12 @@ c3 File 2:3 The File submenu shall include} an entry}, Recent Documents.
 c3 File 2:3 The File submenu shall include} an entry}, Properties.
 c3 File 2:3 The File submenu shall include} an entry}, Print.
 c3 File 2:3 The File submenu shall include} an entry}, Open (browse).
+c3 File 2:3 The File submenu shall include} an entry}, New Composition.
 c3 File 2:3 The File submenu shall include} an entry}, Export.
 c3 File 2:3 The File submenu shall include} an entry}, Exit.
 c3 File 2:3 The File submenu shall include} an entry}, Close}.
 c3 File 2:3 The File submenu shall include} an entry}, Close} All.
 c3 File 2:3 The File submenu shall include} a submenu, Send.
-c3 File 2:3 The File submenu shall include} a submenu, New.
 bf Filter------------------------------
 bf Filter 3:4 Replace Object.write by Object.my_write(). Similarly for Object.print() and Object.p().
 bf Filter 3:4 In Rspec, test to expect an exception if (on Object) write, print or p methods are called.
@@ -135,17 +135,16 @@ b7 I18n------------------------------
 b7 I18n 2:3 The sketch program shall have internationalization (i18n).
 af Icon------------------------------
 af Icon 2:3 The user shall be able to arrange the icons of the open documents (Menu-Window-Arrange-Arrange Icons).
-af Icon 2:3 The sketch program shall have a recognizable icon} for documents that are} task documents.
-af Icon 2:3 The sketch program shall have a recognizable icon} for documents that are} compositions.
-af Icon 2:3 An icon}, when double-clicked, shall close its window.
-af Icon 2:3 An icon}'s menu shall include an entry}, Size.
-af Icon 2:3 An icon}'s menu shall include an entry}, Restore.
-af Icon 2:3 An icon}'s menu shall include an entry}, Move.
-af Icon 2:3 An icon}'s menu shall include an entry}, Minimize.
-af Icon 2:3 An icon}'s menu shall include an entry}, Maximize.
-af Icon 2:3 An icon}'s menu shall include an entry}, Close.
-af Icon 2:3 An icon}'s menu shall be accessible by a normal (left) click.
-af Icon 2:3 An icon} shall have a menu.
+af Icon 2:3 The sketch program shall have a recognizable icon} for compositions.
+af Icon 2:3 An icon}, when double-clicked, shall close its window. (For the unparented window, comes free with Shoes.)
+af Icon 2:3 An icon}'s menu shall include an entry}, Size. (For the unparented window, comes free with Shoes.)
+af Icon 2:3 An icon}'s menu shall include an entry}, Restore. (For the unparented window, comes free with Shoes.)
+af Icon 2:3 An icon}'s menu shall include an entry}, Move. (For the unparented window, comes free with Shoes.)
+af Icon 2:3 An icon}'s menu shall include an entry}, Minimize. (For the unparented window, comes free with Shoes.)
+af Icon 2:3 An icon}'s menu shall include an entry}, Maximize. (For the unparented window, comes free with Shoes.)
+af Icon 2:3 An icon}'s menu shall include an entry}, Close. (For the unparented window, comes free with Shoes.)
+af Icon 2:3 An icon}'s menu shall be accessible by a normal (left) click. (For the unparented window, comes free with Shoes.)
+af Icon 2:3 An icon} shall have a menu. (For the unparented window, comes free with Shoes.)
 af Icon 2:2 The sketch program shall have a recognizable icon}.
 af Icon 2:2 Each relative different chord can have a user-provided icon.
 a7 Insert------------------------------
@@ -174,8 +173,8 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 91 Measure 2:1 A measure} shall} contain a uniform length of time unless the tempo is changed.
 91 Measure 2:1 A measure} shall} be displayed in a box.
 90 Melody------------------------------
-90 Melody 3:2 The melody shall be enterable, first.
 90 Melody 3:2 The user shall be able to insert a continuation into the melody, separate from the chords and bass.
+90 Melody 3:2 The melody shall be enterable, first.
 8f Menu------------------------------
 8f Menu 3:5 For background, see http://en.wikipedia.org/wiki/Menu_(computing).
 8f Menu 3:3 The pull-down menu shall}, regarding selecting options}, contain indicators.
@@ -200,9 +199,6 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 87 Necklace name------------------------------
 87 Necklace name 2:2 The user shall be able}, for a necklace, to name it.
 87 Necklace name 2:2 The user shall be able} to name a group of necklaces.
-83 New------------------------------
-83 New 2:3 The New submenu shall include an entry}, Task Document.
-83 New 2:2 The New submenu shall include an entry}, Composition.
 7f Octavity------------------------------
 7f Octavity 2:3 The user shall be able}, in an octavity, to name} necklaces.
 7f Octavity 2:3 The user shall be able}, in an octavity, to name} chords.
@@ -325,38 +321,35 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 40 Suggest 2:2 The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} the same number of notes, based on sameness of the necklace.
 40 Suggest 2:2 The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} a desired number of notes, based on} sameness of the} melody note.
 40 Suggest 2:2 The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} a desired number of notes, based on} sameness of the} bass note.
-3f Task------------------------------
-3f Task 3:5 A text file of tasks is a kind of document.
-3f Task 3:3 The user shall be able, for task documents}, to edit them in the manner of Word.
-3f Task 2:3 The user shall be able, for task documents}, to create a new, empty one.
-3f Task 2:3 The sketch program, in order to remember tasks, shall support simple text editing.
 3e Task bar------------------------------
 3e Task bar 3:5 For background, see http://en.wikipedia.org/wiki/Taskbar.
-3e Task bar 2:2 A task bar button}, when} hovered over, shall show a tooltip.
-3e Task bar 2:2 A task bar button}'s tooltip shall show the unparented window's title bar text.
-3e Task bar 2:1 A task bar button}, when} clicked, shall cause its program, if it is} restored, to be minimized.
-3e Task bar 2:1 A task bar button}, when} clicked, shall cause its program, if it is} minimized, to be restored.
-3e Task bar 2:1 A task bar button} shall include}, of the unparented window}, its context menu.
-3e Task bar 2:1 A task bar button} shall include}, of the unparented window}'s title bar text, the beginning.
-3e Task bar 2:1 A task bar button} shall include}, for the sketch program, its icon.
-3e Task bar 2:1 A sketch program shall, at all times when it is running, maintain a task bar button.
+3e Task bar 2:2 A task bar button}, when} hovered over, shall show a tooltip. (Comes free with Shoes.)
+3e Task bar 2:2 A task bar button}'s tooltip shall show the unparented window's title bar text. (Comes free with Shoes.)
+3e Task bar 2:1 A task bar button}, when} clicked, shall cause its program, if it is} restored, to be minimized. (Comes free with Shoes.)
+3e Task bar 2:1 A task bar button}, when} clicked, shall cause its program, if it is} minimized and unfocused, to be focused. (Comes free with Shoes.)
+3e Task bar 2:1 A task bar button}, when} clicked, shall cause its program, if it is} minimized and focused, to be restored. (Comes free with Shoes.)
+3e Task bar 2:1 A task bar button} shall include}, of the unparented window}, its context menu. (Comes free with Shoes.)
+3e Task bar 2:1 A task bar button} shall include}, of the unparented window}'s title bar text, the beginning. (Comes free with Shoes.)
+3e Task bar 2:1 A task bar button} shall include}, for the sketch program, its icon. (Comes free with Shoes.)
+3e Task bar 2:1 A sketch program shall, at all times when it is running, maintain a task bar button. (Comes free with Shoes.)
 3c Title bar------------------------------
 3c Title bar 3:5 For background, see http://en.wikipedia.org/wiki/Title_bar.
-3c Title bar 2:3 A title bar}'s functions work even 'under' an icon.
-3c Title bar 2:3 A title bar}'s context menu shall include an entry}, Size.
-3c Title bar 2:3 A title bar}'s context menu shall include an entry}, Restore.
-3c Title bar 2:3 A title bar}'s context menu shall include an entry}, Move.
-3c Title bar 2:3 A title bar}'s context menu shall include an entry}, Minimize.
-3c Title bar 2:3 A title bar}'s context menu shall include an entry}, Maximize.
-3c Title bar 2:3 A title bar}'s context menu shall include an entry}, Close.
-3c Title bar 2:3 A title bar} shall have a context menu.
-3c Title bar 2:2 A title bar}, when double-clicked, shall cause its window, if it is} restored, to be maximized.
-3c Title bar 2:2 A title bar}, when double-clicked, shall cause its window, if it is} maximized, to be restored.
-3c Title bar 2:1 A title bar} shall include}, for the} unparented window, window controls.
+3c Title bar 2:3 A title bar}'s functions work even 'under' an icon. (For the unparented window, comes free with Shoes.)
+3c Title bar 2:3 A title bar}'s context menu shall include an entry}, Size. (For the unparented window, comes free with Shoes.)
+3c Title bar 2:3 A title bar}'s context menu shall include an entry}, Restore. (For the unparented window, comes free with Shoes.)
+3c Title bar 2:3 A title bar}'s context menu shall include an entry}, Move. (For the unparented window, comes free with Shoes.)
+3c Title bar 2:3 A title bar}'s context menu shall include an entry}, Minimize. (For the unparented window, comes free with Shoes.)
+3c Title bar 2:3 A title bar}'s context menu shall include an entry}, Maximize. (For the unparented window, comes free with Shoes.)
+3c Title bar 2:3 A title bar}'s context menu shall include an entry}, Close. (For the unparented window, comes free with Shoes.)
+3c Title bar 2:3 A title bar} shall have a context menu. (For the unparented window, comes free with Shoes.)
+3c Title bar 2:2 A title bar}, when double-clicked, shall cause its window, if it is} restored, to be maximized. (For the unparented window, comes free with Shoes.)
+3c Title bar 2:2 A title bar}, when double-clicked, shall cause its window, if it is} maximized, to be restored. (For the unparented window, comes free with Shoes.)
+3c Title bar 2:1 A title bar} shall include}, for the} unparented window, window controls. (Comes free with Shoes.)
 3c Title bar 2:1 A title bar} shall include}, for the} sketch program, its icon.
-3c Title bar 2:1 A title bar} shall include} a title bar text: either an unparented window title bar text, or a document window title bar text.
+3c Title bar 2:1 A title bar} shall include} an icon. (For the unparented window, comes free with Shoes.)
+3c Title bar 2:1 A title bar} shall include} a title bar text: either an unparented window title bar text, or a document window title bar text. (For the unparented window, comes free with Shoes.)
 3b Title bar text------------------------------
-3b Title bar text 2:1 A title bar text shall include, for} the unparented window}, the sketch program's name.
+3b Title bar text 2:1 A title bar text shall include, for} the unparented window}, the sketch program's name. (Comes free with Shoes.)
 3b Title bar text 2:1 A title bar text shall include, for} the unparented window}, if a document window is maximized, its title bar text.
 3b Title bar text 2:1 A title bar text shall include, for} a document window, for the current document}, its file} path.
 3b Title bar text 2:1 A title bar text shall include, for} a document window, for the current document}, its file} name.
@@ -401,8 +394,6 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 1b View------------------------------
 1b View 2:3 The View submenu shall include an entry}, Zoom.
 1b View 2:3 The View submenu shall include an entry}, Toolbars.
-1b View 2:3 The View submenu shall include an entry}, Text Notes.
-1b View 2:3 The View submenu shall include an entry}, Task Pane.
 1b View 2:3 The View submenu shall include an entry}, Status Bar.
 1b View 2:3 The View submenu shall include an entry}, Relative Chord.
 1b View 2:3 The View submenu shall include an entry}, Numeric Chord.
@@ -416,15 +407,21 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 0f Window 3:5 For background, see http://en.wikipedia.org/wiki/}Window_(computing).
 0f Window 3:5 For background, see http://en.wikipedia.org/wiki/}Graphical_user_interface.
 0f Window 3:5 A window} is a document window or the unparented window.
-0f Window 2:2 A window} shall contain, though sometimes hidden}, a title bar.
-0f Window 2:1 A window} shall contain, though sometimes hidden}, window controls.
-0f Window 2:1 A window} shall contain, though sometimes hidden}, an icon.
+0f Window 2:2 A window} shall contain, though sometimes hidden}, a title bar. (For the unparented window, comes free with Shoes.)
+0f Window 2:1 A window} shall contain, though sometimes hidden}, window controls. (For the unparented window, comes free with Shoes.)
+0f Window 2:1 A window} shall contain, though sometimes hidden}, an icon. (For the unparented window, comes free with Shoes.)
+0f Window 2:1 A window shall have a function, Size. (For the unparented window, comes free with Shoes.)
+0f Window 2:1 A window shall have a function, Restore. (For the unparented window, comes free with Shoes.)
+0f Window 2:1 A window shall have a function, Move. (For the unparented window, comes free with Shoes.)
+0f Window 2:1 A window shall have a function, Minimize. (For the unparented window, comes free with Shoes.)
+0f Window 2:1 A window shall have a function, Maximize. (For the unparented window, comes free with Shoes.)
+0f Window 2:1 A window shall have a function, Close. (For the unparented window, comes free with Shoes.)
 0b Window control------------------------------
-0b Window control 2:4 Window controls shall include} tooltips.
-0b Window control 2:4 Window controls shall include} an entry}, sometimes hidden}, Restore.
-0b Window control 2:4 Window controls shall include} an entry}, sometimes hidden}, Maximize.
-0b Window control 2:4 Window controls shall include} an entry}, Minimize.
-0b Window control 2:4 Window controls shall include} an entry}, Close.
+0b Window control 2:4 Window controls shall include} tooltips. (For the unparented window, comes free with Shoes.)
+0b Window control 2:4 Window controls shall include} an entry}, sometimes hidden}, Restore. (For the unparented window, comes free with Shoes.)
+0b Window control 2:4 Window controls shall include} an entry}, sometimes hidden}, Maximize. (For the unparented window, comes free with Shoes.)
+0b Window control 2:4 Window controls shall include} an entry}, Minimize. (For the unparented window, comes free with Shoes.)
+0b Window control 2:4 Window controls shall include} an entry}, Close. (For the unparented window, comes free with Shoes.)
 07 Window submenu------------------------------
 07 Window submenu 2:3 The Window submenu shall include} an entry}, Window List.
 07 Window submenu 2:3 The Window submenu shall include} an entry}, Previous.
