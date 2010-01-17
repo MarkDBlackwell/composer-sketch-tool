@@ -15,9 +15,15 @@ f1 Chord------------------------------
 f1 Chord 3:3 The user shall be able}, at a chord}, effective onward, to change the} key (for relative chord printing).
 f1 Chord 3:2 The user shall be able}, at a chord}, effective onward, to change the} volume.
 f1 Chord 3:2 The user shall be able}, at a chord}, effective onward, to change the} tempo.
-f1 Chord 3:2 The user shall be able to insert a continuation into the chords, separate from the melody and the bass.
-f1 Chord 3:2 A continuation shall be notated in the file as '>'.
+f1 Chord 3:2 The user shall be able} to insert a continuation into the chords, separate from the melody and the bass.
+f1 Chord 3:2 A continuation shall be notated in a file as '>'.
 f1 Chord 3:1 The user shall be able}, at a chord}, to alter the composition by inserting a chord before it.
+f1 Chord 3:1 The user shall be able} to enter an arbitrary chord.
+f1 Chord 2:2 A chord}'s icon shall} visually indicate a continuation, at the} upper left, in the melody.
+f1 Chord 2:2 A chord}'s icon shall} visually indicate a continuation, at the} lower left, in the bass.
+f1 Chord 2:2 A chord}'s icon shall} visually indicate a continuation, at the} left, of the chord.
+f1 Chord 2:2 A chord}'s icon shall} show in color the} melody, above.
+f1 Chord 2:2 A chord}'s icon shall} show in color the} bass, below.
 f1 Chord 2:2 A chord}'s context menu shall include an entry}, Strip Out...
 f1 Chord 2:2 A chord}'s context menu shall include an entry}, Paste Special (before).
 f1 Chord 2:2 A chord}'s context menu shall include an entry}, Paste (before).
@@ -26,11 +32,6 @@ f1 Chord 2:2 A chord}'s context menu shall include an entry}, Cut.
 f1 Chord 2:2 A chord}'s context menu shall include an entry}, Copy.
 f1 Chord 2:2 A chord} shall have} an icon, that of its chord number.
 f1 Chord 2:2 A chord} shall have} a context menu.
-f1 Chord 2:2 A chord's icon shall have an indication below for the bass, containing a color.
-f1 Chord 2:2 A chord's icon shall have an indication at the left if it is a continuation.
-f1 Chord 2:2 A chord's icon shall have an indication above for the melody, containing a color.
-f1 Chord 2:2 A chord's icon indication for the melody shall have an indication at the left if it is a melody continuation.
-f1 Chord 2:2 A chord's icon indication for the bass shall have an indication at the left if it is a bass continuation.
 ef Chord group name------------------------------
 ef Chord group name 2:2 The user shall be able}, within a single composition, regarding selected chord(s), regardless of their possible, individual presence in other groups of chords}, to give them a name as a group.
 ef Chord group name 2:2 The user shall be able}, within a single composition, regarding selected chord(s), regardless of their possible, individual presence in other groups of chords}, to add them to a named group of chords.
@@ -42,6 +43,8 @@ e7 Chord name 3:2 User's custom names for chords and necklaces shall be} as usab
 e7 Chord name 2:3 The user shall be able, for a selected chord} already named by the user, to rename it.
 e7 Chord name 2:2 User's custom names for chords and necklaces shall be} maintained, both in the composition and in configuration file(s), arranged by user identity.
 e7 Chord name 2:2 The user shall be able, for a selected chord}, to name it.
+e5 Chord sequence------------------------------
+e5 Chord sequence 2:2 The user shall be able to copy chords from standard sequences. (This comes for free with (named) composition files.)
 e3 Composition------------------------------
 e3 Composition 3:4 A composition} is a kind of document.
 e3 Composition 3:3 A composition} contains} octavities.
@@ -313,14 +316,19 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 41 Status bar------------------------------
 41 Status bar 3:3 A status bar shall contain information about the status of the sketch program.
 40 Suggest------------------------------
-40 Suggest 3:5 The number of notes is N, increasing from 0 notes to 'all chord notes' in common; plus a range of numbers, call them K, of notes in addition.
-40 Suggest 3:2 The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} a desired number of notes, based on}, for N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} equally transposed.
-40 Suggest 3:1 The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions}.
-40 Suggest 2:3 The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} a desired number of notes, based on}, for N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} the same.
-40 Suggest 2:3 The sketch program shall suggest chords from the space of all those mathematically possible.
-40 Suggest 2:2 The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} the same number of notes, based on sameness of the necklace.
-40 Suggest 2:2 The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} a desired number of notes, based on} sameness of the} melody note.
-40 Suggest 2:2 The user shall be able to receive (for purposes of increasing unity in the composition) chord suggestions} containing} a desired number of notes, based on} sameness of the} bass note.
+40 Suggest 3:5 The number of notes is N, increasing from 0 notes to 'all chord notes' in common; plus a range of numbers, call them K, of notes in addition (more complicated chords).
+40 Suggest 3:3 The user shall be able to receive chord suggestions}.
+40 Suggest 3:3 The user shall be able to receive chord suggestions} containing (for purposes of} unexpectedness) random chords.
+40 Suggest 3:2 The user shall be able to receive chord suggestions} containing (for purposes of} unity in the composition)} a desired number of notes, based on}, for N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} equally transposed (simpler chords).
+40 Suggest 3:2 The user shall be able to receive chord suggestions} containing (for purposes of} style) those} in lists collected by} the user.
+40 Suggest 3:2 The user shall be able to receive chord suggestions} containing (for purposes of} style) those} in lists collected by} other users.
+40 Suggest 3:2 The user shall be able to receive chord suggestions} containing (for purposes of} breadth of resource), all those mathematically possible.
+40 Suggest 2:3 The user shall be able to receive chord suggestions} containing (for purposes of} unity in the composition)} a desired number of notes, based on}, for N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} the same.
+40 Suggest 2:2 The user shall be able to receive chord suggestions} containing (for purposes of} unity in the composition)} the same number of notes, based on sameness of the necklace.
+40 Suggest 2:2 The user shall be able to receive chord suggestions} containing (for purposes of} unity in the composition)} a desired number of notes, based on} sameness of the} melody note.
+40 Suggest 2:2 The user shall be able to receive chord suggestions} containing (for purposes of} unity in the composition)} a desired number of notes, based on} sameness of the} bass note.
+40 Suggest 2:2 The user shall be able to receive chord suggestions} containing (for purposes of} style) those} used by Mozart (in that Agnus Dei).
+40 Suggest 2:2 The user shall be able to receive chord suggestions} containing (for purposes of} style) those} of standard jazz.
 3e Task bar------------------------------
 3e Task bar 3:5 For background, see http://en.wikipedia.org/wiki/Taskbar.
 3e Task bar 2:2 A task bar button}, when} hovered over, shall show a tooltip. (Comes free with Shoes.)
