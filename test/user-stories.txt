@@ -317,18 +317,25 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 41 Status bar 3:3 A status bar shall contain information about the status of the sketch program.
 40 Suggest------------------------------
 40 Suggest 3:5 The number of notes is N, increasing from 0 notes to 'all chord notes' in common; plus a range of numbers, call them K, of notes in addition (more complicated chords).
-40 Suggest 3:3 The user shall be able to receive chord suggestions}.
-40 Suggest 3:3 The user shall be able to receive chord suggestions} containing (for purposes of} unexpectedness) random chords.
-40 Suggest 3:2 The user shall be able to receive chord suggestions} containing (for purposes of} unity in the composition)} a desired number of notes, based on}, for N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} equally transposed (simpler chords).
-40 Suggest 3:2 The user shall be able to receive chord suggestions} containing (for purposes of} style) those} in lists collected by} the user.
-40 Suggest 3:2 The user shall be able to receive chord suggestions} containing (for purposes of} style) those} in lists collected by} other users.
-40 Suggest 3:2 The user shall be able to receive chord suggestions} containing (for purposes of} breadth of resource), all those mathematically possible.
-40 Suggest 2:3 The user shall be able to receive chord suggestions} containing (for purposes of} unity in the composition)} a desired number of notes, based on}, for N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} the same.
-40 Suggest 2:2 The user shall be able to receive chord suggestions} containing (for purposes of} unity in the composition)} the same number of notes, based on sameness of the necklace.
-40 Suggest 2:2 The user shall be able to receive chord suggestions} containing (for purposes of} unity in the composition)} a desired number of notes, based on} sameness of the} melody note.
-40 Suggest 2:2 The user shall be able to receive chord suggestions} containing (for purposes of} unity in the composition)} a desired number of notes, based on} sameness of the} bass note.
-40 Suggest 2:2 The user shall be able to receive chord suggestions} containing (for purposes of} style) those} used by Mozart (in that Agnus Dei).
-40 Suggest 2:2 The user shall be able to receive chord suggestions} containing (for purposes of} style) those} of standard jazz.
+40 Suggest 3:3 The user shall be able}, of chord suggestions}, to receive them.
+40 Suggest 3:3 The user shall be able}, of chord suggestions}, to keep them for reference. (These are known as 'pass-through' suggestions.)
+40 Suggest 3:3 The user shall be able}, of chord suggestions}, to hear any number of them.
+40 Suggest 3:3 The user shall be able} to receive chord suggestions (for purposes of} unity in the composition}) containing a desired number of notes, and based on} sameness of the} fundamental note.
+40 Suggest 3:3 The user shall be able} to receive chord suggestions (for purposes of} unity in the composition}) containing a desired number of notes, and based on} any given} fundamental note.
+40 Suggest 3:3 The user shall be able} to receive chord suggestions (for purposes of} unexpectedness or cheap inspiration) that are random.
+40 Suggest 3:3 The user shall be able} to receive chord suggestions (for purposes of} style}) that are standard jazz.
+40 Suggest 3:3 The user shall be able} to receive chord suggestions (for purposes of} rule and composition brevity) resulting from applying the rules to a 'pass-through' suggestion, just as if it were a chord of the composition.
+40 Suggest 3:2 The user shall be able} to receive chord suggestions (for purposes of} unity in the composition}) containing a desired number of notes, and based on}, for N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} equally transposed (simpler chords).
+40 Suggest 3:2 The user shall be able} to receive chord suggestions (for purposes of} style}) from lists collected by} the user.
+40 Suggest 3:2 The user shall be able} to receive chord suggestions (for purposes of} style}) from lists collected by} other users.
+40 Suggest 3:2 The user shall be able} to receive chord suggestions (for purposes of} resource breadth) comprising all those possible, mathematically.
+40 Suggest 2:3 The user shall be able} to receive chord suggestions (for purposes of} unity in the composition}) containing a desired number of notes, and based on}, for N ranging from zero to one less than the number of notes in the original chord, N of the suggested chord's notes being} the same.
+40 Suggest 2:2 The user shall be able} to receive chord suggestions (for purposes of} unity in the composition}) having the same necklace.
+40 Suggest 2:2 The user shall be able} to receive chord suggestions (for purposes of} style}) used by Mozart (in that certain Agnus Dei).
+40 Suggest 2:1 The user shall be able} to receive chord suggestions (for purposes of} unity in the composition}) containing a desired number of notes, and based on} sameness of the} melody note.
+40 Suggest 2:1 The user shall be able} to receive chord suggestions (for purposes of} unity in the composition}) containing a desired number of notes, and based on} sameness of the} bass note.
+40 Suggest 2:1 The user shall be able} to receive chord suggestions (for purposes of} unity in the composition}) containing a desired number of notes, and based on} any given} melody note.
+40 Suggest 2:1 The user shall be able} to receive chord suggestions (for purposes of} unity in the composition}) containing a desired number of notes, and based on} any given} bass note.
 3e Task bar------------------------------
 3e Task bar 3:5 For background, see http://en.wikipedia.org/wiki/Taskbar.
 3e Task bar 2:2 A task bar button}, when} hovered over, shall show a tooltip. (Comes free with Shoes.)
