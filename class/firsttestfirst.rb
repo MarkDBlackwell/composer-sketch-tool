@@ -1,3 +1,3 @@
 #-----------------------------
-class ChordName
+class FirstTestFirst
 end

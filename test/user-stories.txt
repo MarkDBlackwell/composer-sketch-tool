@@ -473,12 +473,12 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 1b View 2:3 A View submenu shall include an entry}, Chord Number.
 1b View 2:3 A View submenu shall include an entry}, Absolute Chord.
 0f Window------------------------------
-0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/}History_of_the_graphical_user_interface
 0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/Word_processor.
 0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/Window_(computing).
 0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/User_interface_design.
 0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/Post-WIMP.
 0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/Interface_metaphor.
+0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/History_of_the_graphical_user_interface
 0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/Graphical_user_interface.
 0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/EditPlus.
 0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/Douglas_Engelbart.
@@ -491,12 +491,12 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 0f Window 2:2 A window} shall contain, though sometimes hidden}, a title bar. (For an unparented window, comes free with Shoes.)
 0f Window 2:1 A window} shall contain, though sometimes hidden}, window controls. (For an unparented window, comes free with Shoes.)
 0f Window 2:1 A window} shall contain, though sometimes hidden}, an icon. (For an unparented window, comes free with Shoes.)
-0f Window 2:1 A window shall have a function, Size. (For an unparented window, comes free with Shoes.)
-0f Window 2:1 A window shall have a function, Restore. (For an unparented window, comes free with Shoes.)
-0f Window 2:1 A window shall have a function, Move. (For an unparented window, comes free with Shoes.)
-0f Window 2:1 A window shall have a function, Minimize. (For an unparented window, comes free with Shoes.)
-0f Window 2:1 A window shall have a function, Maximize. (For an unparented window, comes free with Shoes.)
-0f Window 2:1 A window shall have a function, Close. (For an unparented window, comes free with Shoes.)
+0f Window 2:1 A window shall have a function}, Size. (For an unparented window, comes free with Shoes.)
+0f Window 2:1 A window shall have a function}, Restore. (For an unparented window, comes free with Shoes.)
+0f Window 2:1 A window shall have a function}, Move. (For an unparented window, comes free with Shoes.)
+0f Window 2:1 A window shall have a function}, Minimize. (For an unparented window, comes free with Shoes.)
+0f Window 2:1 A window shall have a function}, Maximize. (For an unparented window, comes free with Shoes.)
+0f Window 2:1 A window shall have a function}, Close. (For an unparented window, comes free with Shoes.)
 0b Window control------------------------------
 0b Window control 2:4 Window controls shall include} tooltips. (For an unparented window, comes free with Shoes.)
 0b Window control 2:4 Window controls shall include} an entry}, sometimes hidden}, Restore. (For an unparented window, comes free with Shoes.)

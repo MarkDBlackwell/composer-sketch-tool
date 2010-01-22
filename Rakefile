@@ -2,12 +2,16 @@ require 'rake/clean'
 require 'spec/rake/spectask' # Enable Rake to run Rspec.
 require 'load_path_fix'
 #----------------------
+# At least for this project, Rake (and Spec) must be run from a Windows command-line box, not from Cygwin.
+
 # Print a stack trace if we hit an error in the code that rake calls.
 Rake.application.options.trace = true
 
 task :default => [:spec]
 
 desc 'Run all the Rspec tests' # For Rspec version 1.2.9.
+# An alternative is to type, 'spec test', which has start options in spec/spec.opts.
+# Note: typing 'spec' alone, placing the file pattern (see below) into spec.opts, failed to work.
 # See http://rspec.info/documentation/tools/rake.html
 Spec::Rake::SpecTask.new( :spec) do |t|
   t.fail_on_error = false

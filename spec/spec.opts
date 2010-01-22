@@ -1,1 +1,1 @@
---require load_path_fix --color --format specdoc
+--require load_path_fix --color --format progress
