@@ -2,16 +2,16 @@ o 63 Program 2:1 There shall be a program, a Unix-like tool, to extract, from MI
 
 Notes:
 o On ticks:
-oo One beat typically has 480 (= 32 * 15) ticks.
-oo Starting the first measure, after tick 0, implies a rest.
-oo Tick = clock tick, or pulse, number.
+oo A quarter-note typically has 480 (= 32 * 15) ticks, even in (for instance) 4/8 time. The purpose of this, in a way, is to allow 128th notes.
+oo Starting the first measure by a tick, higher than 0, implies a rest.
+oo 'Tick' = clock-tick, or pulse, number.
 oo Ticks ascend indefinitely.
 
-The lines of tokens (which must be in nondescending order by tick) are:
+Lines of tokens must be in nondescending order by tick. The lines are:
 
 tick  'bar'                       (Need at the file's end, also.)
-tick  'meter'  ticks_per_measure  (Defaults to 480 * 4 = 1920, which is '4/4'. A pickup measure needs a smaller number.)
-tick  'off'    pitch
-tick  'on'     pitch
+tick  'meter'  ticks_per_measure  (Defaults to 480 * 4 = 1920, which is '4/4'. For '4/8', it is 960. A pickup measure needs a smaller number.)
+tick  'off'    pitch_number
+tick  'on'     pitch_number
 tick  'tempo'  ticks_per_second   (Defaults to 480, which is metronome '60': one beat per second.)
 tick  'volume' volume_number
