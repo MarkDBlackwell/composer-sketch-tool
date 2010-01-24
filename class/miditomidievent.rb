@@ -2,10 +2,10 @@ require 'rubygems'
 require 'midilib' # => false
 require 'midilib/sequence'
 
-# 63 Program 2:1 There shall be a program}, a Unix-like tool} to extract, from} MIDI, a stream of} bass note numbers: ('mid2bas').
-module MidiToBass 
+# 63 Program 2:1 There shall be a program}, a Unix-like tool} to extract, from} MIDI, a stream of (intermediate-layer) events: ('mid2mev').
+module MidiToMidiEvent
 #-----------------------------
-  class MidiToBass
+  class MidiToMidiEvent
     def initialize( s)
       @file_name = s
     end
@@ -35,14 +35,14 @@ module MidiToBass
           e.print_decimal_numbers = true # default = false (print hex)
           e.print_note_names = false # default = false (print note numbers)
           if e.to_s.include?( ' ch 0 on ')
-            puts e 
+#            puts e 
 #            result = e.to_s
             result += '43'
           end
-          puts e if e.to_s.include?( ' ch 0 off ')
+#          puts e if e.to_s.include?( ' ch 0 off ')
         end # each e
       end # each track
       result
     end # def
-  end #class MidiToBass
-end #module MidiToBass
+  end #class MidiToMidiEvent
+end #module MidiToMidiEvent

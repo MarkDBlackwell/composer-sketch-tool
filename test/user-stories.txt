@@ -269,12 +269,13 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 63 Program 2:1 There shall be a program}, a Unix-like tool} to translate a stream of} bass note} numbers}, melody note numbers, chord octave-note distributions, rhythm indicators, volumes, tempos, rests, and octavities into MIDI: ('all2mid').
 63 Program 2:1 There shall be a program}, a Unix-like tool} to translate a stream of} bass note} numbers} and chord numbers into} regular note-plus chord names: ('bc2ncm').  At this point, it is unknown whether input of names is simpler than this.
 63 Program 2:1 There shall be a program}, a Unix-like tool} to translate a stream of} bass note} names and regular tonic chord names into regular note-plus chord names: ('bmcm2ncm'). At this point, it is unknown whether input of numbers is simpler than this.
-63 Program 2:1 There shall be a program}, a Unix-like tool} to multiply (the tokens of) a stream: ('mult'). Does Unix have this functionality in any way? sed? Do I need it? What about MIDI files?
-63 Program 2:1 There shall be a program}, a Unix-like tool} to extract, from} MIDI, a stream of} rhythm indicators, including volumes, tempos, rests, and octavities, organized into lines between (stripped-out) bass and melody notes and chords: ('mid2rhy').
-63 Program 2:1 There shall be a program}, a Unix-like tool} to extract, from} MIDI, a stream of} chord octave-note distributions: ('mid2dis').
-63 Program 2:1 There shall be a program}, a Unix-like tool} to extract, from} MIDI, a stream of} bass note numbers: ('mid2bas').
+63 Program 2:1 There shall be a program}, a Unix-like tool} to multiply (a binary-, or the tokens of) a stream: ('mult'). Does Unix have this functionality in any way? sed? Do I need it? What about MIDI files?
+63 Program 2:1 There shall be a program}, a Unix-like tool} to extract, from} MIDI, a stream of (intermediate-layer) events: ('mid2mev').
 63 Program 2:1 There shall be a program}, a Unix-like tool} to extract, from} a stream of} regular note-plus chord names, the} regular tonic chord names: ('ncm2chom').
 63 Program 2:1 There shall be a program}, a Unix-like tool} to extract, from} a stream of} regular note-plus chord names, the} bass note names: ('ncm2basm').
+63 Program 2:1 There shall be a program}, a Unix-like tool} to extract, from} a stream of} MIDI events, the} rhythm indicators, including volumes, tempos, rests, and octavities(?), organized into lines between the (stripped-out) bass and melody notes and chords: ('mev2rhy').
+63 Program 2:1 There shall be a program}, a Unix-like tool} to extract, from} a stream of} MIDI events, the} chord octave-note distributions: ('mev2dis').
+63 Program 2:1 There shall be a program}, a Unix-like tool} to extract, from} a stream of} MIDI events, the} bass note numbers: ('mev2bas').
 63 Program 2:1 There shall be a program}, a Unix-like tool} to extract, from} a stream of} chord numbers, their necklace} numbers: ('cho2nec').
 63 Program 2:1 There shall be a program}, a Unix-like tool} to extract, from} a stream of} chord numbers, their necklace} inversion numbers: ('cho2neci').
 63 Program 2:1 There shall be a program} to translate} MIDI into a stream of rhythm indicators and regular note-plus chord names, i.e., a lead sheet (the 'lead sheet program').
