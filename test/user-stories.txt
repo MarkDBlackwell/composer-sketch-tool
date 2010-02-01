@@ -1,5 +1,4 @@
 ff USER STORIES (WITH RISK:PRIORITY)
-ff Add more wikipedia references: e.g., Window control, if it exists.
 fb Arrange------------------------------
 fb Arrange 2:3 An Arrange submenu shall include an entry}, Tile} Vertically.
 fb Arrange 2:3 An Arrange submenu shall include an entry}, Tile} Horizontally.
@@ -206,6 +205,7 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 93 Marker 2:3 A Markers submenu shall include an entry}, Invert Markers.
 93 Marker 2:3 A Markers submenu shall include an entry}, Clear All Markers.
 91 Measure------------------------------
+91 Measure 3:5 For time signature change when, etc., see section, 'Notation Information' in http://www.blitter.com/~russtopia/MIDI/~jglatt/tech/mtc.htm.
 91 Measure 2:2 For a measure, a user shall be able to choose a rhythm.
 91 Measure 2:1 A measure} shall} contain a uniform length of time unless a tempo is changed.
 91 Measure 2:1 A measure} shall} be displayed in a box.
@@ -234,16 +234,31 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 8b Menu bar 2:2 A menu bar shall contain}, when a document window is maximized, its} window controls.
 8b Menu bar 2:2 A menu bar shall contain}, when a document window is maximized, its} icon.
 8b Menu bar 2:1 A menu bar shall contain} a pull-down menu.
+89 MIDI to MIDI event------------------------------
+89 MIDI to MIDI event 3:5 http://midconverter.com/smf.shtml says, 'SMF - This format stores the standard MIDI messages (ie, status bytes with appropriate data bytes) plus a time-stamp for each message (ie, a series of bytes that represent how many clock pulses to wait before "playing" the event). The format also allows saving information about tempo, time and key signatures, the names of tracks and patterns, and other information typically needed by a sequencer. One SMF can store information for numerous patterns and tracks so that any sequencer can preserve these structures when loading the file.'
+89 MIDI to MIDI event 3:5 For background, see http}://www}.skytopia.com/project/articles/midi.html.
+89 MIDI to MIDI event 3:5 For background, see http}://www}.midi.org/aboutmidi/tut_midifiles.php.
+89 MIDI to MIDI event 3:5 For background, see http}://www}.blitter.com/~russtopia/MIDI/~jglatt/progs/software.htm.
+89 MIDI to MIDI event 3:5 For background, see http}://en.wikipedia.org/wiki}/Musical_Instrument_Digital_Interface}.
+89 MIDI to MIDI event 3:5 For background, see http}://en.wikipedia.org/wiki}/Musical_Instrument_Digital_Interface}#Standard_MIDI_File_.28SMF.29_Format.
+89 MIDI to MIDI event 3:3 The MIDI to MIDI event program shall be capable of reading a Standard MIDI Format file in Format} 0 (a single track).
+89 MIDI to MIDI event 2:1 The MIDI to MIDI event program shall be capable of reading a Standard MIDI Format file in Format} 1 (multiple tracks making one song).
 87 Necklace name------------------------------
 87 Necklace name 2:2 A user shall be able}, for a necklace, to name it.
 87 Necklace name 2:2 A user shall be able} to name a group of necklaces.
 7f Octavity------------------------------
+7f Octavity 3:5 For background, see} http}://www}.midi.org/techspecs/midituning.php.
+7f Octavity 3:5 For background, see} http}://www}.butkaj.com/midi?id_menu=750&id_sub=113.
+7f Octavity 3:5 For background, see} http}://en.wikipedia.org/wiki}/Musical_Instrument_Digital_Interface}#Alternative_Tunings.
+7f Octavity 3:5 For background, see} http}://en.wikipedia.org/wiki}/MIDI_Tuning_Standard.
+7f Octavity 3:5 For background, on 'fine tuning', see http://www.midi.org/techspecs/gm.php.
 7f Octavity 2:3 The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, in proper pitches, of playing audibly}.
 7f Octavity 2:3 The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, in proper pitches, of playing audibly} through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} IBM-PC.
 7f Octavity 2:3 The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, in proper pitches, of playing audibly} through the MIDI capability of a typical, computer sound card of the year 2010, of type generic} Apple Mac(Intosh).
 7f Octavity 2:3 The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, based on unity, of making suggestions of} necklaces.
 7f Octavity 2:3 The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable}, based on unity, of making suggestions of} chords.
 7f Octavity 2:3 The sketch program, in at least several octavities than the Western, equal-tempered 12-note one, both microtonal and macrotonal, shall be capable} of all the same functionality.
+7f Octavity 2:3 Optionally use MIDI_Tuning_Standard or pitch bending for octavity.
 7f Octavity 2:3 A user shall be able}, in an octavity, to name} necklaces.
 7f Octavity 2:3 A user shall be able}, in an octavity, to name} chords.
 7f Octavity 2:3 A user shall be able}, at any wall-clock time, to choose an octavity of all future new chords, suggested and added.
@@ -255,8 +270,31 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 67 Print------------------------------
 67 Print 2:2 A user shall be able to print a composition containing, at her choice, intelligible absolute or relative chord names. However, she shall not be able to see intelligible composition text files: for instance, for direct editing of chord names.
 63 Program------------------------------
+63 Program 3:5 MIDI percussion is track 10: ignore it.
+63 Program 3:5 General MIDI} velocity (VCA) is volume.
+63 Program 3:5 General MIDI} standard says the polyphony must support 24 notes, simultaneously.
+63 Program 3:5 General MIDI} Master volume of the module itself, not just one channel.
+63 Program 3:5 General MIDI} Channel} volume default is 90
+63 Program 3:5 General MIDI} Channel} pressure controls 'the volume of a note while it is being held.'
+63 Program 3:5 For background, see}, on volume, http://www.blitter.com/~russtopia/MIDI/~jglatt/tech/midispec}/vol.htm.
+63 Program 3:5 For background, see}, on volume, http://www.blitter.com/~russtopia/MIDI/~jglatt/tech/midispec}/mastrvol.htm.
+63 Program 3:5 For background, see}, on volume, http://www.blitter.com/~russtopia/MIDI/~jglatt/tech/midispec}/exp.htm
+63 Program 3:5 For background, see}, on Standard MIDI File (SMF) format, http://www.blitter.com/~russtopia/MIDI/~jglatt/tech/midifile.htm.
+63 Program 3:5 For background, see} http://www}.harmony.org.uk/chord_progressions_in_tonal_music.htm.
+63 Program 3:5 For background, see} http://www}.blitter.com/~russtopia/MIDI/~jglatt/tutr/gm.htm.
+63 Program 3:5 For background, see} http://recherche.ircam.fr/equipes/repmus/OpenMusic/user-doc/DocFiles/znTutorial/index.html.
+63 Program 3:5 For background, see} http://en.wikipedia.org/wiki}/Nashville_number_system.
+63 Program 3:5 For background, see} http://en.wikipedia.org/wiki}/Lead_sheet.
+63 Program 3:5 For background, see} http://en.wikipedia.org/wiki}/Impro-Visor.
+63 Program 3:5 For background, see} http://en.wikipedia.org/wiki}/Computer_music.
+63 Program 3:5 For background, see} http://en.wikipedia.org/wiki}/Chord_progression.
+63 Program 3:5 For background, see} http://en.wikipedia.org/wiki}/Chord_notation.
+63 Program 3:5 For background, see} http://en.wikipedia.org/wiki}/Chord_chart.
+63 Program 3:5 Call it 'general MIDI' instead of a 'MIDI' file. Or what is it called, e.g., for timing information?
+63 Program 3:5 Attend to 'all notes off' message.
 63 Program 3:3 There shall be a program} to translate} a stream of rhythm indicators and regular note-plus chord names} into standard musical notation (e.g., quarter notes) using (possibly) GNU music writer(?) notation (the 'art program').
 63 Program 3:1 There shall be a program}, a Unix-like tool} to translate a stream of} bass note} numbers} and chord numbers into} multiple chord suggestion bass note numbers and chord numbers: ('suggest').
+63 Program 2:2 A program shall, if command-line parameters include '-v', merely output its version information and stop.
 63 Program 2:1 There shall be a program}, a Unix-like tool} to translate a stream of} standard jazz tonic chord names into chord numbers: ('jazm2cho').
 63 Program 2:1 There shall be a program}, a Unix-like tool} to translate a stream of} note} numbers into note names: ('n2nm').
 63 Program 2:1 There shall be a program}, a Unix-like tool} to translate a stream of} note} names into note numbers: ('nm2n').
@@ -433,6 +471,8 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 37 Tooltip 2:3 A tooltip shall} have a pale yellow background.
 37 Tooltip 2:3 A tooltip shall} be in a rectangular box.
 37 Tooltip 2:3 A tooltip shall} appear after a pointing device (mouse) has hovered motionless over an object for one and one-half seconds.
+33 Tuning system------------------------------
+33 Tuning system : A user shall be able to specify a tuning system, e.g., mean tone.
 2f Undo------------------------------
 2f Undo 2:3 A user shall be able, regarding editing steps, passing through save and save-as (which shall not affect them), reaching back to a document's most recent (re)load}, to repeat them.
 2f Undo 2:2 A user shall be able, regarding editing steps, passing through save and save-as (which shall not affect them), reaching back to a document's most recent (re)load}, to undo them.
@@ -474,30 +514,31 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 1b View 2:3 A View submenu shall include an entry}, Chord Number.
 1b View 2:3 A View submenu shall include an entry}, Absolute Chord.
 0f Window------------------------------
-0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/Word_processor.
-0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/Window_(computing).
-0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/User_interface_design.
-0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/Post-WIMP.
-0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/Interface_metaphor.
-0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/History_of_the_graphical_user_interface
-0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/Graphical_user_interface.
-0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/EditPlus.
-0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/Douglas_Engelbart.
-0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/Desktop_metaphor.
-0f Window 3:5 For background, see} http://en.wikipedia.org/wiki}/Desktop_environment.
-0f Window 3:5 For background, see} http://c2.com/cgi/wiki?BushyTreeDiagram.
+0f Window 3:5 For background, see} http}://en.wikipedia.org/wiki}/Word_processor.
+0f Window 3:5 For background, see} http}://en.wikipedia.org/wiki}/Window_(computing).
+0f Window 3:5 For background, see} http}://en.wikipedia.org/wiki}/User_interface_design.
+0f Window 3:5 For background, see} http}://en.wikipedia.org/wiki}/Post-WIMP.
+0f Window 3:5 For background, see} http}://en.wikipedia.org/wiki}/Interface_metaphor.
+0f Window 3:5 For background, see} http}://en.wikipedia.org/wiki}/History_of_the_graphical_user_interface.
+0f Window 3:5 For background, see} http}://en.wikipedia.org/wiki}/Graphical_user_interface.
+0f Window 3:5 For background, see} http}://en.wikipedia.org/wiki}/EditPlus.
+0f Window 3:5 For background, see} http}://en.wikipedia.org/wiki}/Douglas_Engelbart.
+0f Window 3:5 For background, see} http}://en.wikipedia.org/wiki}/Desktop_metaphor.
+0f Window 3:5 For background, see} http}://en.wikipedia.org/wiki}/Desktop_environment.
+0f Window 3:5 For background, see} http}://c2.com/cgi/wiki?BushyTreeDiagram.
 0f Window 3:5 For background, see} 'Noncommand User Interfaces': http://www.useit.com/papers/noncommand.html.
 0f Window 3:5 For background, see} 'Chunking & Phrasing': http://www.billbuxton.com/chunking.html.
+0f Window 3:5 Alt-key shows underscores, then again removes them.
 0f Window 3:5 A window} is a document window or an unparented window.
 0f Window 2:2 A window} shall contain, though sometimes hidden}, a title bar. (For an unparented window, comes free with Shoes.)
+0f Window 2:1 A window} shall have a function}, Size. (For an unparented window, comes free with Shoes.)
+0f Window 2:1 A window} shall have a function}, Restore. (For an unparented window, comes free with Shoes.)
+0f Window 2:1 A window} shall have a function}, Move. (For an unparented window, comes free with Shoes.)
+0f Window 2:1 A window} shall have a function}, Minimize. (For an unparented window, comes free with Shoes.)
+0f Window 2:1 A window} shall have a function}, Maximize. (For an unparented window, comes free with Shoes.)
+0f Window 2:1 A window} shall have a function}, Close. (For an unparented window, comes free with Shoes.)
 0f Window 2:1 A window} shall contain, though sometimes hidden}, window controls. (For an unparented window, comes free with Shoes.)
 0f Window 2:1 A window} shall contain, though sometimes hidden}, an icon. (For an unparented window, comes free with Shoes.)
-0f Window 2:1 A window shall have a function}, Size. (For an unparented window, comes free with Shoes.)
-0f Window 2:1 A window shall have a function}, Restore. (For an unparented window, comes free with Shoes.)
-0f Window 2:1 A window shall have a function}, Move. (For an unparented window, comes free with Shoes.)
-0f Window 2:1 A window shall have a function}, Minimize. (For an unparented window, comes free with Shoes.)
-0f Window 2:1 A window shall have a function}, Maximize. (For an unparented window, comes free with Shoes.)
-0f Window 2:1 A window shall have a function}, Close. (For an unparented window, comes free with Shoes.)
 0b Window control------------------------------
 0b Window control 2:4 Window controls shall include} tooltips. (For an unparented window, comes free with Shoes.)
 0b Window control 2:4 Window controls shall include} an entry}, sometimes hidden}, Restore. (For an unparented window, comes free with Shoes.)

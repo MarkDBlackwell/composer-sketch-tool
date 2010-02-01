@@ -1,17 +1,40 @@
+------------------------------
 o 63 Program 2:1 There shall be a program, a Unix-like tool, to extract, from MIDI, a stream of (intermediate-layer) events: ('mid2mev').
 
 Notes:
-o On ticks:
-oo A quarter-note typically has 480 (= 32 * 15) ticks, even in (for instance) 4/8 time. The purpose of this, in a way, is to allow 128th notes.
-oo Starting the first measure by a tick, higher than 0, implies a rest.
-oo 'Tick' = clock-tick, or pulse, number.
-oo Ticks ascend indefinitely.
+o About the file:
+oo The (character) stream of (intermediate-layer) events shall be referred to as 'the file'.
+oo Generally, unless here noted otherwise, numbers in the file shall be the same as in the MIDI file.
 
-Lines of tokens must be in nondescending order by tick. The lines are:
+o About ticks and meter:
+oo A 'tick' is a number which counts musical progress.
+oo In the file, ticks are the same as MIDI ticks, but the file's ticks ascend indefinitely.
+oo Ticks do not reset at measure bars.
+oo A (literal) quarter-note typically has 480 (= 32 * 15) ticks, even (for instance) when eighth notes have the beat, as in 4/8 time. The purpose of this, in a way, is to allow fineness down to 128th notes.
+oo Also, there exist 24 MIDI 'clocks' in each quarter note; these do not appear in the file.
+oo Also, there exists a MIDI timing scheme by seconds and frames; this does not appear in the file.
+oo For background, see http://www.blitter.com/~russtopia/MIDI/~jglatt/tech/midifile/mthd.htm
+oo For background, see http://www.blitter.com/~russtopia/MIDI/~jglatt/tech/midifile/ppqn.htm
+oo For background, see http://www.blitter.com/~russtopia/MIDI/~jglatt/tech/midifile/tempo.htm.
+oo For background, see http://www.blitter.com/~russtopia/MIDI/~jglatt/tech/midifile/time.htm
 
-tick  'bar'                       (Need at the file's end, also.)
-tick  'meter'  ticks_per_measure  (Defaults to 480 * 4 = 1920, which is '4/4'. For '4/8', it is 960. A pickup measure needs a smaller number.)
-tick  'off'    pitch_number
+o About notes (on and off):
+oo The earliest note shall come 'on' at tick 0.
+oo If notes overstrike in the MIDI file, by multiple tracks or otherwise, 'on' here is the first on, and 'off' is the last off.
+oo The Standard MIDI File format can contain Note On, with velocity 0, to turn off a note (while taking advantage of running status). See http://www.blitter.com/~russtopia/MIDI/~jglatt/tech/midispec/noteon.htm.
+oo In MIDI, certain channel events should stop notes from playing, e.g., 'All Sound (or Notes) Off', 'Mono (or Poly) Operation', 'Omni Mode Off (or On)', or 'Reset', but these should not exist in SMF files, so the program shall not watch for them.
+
+o About volume:
+oo CLARIFY.
+
+o About the file's format:
+oo It is a character stream of lines containing tokens.
+oo The lines must obey numerical nondescending order by tick.
+oo The lines are:
+
+tick  'bar'                       (Measure bar line. Not used at the file's beginning or end.)
+tick  'meter'  ticks_per_measure  (Defaults to 480 * 4 = 1920, which is '4/4'. For '4/8', it is 960. A pickup measure needs a smaller number here.)
+tick  'off'    pitch_number       (MIDI pitch number.)
 tick  'on'     pitch_number
 tick  'tempo'  ticks_per_second   (Defaults to 480, which is metronome '60': one beat per second.)
-tick  'volume' volume_number
+tick  'volume' volume_number      (MIDI note velocity or module volume or channel volume? CLARIFY.)

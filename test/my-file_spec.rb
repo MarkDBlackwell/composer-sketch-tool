@@ -7,7 +7,7 @@ describe "MyFile" do
     File.open( @file_name, 'r') {|file| result = file.readlines}
     result
   end
-  before( :each) do
+  before :each do
     @file_name = 'test-my-file-actual-write.txt' # Similar to class name.
     File.open( @file_name, 'w') {|file| file.write 'aaa'}
   end
@@ -21,7 +21,7 @@ describe "MyFile" do
     a.length.should == 1
     a.last.should == 'bbb'
   end
-  after( :each) do
+  after :each do
     File.delete( @file_name)
   end
 end

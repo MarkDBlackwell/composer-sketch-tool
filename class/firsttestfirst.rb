@@ -1,3 +1,8 @@
+module FirstTestFirst
 #-----------------------------
-class FirstTestFirst
-end
+  class FirstTestFirst
+    def something
+      'something'
+    end
+  end
+end # module FirstTestFirst

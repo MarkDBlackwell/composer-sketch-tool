@@ -7,7 +7,7 @@ describe "Build" do
     File.open( 'log/build.txt', 'r') {|f| result = f.readlines.length}
     result
   end
-  before( :each) do
+  before :each do
     @before = open()
     Invoke::Build.new( 0)
   end
@@ -25,7 +25,7 @@ describe "While saving chords, Build" do
     o.with( args.first) unless args.empty?
     @mock_my_file.should_receive( :close)
   end
-  before( :each) do
+  before :each do
     @mock_my_file = mock( InvokeUtilities::MyFile)
     @receive_new = InvokeUtilities::MyFile.should_receive( :new)
   end
@@ -39,7 +39,7 @@ describe "While saving chords, Build" do
     check_return_mock_my_file()
     check_receive_print_close( 'contents-0')
   end
-  after( :each) do
+  after :each do
     Invoke::Build.new( 0).save_chords() # Assume this uses MyFile to write.
   end
 end
@@ -53,7 +53,7 @@ describe "While saving necklaces, Build" do
     o.with( args.first) unless args.empty?
     @mock_my_file.should_receive( :close)
   end
-  before( :each) do
+  before :each do
     @mock_my_file = mock( InvokeUtilities::MyFile)
     @receive_new = InvokeUtilities::MyFile.should_receive( :new)
   end
@@ -67,7 +67,7 @@ describe "While saving necklaces, Build" do
     check_return_mock_my_file()
     check_receive_print_close( 'contents-0')
   end
-  after( :each) do
+  after :each do
     Invoke::Build.new( 0).save_necklaces() # Assume this uses MyFile to write.
   end
 end
@@ -79,7 +79,7 @@ describe "Build's logger" do
   def allow_return_mock_logger
     @receive_new.and_return( @mock_logger)
   end
-  before( :each) do
+  before :each do
     @mock_logger = mock( InvokeUtilities::MyLogger)
     @receive_new = InvokeUtilities::MyLogger.should_receive( :new)
   end
@@ -97,7 +97,7 @@ describe "Build's logger" do
     allow_return_mock_logger()
     check_receive_debug().with( 'in Invoke::Build#initialize').any_number_of_times
   end
-  after( :each) do
+  after :each do
     Invoke::Build.new( 0) # Assume this uses MyLogger to log.
   end
 end
