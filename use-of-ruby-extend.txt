@@ -1,0 +1,82 @@
+---------------------------
+My comments:
+
+This is about 'extend' as used in Shoes' Shoethello game, 'expertothello.rb'.
+Since self is redefined to 'App' (or something like that), 'extend' adds the module's methods to that object.
+---------------------------
+From lines 315- of expertothello.rb:
+
+Shoes.app :width => 520, :height => 605, :title => "Shoethello" do
+  extend Othello
+
+  GAME         = Othello::Game.new
+  PIECE_WIDTH  = 62
+  PIECE_HEIGHT = 62
+  TOP_OFFSET   = 60
+  LEFT_OFFSET  = 15
+
+  draw_board
+
+  click { |button, x, y|
+    if coords = find_piece(x,y)
+      begin
+        GAME.lay_piece(coords)
+        GAME.next_turn
+        draw_board
+      rescue => e
+        draw_board
+        alert(e.message)
+      end
+    else
+      # alert("Not a piece.")
+    end
+  }
+end
+---------------------------
+From _Programming Ruby_:
+
+Extending Objects
+
+Just as you can define an anonymous class for an object using ``class <<obj '', you can mix a module into an object using Object#extend . For example:
+
+module Humor
+  def tickle
+    "hee, hee!"
+  end
+end
+
+a = "Grouchy"
+a.extend Humor
+a.tickle  » "hee, hee!"
+
+There is an interesting trick with extend. If you use it within a class definition, the module's methods become class methods.
+
+module Humor
+  def tickle
+    "hee, hee!"
+  end
+end
+
+class Grouchy
+  include Humor
+  extend  Humor
+end
+
+Grouchy.tickle  » "hee, hee!"
+a = Grouchy.new
+a.tickle  » "hee, hee!"
+
+This is because calling extend is equivalent to self.extend, so the methods are added to self, which in a class definition is the class itself.
+---------------------------
+My changes to _Programming Ruby_:
+
+class Grouchy
+  extend Humor # Add to the class methods (to self's methods).
+end
+
+class Grouchy2
+  include Humor # Add to the (past and future) class's objects' methods. (To what? I don't know how to express it.)
+end
+
+Grouchy.tickle       » "hee, hee!"
+Grouchy2.new.tickle  » "hee, hee!"

@@ -1,4 +1,5 @@
 ff USER STORIES (WITH RISK:PRIORITY)
+ff Tip of the day
 fb Arrange------------------------------
 fb Arrange 2:3 An Arrange submenu shall include an entry}, Tile} Vertically.
 fb Arrange 2:3 An Arrange submenu shall include an entry}, Tile} Horizontally.
@@ -147,7 +148,7 @@ bb Help 2:3 A Help submenu shall include an entry}, Composer Sketch Tool Help.
 bb Help 2:3 A Help submenu shall include an entry}, Check} Latest Version.
 bb Help 2:3 A Help submenu shall include an entry}, Check} For Updates.
 bb Help 2:3 A Help submenu shall include an entry}, About Composer Sketch Tool.
-b7 I18n------------------------------ 
+b7 I18n------------------------------
 b7 I18n 2:3 The sketch program shall have internationalization (i18n).
 af Icon------------------------------
 af Icon 2:3 An icon}, when double-clicked, shall close its window. (For an unparented window, comes free with Shoes.)
@@ -226,9 +227,28 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 8f Menu 2:3 A pull-down menu shall} include a submenu}, File.
 8f Menu 2:3 A pull-down menu shall} include a submenu}, Edit.
 8f Menu 2:3 A pull-down menu shall} include a submenu}, Document.
-8f Menu 2:1 A pull-down menu shall} show Alt key shortcuts.
-8f Menu 2:1 A pull-down menu shall} be navigable by} keys.
-8f Menu 2:1 A pull-down menu shall} be navigable by} a pointing device (mouse).
+8f Menu 2:2 Each (computing) 'desktop' shall have exactly one} right-arrow key.
+8f Menu 2:2 Each (computing) 'desktop' shall have exactly one} left-arrow key.
+8f Menu 2:2 Each (computing) 'desktop' shall have exactly one} instance (i.e., instantiation), or none, of the program.
+8f Menu 2:2 Each (computing) 'desktop' shall have exactly one} escape key, 'Esc'.
+8f Menu 2:2 A pull-down menu shall} show Alt key shortcuts.
+8f Menu 2:2 A pull-down menu shall} include exactly one word that is} right-most.
+8f Menu 2:2 A pull-down menu shall} include exactly one word that is} left-most.
+8f Menu 2:2 A pull-down menu shall} be navigable} circularly, rightwardly including (abstractly) a program icon menu, a document icon menu, and then a pull-down menu word.
+8f Menu 2:2 A pull-down menu shall} be navigable} by a standard computer} pointing device (e.g., a mouse).
+8f Menu 2:2 A pull-down menu shall} be navigable} by a standard computer} keyboard's keys.
+8f Menu 2:2 A program instance shall include exactly one} pull-down menu.
+8f Menu 2:2 A program instance shall include exactly one} program icon.
+8f Menu 2:2 A program instance shall include exactly one} focus.
+8f Menu 2:1 Hitting the escape key shall terminate a focused menu navigation of} a pull-down menu word.
+8f Menu 2:1 Hitting the escape key shall terminate a focused menu navigation of} a program icon.
+8f Menu 2:1 Hitting the escape key shall terminate a focused menu navigation of} a document icon.
+8f Menu 2:1 Hitting an arrow key shall move the focus}, for the} right-arrow key, from a program icon menu to a document icon menu.
+8f Menu 2:1 Hitting an arrow key shall move the focus}, for the} left-arrow key, from a document icon menu to a program icon menu.
+8f Menu 2:1 Hitting an arrow key shall move the focus} regarding a pull-down menu word that is} right-most, for the} right-arrow key, from it to a program icon menu.
+8f Menu 2:1 Hitting an arrow key shall move the focus} regarding a pull-down menu word that is} right-most, for the} left-arrow key, to it from a program icon menu.
+8f Menu 2:1 Hitting an arrow key shall move the focus} regarding a pull-down menu word that is} left-most, for the} right-arrow key, to it from a document icon menu.
+8f Menu 2:1 Hitting an arrow key shall move the focus} regarding a pull-down menu word that is} left-most, for the} left-arrow key, from it to a document icon menu.
 8b Menu bar------------------------------
 8b Menu bar 3:5 For background, see http://en.wikipedia.org/wiki/Menu_bar.
 8b Menu bar 2:2 A menu bar shall contain}, when a document window is maximized, its} window controls.
@@ -471,8 +491,9 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 37 Tooltip 2:3 A tooltip shall} have a pale yellow background.
 37 Tooltip 2:3 A tooltip shall} be in a rectangular box.
 37 Tooltip 2:3 A tooltip shall} appear after a pointing device (mouse) has hovered motionless over an object for one and one-half seconds.
-33 Tuning system------------------------------
-33 Tuning system : A user shall be able to specify a tuning system, e.g., mean tone.
+33 Tuning------------------------------
+33 Tuning 3:3 Some simple chords automatically shall be tuned in the Pythagorean manner (just).
+33 Tuning 3:3 A user shall be able to specify a tuning system, e.g., quarter-comma mean-tone, Bach-Lehman 1722.
 2f Undo------------------------------
 2f Undo 2:3 A user shall be able, regarding editing steps, passing through save and save-as (which shall not affect them), reaching back to a document's most recent (re)load}, to repeat them.
 2f Undo 2:2 A user shall be able, regarding editing steps, passing through save and save-as (which shall not affect them), reaching back to a document's most recent (re)load}, to undo them.
@@ -528,8 +549,10 @@ a7 Insert 2:2 Hear two chords; insert before the second chord.
 0f Window 3:5 For background, see} http}://c2.com/cgi/wiki?BushyTreeDiagram.
 0f Window 3:5 For background, see} 'Noncommand User Interfaces': http://www.useit.com/papers/noncommand.html.
 0f Window 3:5 For background, see} 'Chunking & Phrasing': http://www.billbuxton.com/chunking.html.
-0f Window 3:5 Alt-key shows underscores, then again removes them.
 0f Window 3:5 A window} is a document window or an unparented window.
+0f Window 2:5 If the next key is not recognized for the menu, the key-menu state shall be cleared.
+0f Window 2:5 Alt-key shows underscores, then again removes them.
+0f Window 2:5 After the alt-key is pressed, the program shall enter a state ('key-menu') which dedicates the next key to the menu.
 0f Window 2:2 A window} shall contain, though sometimes hidden}, a title bar. (For an unparented window, comes free with Shoes.)
 0f Window 2:1 A window} shall have a function}, Size. (For an unparented window, comes free with Shoes.)
 0f Window 2:1 A window} shall have a function}, Restore. (For an unparented window, comes free with Shoes.)
