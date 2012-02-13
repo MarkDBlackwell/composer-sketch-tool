@@ -36,7 +36,7 @@ module MidiToMidiEvent
           e.print_decimal_numbers = true # default = false (print hex)
           e.print_note_names = false # default = false (print note numbers)
           if e.to_s.include?( ' ch 0 on ')
-#            puts e 
+#            puts e
 #            result = e.to_s
             result += "0 on 43\n480 off 43"
           end

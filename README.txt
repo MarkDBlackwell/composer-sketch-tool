@@ -2,3 +2,5 @@ A composer's sketching program intended to encourage the use of the entire chord
 Author: Mark D. Blackwell.
 Date started: December(?), 2009.
 Date last changed: January 22, 2010.
+
+Status: pre-alpha
